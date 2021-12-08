@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TDepartmentInfoDao">
+    <resultMap type="com.dispart.vo.commons.TDepartmentInfo" id="TDepartmentInfoMap">
+        <result property="depId" column="DEP_ID" jdbcType="VARCHAR"/>
+        <result property="parentDepId" column="PARENT_DEP_ID" jdbcType="VARCHAR"/>
+        <result property="depNm" column="DEP_NM" jdbcType="VARCHAR"/>
+        <result property="depShrtNm" column="DEP_SHRT_NM" jdbcType="VARCHAR"/>
+        <result property="depSt" column="DEP_ST" jdbcType="VARCHAR"/>
+        <result property="subOrg" column="SUB_ORG" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="operId" column="OPER_ID" jdbcType="VARCHAR"/>
+        <result property="creatDt" column="CREAT_DT" jdbcType="TIMESTAMP"/>
+        <result property="updateDt" column="UPDATE_DT" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllObj"   resultMap="TDepartmentInfoMap">
+        select
+       *
+        from t_department_info
+    </select>
+    <select id="queryById" parameterType="java.lang.String"   resultMap="TDepartmentInfoMap">
+        select
+       a.*
+        from t_department_info a where a.DEP_ID =#{depId}
+    </select>
+
+</mapper>

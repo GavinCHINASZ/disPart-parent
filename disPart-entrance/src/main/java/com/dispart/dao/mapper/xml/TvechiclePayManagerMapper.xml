@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TvechiclePayManagerMapper">
+    <resultMap id="BaseResultMap" type="com.dispart.model.base.CarChargeStdManage">
+        <!--@mbg.generated-->
+        <!--@Table t_vechicle_pay_manager-->
+        <id column="CHRG_ID" jdbcType="VARCHAR" property="chrgId" />
+        <result column="VEHICLE_TP" jdbcType="VARCHAR" property="vehicleTp" />
+        <result column="VEHICLE_ID" jdbcType="VARCHAR" property="vehicleId" />
+        <result column="VEHICLE" jdbcType="VARCHAR" property="vehicle" />
+        <result column="CHRG_TP" jdbcType="VARCHAR" property="chrgTp" />
+        <result column="CHRG_MD" jdbcType="VARCHAR" property="chrgMd" />
+        <result column="CHRG_END_TM" jdbcType="DECIMAL" property="chrgEndTm" />
+        <result column="CHRG_ST_TM" jdbcType="DECIMAL" property="chrgStTm" />
+        <result column="FIXED_CHRG" jdbcType="DECIMAL" property="fixedChrg" />
+        <result column="CHRG_TM" jdbcType="INTEGER" property="chrgTm" />
+        <result column="CHRG_RATE" jdbcType="DECIMAL" property="chrgRate" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+        <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+        <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        CHRG_ID,VEHICLE_TP, VEHICLE_ID, VEHICLE, CHRG_TP, CHRG_MD, CHRG_END_TM, CHRG_ST_TM, FIXED_CHRG,
+        CHRG_TM, CHRG_RATE, REMARK, OPER_ID, CREAT_TIME, UP_TIME
+    </sql>
+    <select id="selectByVehicleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_vechicle_pay_manager
+        where
+        VEHICLE_TP = #{vehicleTp,jdbcType=VARCHAR} and VEHICLE_ID = #{vehicleId} and CHRG_TP = #{chrgTp}
+        and ((CHRG_END_TM IS NOT NULL AND #{parkTime} BETWEEN CHRG_ST_TM AND CHRG_END_TM) OR (CHRG_END_TM IS NULL AND #{parkTime} <![CDATA[>]]>CHRG_ST_TM))
+        limit 1
+    </select>
+    <select id="selectListByVehicleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_vechicle_pay_manager
+        where VEHICLE_ID = #{vehicleId} and CHRG_TP = #{chrgTp} limit 1
+    </select>
+</mapper>

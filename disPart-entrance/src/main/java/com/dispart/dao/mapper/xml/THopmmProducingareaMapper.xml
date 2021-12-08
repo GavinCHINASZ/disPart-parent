@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.THopmmProducingareaMapper">
+    <select id="getList" resultType="com.dispart.vo.entrance.THopmmProducingarea">
+        select *
+        from t_hopmm_producingarea
+        where areanames like CONCAT('%',#{prodPlace,jdbcType=VARCHAR},'%') or irstfight like CONCAT(#{prodPlace,jdbcType=VARCHAR},'%')
+        limit 20
+    </select>
+</mapper>

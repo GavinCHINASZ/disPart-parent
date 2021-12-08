@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.AccnoInfoDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.AccnoInfoDetails">
+    <!--@mbg.generated-->
+    <!--@Table t_accno_info_details-->
+    <id column="ID" property="id" />
+    <result column="PROV_ID" property="provId" />
+    <result column="CARD_NO" property="cardNo" />
+    <result column="ACCOUNT" property="account" />
+    <result column="TXN_TYPE" property="txnType" />
+    <result column="BEFORE_AMT" property="beforeAmt" />
+    <result column="AFTER_AMT" property="afterAmt" />
+    <result column="TXN_AMT" property="txnAmt" />
+    <result column="TXN_DT" property="txnDt" />
+    <result column="TRANS_CHNL" property="transChnl" />
+    <result column="BANK_NO" property="bankNo" />
+    <result column="BANK_PAY_NO" property="bankPayNo" />
+    <result column="OPEN_ACCU_NAME" property="openAccuName" />
+    <result column="STATUS" property="status" />
+    <result column="SUMMARY" property="summary" />
+    <result column="REMARK" property="remark" />
+    <result column="OPER_TP" property="operTp" />
+    <result column="OPER_ID" property="operId" />
+    <result column="AUDITOR" property="auditor" />
+    <result column="CREAT_TIME" property="creatTime" />
+    <result column="UP_TIME" property="upTime" />
+  </resultMap>
+
+  <select id="getAccOperation" parameterType="com.dispart.dto.dataquery.DISP20210354InDto" resultType="com.dispart.dto.dataquery.DISP20210354OutDto">
+    <!--@mbg.generated-->
+    select t1.*,t2.PROV_NM provNm
+    from t_accno_info_details t1
+    LEFT JOIN t_custom_info_manager t2 on t1.PROV_ID = t2.PROV_ID
+    where 1=1
+    <if test="provId != null and provId != ''">AND t1.PROV_ID = #{provId}</if>
+    <if test="provNm != null and provNm != ''">AND t2.PROV_NM like CONCAT('%',#{provNm},'%') </if>
+    <if test="cardNo != null and cardNo != ''">AND t1.CARD_NO like CONCAT('%',#{cardNo},'%')</if>
+    <if test="txnType != null and txnType != ''">AND t1.TXN_TYPE = #{txnType}</if>
+    <if test="txnStTime != null and txnStTime != ''">AND t1.TXN_DT >= #{txnStTime}</if>
+    <if test="txnEndTime != null and txnEndTime != ''">AND #{txnEndTime} >= t1.TXN_DT</if>
+    ORDER BY t1.CREAT_TIME DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum},#{pageSize}</if>
+  </select>
+
+  <select id="getAccOperationCount" parameterType="com.dispart.dto.dataquery.DISP20210354InDto" resultType="java.lang.Integer">
+    <!--@mbg.generated-->
+    select count(*)
+    from t_accno_info_details t1
+    LEFT JOIN t_custom_info_manager t2 on t1.PROV_ID = t2.PROV_ID
+    where 1=1
+    <if test="provId != null and provId != ''">AND t1.PROV_ID = #{provId}</if>
+    <if test="provNm != null and provNm != ''">AND t2.PROV_NM like CONCAT('%',#{provNm},'%') </if>
+    <if test="cardNo != null and cardNo != ''">AND t1.CARD_NO like CONCAT('%',#{cardNo},'%')</if>
+    <if test="txnType != null and txnType != ''">AND t1.TXN_TYPE = #{txnType}</if>
+    <if test="txnStTime != null and txnStTime != ''">AND t1.TXN_DT >= #{txnStTime}</if>
+    <if test="txnEndTime != null and txnEndTime != ''">AND #{txnEndTime} >= t1.TXN_DT</if>
+  </select>
+</mapper>

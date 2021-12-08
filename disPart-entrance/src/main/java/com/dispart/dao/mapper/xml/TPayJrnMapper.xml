@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TPayJrnMapper">
+    <select id="selectByDto" resultType="com.dispart.vo.entrance.D_0365OutVo" parameterType="com.dispart.dto.entrance.D_0365FindDto">
+        select b.EMP_NM as operator,c.STATUS as entStatus,a.*
+        from t_pay_jrn a left join t_employee_info b on a.OPER_ID = b.EMP_ID left join t_vechicle_procurer c on a.BUSINESS_NO = c.IN_ID
+        <where>
+            <if test="operator != null and operator != ''">
+                b.EMP_NM like concat('%',#{operator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="operateTp =='0'.toString() ">
+                and a.TXN_TYPE in (2,16)
+            </if>
+            <if test="operateTp =='1'.toString() ">
+                and a.TXN_TYPE in (3,10)
+            </if>
+            <if test="timeEnd != null and timeEnd != null">
+                and a.TXN_TM BETWEEN #{timeStart,jdbcType=TIMESTAMP} and  #{timeEnd,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+        ORDER BY a.JRNL_NUM DESC
+        <if test="pageSize > 0">
+            limit #{curPage}, #{pageSize}
+        </if>
+    </select>
+    <select id="selectCountByDto" resultType="java.lang.Integer" parameterType="com.dispart.dto.entrance.D_0365FindDto">
+        select count(a.JRNL_NUM)
+        from t_pay_jrn a left join t_employee_info b on a.OPER_ID = b.EMP_ID left join t_vechicle_procurer c on a.BUSINESS_NO = c.IN_ID
+        <where>
+            <if test="operator != null and operator != ''">
+                b.EMP_NM like concat('%',#{operator,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="operateTp =='0'.toString() ">
+                and a.TXN_TYPE in (2,16)
+            </if>
+            <if test="operateTp =='1'.toString() ">
+                and a.TXN_TYPE in (3,10)
+            </if>
+            <if test="timeEnd != null and timeEnd != null">
+                and a.TXN_TM BETWEEN #{timeStart,jdbcType=TIMESTAMP} and  #{timeEnd,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    <select id="selectByInId" resultType="com.dispart.model.businessCommon.TPayJrn">
+        select *
+        from t_pay_jrn
+        where BUSINESS_NO = #{inId,jdbcType=VARCHAR} and STATUS = '2' and TXN_TYPE = '2'
+        order by JRNL_NUM DESC
+        limit 1
+    </select>
+</mapper>

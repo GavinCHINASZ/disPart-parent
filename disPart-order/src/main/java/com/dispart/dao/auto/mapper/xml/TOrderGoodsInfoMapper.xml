@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TOrderGoodsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TOrderGoodsInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_order_goods_info-->
+    <id column="ORDER_ID" jdbcType="CHAR" property="orderId" />
+    <id column="PRDCT_ID" jdbcType="VARCHAR" property="prdctId" />
+    <result column="PRDCT_TYPE" jdbcType="VARCHAR" property="prdctType" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="PRDCT_PRICE" jdbcType="DECIMAL" property="prdctPrice" />
+    <result column="PRDCT_NUM" jdbcType="DECIMAL" property="prdctNum" />
+    <result column="PRDCT_UNIT" jdbcType="VARCHAR" property="prdctUnit" />
+    <result column="PRDCT_AMT" jdbcType="DECIMAL" property="prdctAmt" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ORDER_ID, PRDCT_ID, PRDCT_TYPE, PRDCT_NM, PRDCT_PRICE, PRDCT_NUM, PRDCT_UNIT, PRDCT_AMT, 
+    REMARK, CREAT_TIME, UP_TIME
+  </sql>
+</mapper>

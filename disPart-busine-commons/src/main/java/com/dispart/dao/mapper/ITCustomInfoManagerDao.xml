@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TCustomInfoManagerDao">
+    <resultMap id="BaseResultMap" type="com.dispart.vo.commons.TCustomManagerInfo">
+        <!--@mbg.generated-->
+        <!--@Table t_custom_info_manager-->
+        <id column="PROV_ID" jdbcType="VARCHAR" property="provId"/>
+        <result column="TAX_NUM" jdbcType="VARCHAR" property="taxNum"/>
+        <result column="CUSTOM_TP" jdbcType="VARCHAR" property="customTp"/>
+        <result column="PVTY_TP" jdbcType="VARCHAR" property="pvtyTp"/>
+        <result column="PROV_NM" jdbcType="VARCHAR" property="provNm"/>
+        <result column="SHRT_NM" jdbcType="VARCHAR" property="shrtNm"/>
+        <result column="CERT_TYPE" jdbcType="VARCHAR" property="certType"/>
+        <result column="CERT_NUM" jdbcType="VARCHAR" property="certNum"/>
+        <result column="CERT_ADDR" jdbcType="VARCHAR" property="certAddr"/>
+        <result column="CERT_PRD" jdbcType="DATE" property="certPrd"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName"/>
+        <result column="LEGAL_PHONE" jdbcType="VARCHAR" property="legalPhone"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="IS_REAL" jdbcType="VARCHAR" property="isReal"/>
+        <result column="IS_WITHDRAW" jdbcType="VARCHAR" property="isWithdraw"/>
+    </resultMap>
+
+
+
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        PROV_ID, TAX_NUM, CUSTOM_TP, PVTY_TP, PROV_NM, SHRT_NM, CERT_TYPE, CERT_NUM, CERT_ADDR,
+        CERT_PRD, PHONE, LEGAL_NAME, LEGAL_PHONE,STATUS,IS_REAL,IS_WITHDRAW
+    </sql>
+
+    <sql id="Dto_Column_List">
+        PROV_ID, CUSTOM_TP, PROV_NM, SHRT_NM, CERT_NUM, PHONE, STATUS, IS_REAL, MNMN_CODE
+    </sql>
+
+    <select id="selectCustomInfoByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_custom_info_manager
+        where PHONE = #{phone,jdbcType=VARCHAR} or LEGAL_PHONE = #{phone,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectCustomInfoByProvId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_custom_info_manager
+        where PROV_ID = #{provId,jdbcType=VARCHAR}
+    </select>
+
+
+
+</mapper>

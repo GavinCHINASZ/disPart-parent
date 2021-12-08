@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.TReconciliationResultMapper">
+  <resultMap id="BaseResultMap" type="com.disPart.entity.TReconciliationResult">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_reconciliation_result-->
+    <id column="TXN_DT" jdbcType="DATE" property="txnDt" />
+    <id column="MARKET_ID" jdbcType="VARCHAR" property="marketId" />
+    <result column="RECON_RSLT" jdbcType="VARCHAR" property="reconRslt" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    TXN_DT, MARKET_ID, RECON_RSLT, REMARK, CREAT_TIME, UP_TIME
+  </sql>
+</mapper>

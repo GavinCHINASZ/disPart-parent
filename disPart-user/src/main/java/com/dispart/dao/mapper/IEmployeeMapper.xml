@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.IEmployeeDao">
+    <!--插入员工信息-->
+    <insert id="insertEmployeeInfo" parameterType="com.dispart.vo.user.EmployeeInfoVo">
+        insert into t_employee_info (
+        emp_id,
+        login_acct,
+        emp_nm,
+        sex,
+        cert_type,
+        cert_num,
+        telephone,
+        email,
+        postcode,
+        sub_dep,
+        sub_org,
+        remark,
+        effe_dt,
+        exp_dt,
+        passwd,
+        update_passwd_dt_tm,
+        emp_st,
+        oper_id,
+        update_dt,
+        dedu_addr)
+        values (
+        #{empVo.empId},
+        #{empVo.loginAcct},
+        #{empVo.empNm},
+        #{empVo.sex},
+        #{empVo.certType},
+        #{empVo.certNum},
+        #{empVo.telephone},
+        #{empVo.email},
+        #{empVo.postcode},
+        #{empVo.subDep},
+        #{empVo.subOrg},
+        #{empVo.remark},
+        #{empVo.effeDt},
+        #{empVo.expDt},
+        #{empVo.passwd},
+        #{empVo.updatePasswdDtTm},
+        #{empVo.empSt},
+        #{empVo.operId},
+        #{empVo.updateDt},
+        #{empVo.deduAddr})
+    </insert>
+
+    <!--更新员工信息，注销用户不能再修改-->
+    <update id="updateEmployeeInfo" parameterType="com.dispart.vo.user.EmployeeInfoVo">
+        update t_employee_info set
+        emp_Nm = #{empNm}
+        ,sex = #{sex}
+        ,cert_Type = #{certType}
+        ,cert_Num = #{certNum}
+        ,telephone = #{telephone}
+        ,email = #{email}
+        ,postcode = #{postcode}
+        ,sub_Dep = #{subDep}
+        ,sub_Org = #{subOrg}
+        ,remark = #{remark}
+        <if test="passwd != null and passwd != ''">
+            ,passwd = #{passwd}
+            ,update_passwd_dt_tm = #{updatePasswdDtTm}
+        </if>
+        ,oper_id = #{operId}
+        ,update_dt = #{updateDt}
+        ,dedu_addr=#{deduAddr}
+        where emp_id = #{empId} and emp_st != '2'
+    </update>
+
+    <!--查询员工信息-->
+    <select id="selectEmpInfoById" resultType="com.dispart.vo.user.EmployeeInfoVo">
+        select * from t_employee_info where emp_id=#{empId}
+        <!--and emp_st !=#{empSt}-->
+    </select>
+
+    <!--修改员工状态,注销用户不能再修改-->
+    <update id="updateEmpStById" parameterType="com.dispart.dto.empdto.UpdateEmpParamDto">
+        update t_employee_info set emp_st=#{empSt},update_dt=#{updateDt},oper_id=#{operId} where emp_st=#{origSt} and emp_id=#{empId} and emp_st != '2'
+    </update>
+
+    <!--更新员工状态为注销-->
+    <update id="updateDeleteEmpById" parameterType="com.dispart.dto.empdto.UpdateEmpParamDto">
+        update t_employee_info set emp_st=#{empSt},EXP_DT=#{expDt},update_dt=#{updateDt},oper_id=#{operId} where emp_st !=#{empSt} and emp_id=#{empId}
+    </update>
+
+    <!-- 获取员工序列员-->
+    <select id="selectEmployeeIdSeq" resultType="Integer">
+        select nextval('employeeId') from dual
+    </select>
+
+      <sql id="selectEmpInfoSql">
+        <!-- where emp_st != #{deleteSt}-->
+        <where>
+        <if test="inDto.empNm != null and inDto.empNm !=''">
+            and emp_nm  like  concat ('%',#{inDto.empNm},'%')
+        </if>
+       </where>
+    </sql>
+    <!--查询员工信息-->
+     <select id="selectEmpInfos" parameterType="com.dispart.dto.empdto.QuryEmpInDto"
+            resultType="com.dispart.vo.user.EmployeeInfoVo">
+        select * from t_employee_info <include refid="selectEmpInfoSql"></include> order by  emp_id asc limit #{curPage},#{pageSize}
+    </select>
+    <!--查询员工数量-->
+    <select id="selectCount" parameterType="com.dispart.dto.empdto.QuryEmpInDto" resultType="Integer">
+        select count(*) from t_employee_info <include refid="selectEmpInfoSql"></include>
+    </select>
+
+    <!--查询员工机构名称-->
+    <select id="selectOrgNameByOrgId" resultType="String">
+        select ORG_NM from t_organization_info where ORG_ID=#{orgId}
+    </select>
+    <!--查询员工机构名称-->
+    <select id="selectDepNameDepId" resultType="String">
+        select DEP_NM from t_department_info where DEP_ID=#{depId}
+    </select>
+
+</mapper>

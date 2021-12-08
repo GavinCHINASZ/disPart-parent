@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TMenuInfoDao">
+
+    <resultMap type="com.dispart.vo.commons.TMenuInfo" id="TMenuInfoMap">
+        <result property="menuId" column="MENU_ID" jdbcType="VARCHAR"/>
+        <result property="parentMenuId" column="PARENT_MENU_ID" jdbcType="VARCHAR"/>
+        <result property="iconId" column="ICON_ID" jdbcType="VARCHAR"/>
+        <result property="menuNm" column="MENU_NM" jdbcType="VARCHAR"/>
+        <result property="menuType" column="MENU_TYPE" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="updateDt" column="UPDATE_DT" jdbcType="TIMESTAMP"/>
+        <result property="menuUrl" column="MENU_URL" jdbcType="VARCHAR"/>
+        <result property="url" column="URL" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--查询单个-->
+    <select id="queryById" resultMap="TMenuInfoMap">
+        select
+          MENU_ID, PARENT_MENU_ID, ICON_ID, MENU_NM, MENU_TYPE, REMARK, UPDATE_DT, MENU_URL, URL
+        from logistics.t_menu_info
+        where MENU_ID = #{menuId}
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TMenuInfoMap">
+        select
+          MENU_ID, PARENT_MENU_ID, ICON_ID, MENU_NM, MENU_TYPE, REMARK, UPDATE_DT, MENU_URL, URL
+        from logistics.t_menu_info
+        <where>
+            <if test="menuId != null and menuId != ''">
+                and MENU_ID = #{menuId}
+            </if>
+            <if test="parentMenuId != null and parentMenuId != ''">
+                and PARENT_MENU_ID = #{parentMenuId}
+            </if>
+            <if test="iconId != null and iconId != ''">
+                and ICON_ID = #{iconId}
+            </if>
+            <if test="menuNm != null and menuNm != ''">
+                and MENU_NM = #{menuNm}
+            </if>
+            <if test="menuType != null and menuType != ''">
+                and MENU_TYPE = #{menuType}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK = #{remark}
+            </if>
+            <if test="updateDt != null">
+                and UPDATE_DT = #{updateDt}
+            </if>
+            <if test="menuUrl != null and menuUrl != ''">
+                and MENU_URL = #{menuUrl}
+            </if>
+            <if test="url != null and url != ''">
+                and URL = #{url}
+            </if>
+            <if test="chanlNoType != null and chanlNoType != ''">
+                and CHNAL_NO_TYPE = #{chanlNoType}
+            </if>
+
+        </where>
+    </select>
+
+
+</mapper>

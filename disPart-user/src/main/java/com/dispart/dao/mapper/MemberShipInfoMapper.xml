@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.MemberShipInfoDao">
+    <resultMap id="BaseResultMap" type="com.dispart.vo.user.MemberShipInfoVo">
+        <id column="CARD_NO" jdbcType="VARCHAR" property="cardNo"/>
+        <result column="PASSWD" jdbcType="VARCHAR" property="passwd"/>
+        <result column="ACCOUNT" jdbcType="VARCHAR" property="account"/>
+        <result column="PROV_ID" jdbcType="VARCHAR" property="provId"/>
+        <result column="CARD_TP" jdbcType="CHAR" property="cardTp"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="STATUS" jdbcType="CHAR" property="status"/>
+        <result column="CASH_INDENT" jdbcType="CHAR" property="cashIndent"/>
+        <result column="CASH_PLEDGE" jdbcType="DECIMAL" property="status"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="OPER_ID" jdbcType="VARCHAR" property="operId"/>
+        <result column="OPER_NAME" jdbcType="VARCHAR" property="operName" />
+        <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime"/>
+        <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime"/>
+        <result column="CHANL_NO" jdbcType="CHAR" property="chanlNo"/>
+    </resultMap>
+
+    <sql id="baseSql">
+        `CARD_NO`, `PASSWD`, `ACCOUNT`, `PROV_ID`, `CARD_TP`, `PHONE`, `STATUS`, `CASH_INDENT`, `CASH_PLEDGE`, `REMARK`,
+        `OPER_ID`, `CREAT_TIME`, `UP_TIME`, CHANL_NO
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="cardNo != null and cardNo != ''">
+                CARD_NO = #{cardNo}
+            </if>
+            <if test="passwd != null and passwd != ''">
+                and PASSWD = #{passwd}
+            </if>
+            <if test="account != null and account != ''">
+                and ACCOUNT = #{account}
+            </if>
+            <if test="provId != null and provId != ''">
+                and PROV_ID = #{provId}
+            </if>
+            <if test="chanlNo != null and chanlNo != ''">
+                and CHANL_NO = #{chanlNo}
+            </if>
+        </where>
+    </sql>
+
+    <!--开户-->
+    <insert id="openAccountInfo" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto">
+        insert into t_membership_info(CARD_NO, PASSWD, ACCOUNT, PROV_ID, CARD_TP, PHONE, STATUS, CASH_INDENT, CASH_PLEDGE,
+            REMARK, OPER_ID, CHANL_NO
+        ) values (#{cardNo}, #{passwd}, #{account}, #{provId}, #{cardTp}, #{phone},#{status}, #{cashIndent}, #{cashPledge},
+            #{remark}, #{openId}, #{chanlNo})
+    </insert>
+
+    <update id="cancelllationAccount" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto">
+        <!--@mbg.generated-->
+        update t_membership_info
+        set STATUS = #{status}
+        where CARD_NO = #{cardNo}
+    </update>
+
+    <update id="replaceCardNo" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto">
+        <!--@mbg.generated-->
+        update t_membership_info
+        set STATUS = #{status}
+        where CARD_NO = #{cardNo}
+    </update>
+
+    <update id="updatePass" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto">
+        <!--@mbg.generated-->
+        update t_membership_info
+        set passwd = #{passwd}
+        where CARD_NO = #{cardNo}
+    </update>
+
+    <update id="frozenAccountByProvId" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto">
+        <!--@mbg.generated-->
+        update t_accno_info
+        <set>
+            <if test="acctBal != null">
+                ACCT_BAL = #{acctBal},
+            </if>
+            <if test="availBal != null">
+                AVAIL_BAL= #{availBal},
+            </if>
+            <if test="frozenAmount != null">
+                FREEZE_AMT= #{frozenAmount},
+            </if>
+            <if test="mac != null">
+                MAC= #{mac}
+            </if>
+        </set>
+        where account = #{account} and MAC = #{oldmac}
+    </update>
+
+    <update id="updateReconciliationByProvId" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto">
+        <!--@mbg.generated-->
+        update t_accno_info
+        <set>
+            <if test="acctBal != null">
+                ACCT_BAL = #{acctBal},
+            </if>
+            <if test="availBal != null">
+                AVAIL_BAL= #{availBal},
+            </if>
+            <if test="mac != null">
+                MAC= #{mac}
+            </if>
+        </set>
+        where account = #{account}
+    </update>
+
+    <!-- 解冻金额 -->
+    <update id="unfreezeAccountByProvId" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto">
+        <!--@mbg.generated-->
+        update t_accno_info
+        <set>
+            <if test="acctBal != null">
+                ACCT_BAL = #{acctBal},
+            </if>
+            <if test="availBal != null">
+                AVAIL_BAL= #{availBal},
+            </if>
+            <if test="frozenAmount != null">
+                FREEZE_AMT= #{frozenAmount},
+            </if>
+            <if test="mac != null">
+                MAC= #{mac}
+            </if>
+        </set>
+        where ACCOUNT = #{account} and MAC = #{oldmac}
+    </update>
+
+    <!--查询可用余额，冻结金额，剩余金额-->
+    <select id="queryCustomAccountDetail" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto"
+            resultType="com.dispart.parmeterdto.MemberShipInfoOutDto">
+        SELECT a.prov_id, a.ACCT_BAL, a.FREEZE_AMT, a.AVAIL_BAL, a.MAC
+        FROM t_accno_info a
+        where a.ACCOUNT = #{account}
+    </select>
+
+    <!--查询可用余额，冻结金额，剩余金额-->
+    <select id="queryAccuInfoByAccount" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto"
+            resultType="com.dispart.vo.AccnoInfoVo">
+        SELECT a.*
+        FROM t_accno_info a
+        where a.ACCOUNT = #{account}
+    </select>
+
+    <!--根据certNum和phone查询prov_id-->
+    <select id="queryProvIDByCertNum" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto"
+            resultType="com.dispart.vo.CustomInfoManagerVo">
+        select c.*
+        from t_custom_info_manager c
+        where c.PROV_NM = #{provNm}
+        <if test="certNum != null and certNum != ''">
+            AND c.CART_NUM= #{certNum}
+        </if>
+    </select>
+
+    <!--根据cardNo查询卡片-->
+    <select id="queryCardByCardNo" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto"
+            resultType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto">
+        select c.*
+        from t_membership_info c
+        where c.CARD_NO = #{cardNo}
+    </select>
+
+    <!--查询开卡记录-->
+    <select id="queryCardListDetail" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto"
+            resultType="com.dispart.vo.MumberShipInfoVo">
+        select t.*, tei.EMP_NM operName
+        from (
+            select b.PROV_NM,b.CERT_NUM, b.PHONE,
+                c.CARD_NO, c.ACCOUNT, c.PROV_ID, c.CARD_TP, c.STATUS, c.CASH_INDENT, c.CASH_PLEDGE, c.REMARK, c.OPER_ID,
+                c.CREAT_TIME, c.UP_TIME, c.CHANL_NO
+            from t_membership_info c, t_custom_info_manager b
+            where c.PROV_ID = b.PROV_ID
+            <if test="provNm != null and provNm != ''">
+                AND b.PROV_NM = #{provNm}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND b.PHONE = #{phone}
+            </if>
+            <if test="certNum != null and certNum != ''">
+                AND b.CERT_NUM= #{certNum}
+            </if>
+            <if test="provId != null and provId != ''">
+                AND b.PROV_ID = #{provId}
+            </if>
+            <if test="cardNo != null and cardNo != ''">
+                AND c.CARD_NO = #{cardNo}
+            </if>
+            <if test="cardTp != null and cardTp != ''">
+                AND c.CARD_TP = #{cardTp}
+            </if>
+            <if test="status != null and status != ''">
+                AND c.STATUS = #{status}
+            </if>
+            <if test="statusArr != null and statusArr.length > 0">
+                AND c.STATUS in
+                <foreach collection="statusArr" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            order by c.UP_TIME desc
+            <if test="pageSize>0">LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}</if>
+        ) t
+        LEFT JOIN t_employee_info tei ON tei.EMP_ID = t.OPER_ID
+    </select>
+
+    <!--查询可用余额，冻结金额，剩余金额-->
+    <select id="countCardAccount" resultType="java.lang.Integer" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto">
+        select count(*)
+        from t_custom_info_manager b, t_membership_info c
+        where c.PROV_ID = b.PROV_ID
+        <if test="provNm != null and provNm != ''">
+            AND b.PROV_NM = #{provNm}
+        </if>
+        <if test="provId != null and provId != ''">
+            AND b.PROV_ID = #{provId}
+        </if>
+        <if test="phone != null and phone != ''">
+            AND b.PHONE = #{phone}
+        </if>
+        <if test="certNum != null and certNum != ''">
+            AND b.CERT_NUM= #{certNum}
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            AND c.CARD_NO = #{cardNo}
+        </if>
+        <if test="cardTp != null and cardTp != ''">
+            AND c.CARD_TP = #{cardTp}
+        </if>
+        <if test="status != null and status != ''">
+            AND c.STATUS = #{status}
+        </if>
+    </select>
+
+    <!--交易类型 0-开户 1-冻结 2-调账 6-挂失 7-修改密码 8-重置密码 9-销户 如表-->
+    <insert id="addAccountInfoDetail" parameterType="com.dispart.vo.AccnoInfoDetailVo">
+        insert into t_accno_info_details(
+            ID, PROV_ID, CARD_NO, ACCOUNT, TXN_TYPE, BEFORE_AMT, AFTER_AMT, TXN_AMT, TXN_DT,
+            TRANS_CHNL, SUMMARY, REMARK, OPER_TP, OPER_ID, STATUS, BANK_NO, BANK_PAY_NO, PROV_NM,
+            OPEN_ACCU_NAME, CHANL_NO
+        )
+        values (#{ID}, #{provId}, #{cardNo}, #{account}, #{txnType}, #{beforeAmt}, #{afterAmt}, #{txnAmt}, #{txnDt},
+            #{transChnl}, #{summary}, #{remark}, #{operTp}, #{operId}, #{status}, #{bankNo}, #{bankPayNo}, #{provNm},
+            #{openAccuName}, #{chanlNo})
+    </insert>
+
+    <!--调账状态改变-->
+    <update id="updateAccountInfoDetalByParm" parameterType="com.dispart.vo.AccnoInfoDetailVo">
+        update t_accno_info_details
+        <set>
+            <if test="status != null and status != ''">
+                STATUS = #{status},
+            </if>
+            <if test="summary != null and summary != ''">
+                SUMMARY = #{summary},
+            </if>
+            <if test="beforeAmt != null and beforeAmt != ''">
+                BEFORE_AMT = #{beforeAmt},
+            </if>
+            <if test="afterAmt != null and afterAmt != ''">
+                AFTER_AMT = #{afterAmt}
+            </if>
+        </set>
+        where ID = #{reId}
+    </update>
+
+    <update id="reviewHandleWithdraw" parameterType="com.dispart.vo.AccnoInfoDetailVo">
+        update t_accno_info_details
+        set STATUS = #{status}, SUMMARY = #{summary}
+        where ID = #{reId}
+    </update>
+
+    <!-- 188调账申请查询  191提现申请查询 -->
+    <select id="countAccountInfoDetail" resultType="java.lang.Integer">
+        select count(DISTINCT a.id)
+        from t_accno_info_details a
+        left join t_custom_info_manager b ON a.PROV_ID = b.PROV_ID
+        <if test="operName != null and operName != ''">
+            LEFT JOIN t_employee_info tei ON tei.EMP_ID = a.OPER_ID
+        </if>
+        where 1 = 1
+        <if test="provNm != null and provNm != ''">
+            AND b.PROV_NM = #{provNm}
+        </if>
+        <if test="certNum != null and certNum != ''">
+            AND b.CERT_NUM = #{certNum}
+        </if>
+        <if test="phone != null and phone != ''">
+            AND b.PHONE = #{phone}
+        </if>
+        <if test="chanlNo != null and chanlNo != ''">
+            AND a.CHANL_NO = #{chanlNo}
+        </if>
+        <if test="txnDt != null">
+            AND a.TXN_DT = #{txnDt}
+        </if>
+        <if test="txnStDate != null and txnEndDate != null">
+            AND a.TXN_DT between #{txnStDate} and #{txnEndDate}
+        </if>
+
+        <if test="txnType != null and txnType != null">
+            and a.TXN_TYPE = #{txnType}
+        </if>
+
+        <if test="operName != null and operName != ''">
+            and tei.EMP_NM LIKE CONCAT(#{operName},'%')
+        </if>
+    </select>
+
+    <!-- 查询调账提现记录列表 -->
+    <select id="queryAccnoInfoDetailList" parameterType="com.dispart.vo.AccnoInfoDetailVo" resultType="com.dispart.vo.AccnoInfoDetailVo">
+        select b.PROV_NM, b.CERT_NUM, b.phone,
+            a.`ID`, a.`PROV_ID`, a.`CARD_NO`, a.`ACCOUNT`, a.`TXN_TYPE`, a.`BEFORE_AMT`, a.`AFTER_AMT`, a.`TXN_AMT`, a.`TXN_DT`,
+            a.`TRANS_CHNL`, a.`BANK_NO`, a.`BANK_PAY_NO`, a.`OPEN_ACCU_NAME`, a.`STATUS`, a.`SUMMARY`, a.`REMARK`, a.`OPER_TP`,
+            a.`OPER_ID`, a.`AUDITOR`, a.`CREAT_TIME`, a.`UP_TIME`, a.CHANL_NO,
+            tei.EMP_NM operName
+        FROM t_accno_info_details a
+        LEFT JOIN t_custom_info_manager b ON a.PROV_ID = b.PROV_ID
+        LEFT JOIN t_employee_info tei ON tei.EMP_ID = a.OPER_ID
+        where 1 = 1
+        <if test="provNm != null and provNm != ''">
+            AND b.PROV_NM = #{provNm}
+        </if>
+        <if test="certNum != null and certNum != ''">
+            AND b.CERT_NUM = #{certNum}
+        </if>
+        <if test="phone != null and phone != ''">
+            AND b.PHONE = #{phone}
+        </if>
+
+        <if test="status != null and status != ''">
+            AND a.STATUS = #{status}
+        </if>
+        <if test="cardNo != null and cardNo !=''">
+            AND a.CARD_NO = #{cardNo}
+        </if>
+        <if test="chanlNo != null and chanlNo != ''">
+            AND a.CHANL_NO = #{chanlNo}
+        </if>
+        <if test="txnDt != null">
+            AND a.TXN_DT = #{txnDt}
+        </if>
+        <if test="txnStDate != null and txnEndDate != null">
+            AND a.TXN_DT between #{txnStDate} and #{txnEndDate}
+        </if>
+        <if test="txnType != null and txnType != null">
+            and a.TXN_TYPE = #{txnType}
+        </if>
+        <if test="operName != null and operName != ''">
+            and tei.EMP_NM LIKE CONCAT(#{operName},'%')
+        </if>
+        order by a.CREAT_TIME DESC
+        <if test="pageSize > 0">
+            LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+        </if>
+    </select>
+
+    <!--查询调账提现记录列表-->
+    <select id="queryAccnoInfoDetail" parameterType="com.dispart.vo.AccnoInfoDetailVo"
+            resultType="com.dispart.vo.AccnoInfoDetailVo">
+        select a.*
+        from t_accno_info_details a
+        where a.ID = #{iD}
+    </select>
+
+    <!--根据cardNo查询卡片-->
+    <select id="queryCardByProvId" parameterType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto"
+            resultType="com.dispart.parmeterdto.DISP20210181MemberShipInfoInDto">
+        select c.*
+        from t_membership_info c
+        where c.ACCOUNT = #{account}
+    </select>
+
+    <!--查询生成账户请求id-->
+    <select id="selectAccnoId" resultType="Integer">
+        select nextval('accnoId')
+        from dual
+    </select>
+
+    <!--查询生成账户请求id-->
+    <select id="selectVirtualCardId" resultType="Integer">
+        select nextval('vitualCardId')
+        from dual
+    </select>
+
+    <!--查询输入的实体卡是否可用-->
+    <select id="selectCardInfoIsUser" parameterType="com.dispart.vo.basevo.TCardInfoVo" resultType="com.dispart.vo.basevo.TCardInfoVo">
+        select *
+        from t_card_info
+        where CARD_NO = #{cardNo}
+    </select>
+
+    <update id="updateCardStatusByCardNo" parameterType="com.dispart.vo.AccnoInfoDetailVo">
+        update t_card_info
+        set STATUS = #{status}
+        where CARD_NO = #{cardNo}
+    </update>
+
+    <insert id="insertVirtualCard" parameterType="com.dispart.vo.basevo.TCardInfoVo">
+        <!--@mbg.generated-->
+        insert into t_card_info (CARD_NO, DOCUMENT_NUM, `STATUS`,
+            REMARK, OPER_ID, CARD_TP)
+        values (#{cardNo, jdbcType=VARCHAR}, #{documentNum,jdbcType=VARCHAR}, #{status,jdbcType=CHAR},
+            #{remark,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, #{cardTp,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertTAccnoInfo" parameterType="com.dispart.model.businessCommon.TAccnoInfo">
+        <!--@mbg.generated-->
+        insert into t_accno_info(PROV_ID, ACCOUNT, MAC,DAY_DT, REMARK, OPER_ID, CHANL_NO)
+        values (#{provId}, #{account}, #{mac}, #{dayDt}, #{remark}, #{operId}, #{chanlNo});
+    </insert>
+
+    <!-- 查询 会员信息 -->
+    <select id="selectMemberShipInfoVo" parameterType="com.dispart.vo.user.MemberShipInfoVo" resultMap="BaseResultMap">
+        SELECT <include refid="baseSql"/>
+        FROM t_membership_info
+        <include refid="whereSql"/>
+    </select>
+
+    <!-- 查询 提现优惠参数 -->
+    <select id="findParmeterInfo" resultType="com.dispart.model.ParmeterInfo">
+        SELECT *
+        FROM t_parmeter_info
+        WHERE PARAM_TYPE = '08' AND PARAM_NM IN ('withdrawAmt', 'withdrawRate');
+    </select>
+
+</mapper>

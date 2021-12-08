@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TEmployeeInfoDao">
+
+    <resultMap type="com.dispart.vo.commons.TEmployeeInfo" id="TEmployeeInfoMap">
+        <result property="empId" column="EMP_ID" jdbcType="VARCHAR"/>
+        <result property="loginAcct" column="LOGIN_ACCT" jdbcType="VARCHAR"/>
+        <result property="empNm" column="EMP_NM" jdbcType="VARCHAR"/>
+        <result property="sex" column="SEX" jdbcType="VARCHAR"/>
+        <result property="certType" column="CERT_TYPE" jdbcType="VARCHAR"/>
+        <result property="certNum" column="CERT_NUM" jdbcType="VARCHAR"/>
+        <result property="telephone" column="TELEPHONE" jdbcType="VARCHAR"/>
+        <result property="email" column="EMAIL" jdbcType="VARCHAR"/>
+        <result property="postcode" column="POSTCODE" jdbcType="VARCHAR"/>
+        <result property="subDep" column="SUB_DEP" jdbcType="VARCHAR"/>
+        <result property="subOrg" column="SUB_ORG" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="effeDt" column="EFFE_DT" jdbcType="TIMESTAMP"/>
+        <result property="expDt" column="EXP_DT" jdbcType="TIMESTAMP"/>
+        <result property="passwd" column="PASSWD" jdbcType="VARCHAR"/>
+        <result property="updatePasswdDtTm" column="UPDATE_PASSWD_DT_TM" jdbcType="TIMESTAMP"/>
+        <result property="empSt" column="EMP_ST" jdbcType="VARCHAR"/>
+        <result property="operId" column="OPER_ID" jdbcType="VARCHAR"/>
+        <result property="updateDt" column="UPDATE_DT" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--查询单个-->
+    <select id="queryById" resultMap="TEmployeeInfoMap">
+        select
+          EMP_ID, LOGIN_ACCT, EMP_NM, SEX, CERT_TYPE, CERT_NUM, TELEPHONE, EMAIL, POSTCODE, SUB_DEP, SUB_ORG, REMARK, EFFE_DT, EXP_DT, PASSWD, UPDATE_PASSWD_DT_TM, EMP_ST, OPER_ID, UPDATE_DT
+        from logistics.t_employee_info
+        where EMP_ID = #{empId}
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TEmployeeInfoMap">
+        select
+          EMP_ID, LOGIN_ACCT, EMP_NM, SEX, CERT_TYPE, CERT_NUM, TELEPHONE, EMAIL, POSTCODE, SUB_DEP, SUB_ORG, REMARK, EFFE_DT, EXP_DT, PASSWD, UPDATE_PASSWD_DT_TM, EMP_ST, OPER_ID, UPDATE_DT
+        from logistics.t_employee_info
+        <where>
+            <if test="empId != null and empId != ''">
+                and EMP_ID = #{empId}
+            </if>
+            <if test="loginAcct != null and loginAcct != ''">
+                and LOGIN_ACCT = #{loginAcct}
+            </if>
+            <if test="empNm != null and empNm != ''">
+                and EMP_NM = #{empNm}
+            </if>
+            <if test="sex != null and sex != ''">
+                and SEX = #{sex}
+            </if>
+            <if test="certType != null and certType != ''">
+                and CERT_TYPE = #{certType}
+            </if>
+            <if test="certNum != null and certNum != ''">
+                and CERT_NUM = #{certNum}
+            </if>
+            <if test="telephone != null and telephone != ''">
+                and TELEPHONE = #{telephone}
+            </if>
+            <if test="email != null and email != ''">
+                and EMAIL = #{email}
+            </if>
+            <if test="postcode != null and postcode != ''">
+                and POSTCODE = #{postcode}
+            </if>
+            <if test="subDep != null and subDep != ''">
+                and SUB_DEP = #{subDep}
+            </if>
+            <if test="subOrg != null and subOrg != ''">
+                and SUB_ORG = #{subOrg}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK = #{remark}
+            </if>
+            <if test="effeDt != null">
+                and EFFE_DT = #{effeDt}
+            </if>
+            <if test="expDt != null">
+                and EXP_DT = #{expDt}
+            </if>
+            <if test="passwd != null and passwd != ''">
+                and PASSWD = #{passwd}
+            </if>
+            <if test="updatePasswdDtTm != null">
+                and UPDATE_PASSWD_DT_TM = #{updatePasswdDtTm}
+            </if>
+            <if test="empSt != null and empSt != ''">
+                and EMP_ST = #{empSt}
+            </if>
+            <if test="operId != null and operId != ''">
+                and OPER_ID = #{operId}
+            </if>
+            <if test="updateDt != null">
+                and UPDATE_DT = #{updateDt}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TPayJrnMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.businessCommon.TPayJrn">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_pay_jrn-->
+    <id column="JRNL_NUM" jdbcType="VARCHAR" property="jrnlNum" />
+    <result column="BUSINESS_NO" jdbcType="VARCHAR" property="businessNo" />
+    <result column="TXN_TYPE" jdbcType="CHAR" property="txnType" />
+    <result column="TRANS_MD" jdbcType="VARCHAR" property="transMd" />
+    <result column="TXN_TM" jdbcType="TIMESTAMP" property="txnTm" />
+    <result column="TXN_AMT" jdbcType="DECIMAL" property="txnAmt" />
+    <result column="PAYER_NO" jdbcType="VARCHAR" property="payerNo" />
+    <result column="PAY_NAME" jdbcType="VARCHAR" property="payName" />
+    <result column="PAY_CARD" jdbcType="VARCHAR" property="payCard" />
+    <result column="PAY_ACCT" jdbcType="VARCHAR" property="payAcct" />
+    <result column="PAYEE_NUM" jdbcType="VARCHAR" property="payeeNum" />
+    <result column="PAYEE" jdbcType="VARCHAR" property="payee" />
+    <result column="PAYEE_ACCT" jdbcType="VARCHAR" property="payeeAcct" />
+    <result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    JRNL_NUM, BUSINESS_NO, TXN_TYPE, TRANS_MD, TXN_TM, TXN_AMT, PAYER_NO, PAY_NAME, PAY_CARD, 
+    PAY_ACCT, PAYEE_NUM, PAYEE, PAYEE_ACCT, SUMMARY, `STATUS`, REMARK, OPER_ID, CREAT_TIME, 
+    UP_TIME
+  </sql>
+
+  <update id="updatePayStatus" parameterType="com.dispart.dto.busineCommon.DISP20210333InDto">
+    update t_pay_jrn set STATUS = #{status}, OPER_ID = #{operId}, UP_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%m:%s')
+    where JRNL_NUM = #{jrnlNum}
+  </update>
+</mapper>

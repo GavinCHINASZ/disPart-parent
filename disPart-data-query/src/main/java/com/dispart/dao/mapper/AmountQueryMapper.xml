@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.AmountQueryMapper">
+
+    <select id="queryTransactionAmount" parameterType="com.dispart.dto.dataquery.Disp20210066InDto" resultType="com.dispart.dto.dataquery.Disp20210066OutMx">
+        SELECT
+            tod.ORDER_ID as orderId,
+            tod.PURCH_ID as purchId,
+            tod.PROV_ID as provId,
+            tod.PRDCT_AMT as prdctAmt,
+            tod.ORDER_MODEL as orderModel,
+            tod.PROV_NM as provNm,
+            tod.PREFER_PRICE as preferPrice,
+            tod.ADDIT_AMT as additAmt,
+            tod.ORDER_ST as orderSt,
+            tod.ORDER_TM as orderTm,
+            tod.SERV_CHRG as servChrg,
+            tod.PART_AMT as partAmt
+        FROM
+            t_order_detail_info tod
+        WHERE
+            tod.PROV_ID = #{provId}
+            AND ORDER_ST = '2'
+            <if test="beginDate != null and beginDate != '' ">
+                AND tod.TXN_DT &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND tod.TXN_DT &lt;= #{endDate}
+            </if>
+            ORDER BY tod.UPDATE_DT DESC
+            LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryTransactionAmount_count" parameterType="com.dispart.dto.dataquery.Disp20210066InDto" resultType="com.dispart.entity.DatabaseCount">
+        SELECT
+            count(*) as countRec, sum(tod.PRDCT_AMT) tolAmt
+        FROM
+            t_order_detail_info tod
+        WHERE
+            tod.PROV_ID = #{provId}
+            AND ORDER_ST = '2'
+            <if test="beginDate != null and beginDate != '' ">
+                AND tod.TXN_DT &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND tod.TXN_DT &lt;= #{endDate}
+            </if>
+    </select>
+
+    <select id="querySettlementAmount" parameterType="com.dispart.dto.dataquery.Disp20210067InDto" resultType="com.dispart.dto.dataquery.Disp20210067OutMx">
+         SELECT
+            tod.ORDER_ID as orderId,
+            tod.PURCH_ID as purchId,
+            tod.PROV_ID as provId,
+            tod.PRDCT_AMT as prdctAmt,
+            tod.ORDER_MODEL as orderModel,
+            tod.PROV_NM as provNm,
+            tod.PREFER_PRICE as preferPrice,
+            tod.ADDIT_AMT as additAmt,
+            tod.ORDER_ST as orderSt,
+            tod.ORDER_TM as orderTm,
+            tod.PART_AMT as partAmt,
+            tod.SERV_CHRG as servChrg
+        FROM
+            t_order_detail_info tod
+            INNER JOIN t_order_relevancy_info tor ON tod.ORDER_ID = tor.ORDER_ID
+            INNER JOIN t_apportion_details_info tad ON tor.CCB_ORDER_DETAIL_ID = tad.SUB_ORDER_ID
+        WHERE
+            tod.PROV_ID = #{provId}
+            AND tod.ORDER_ST = '2'
+            AND tad.RESP_ST = '2'
+            AND tor.TYPE = '0'
+            <if test="beginDate != null and beginDate != '' ">
+                AND tod.TXN_DT &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND tod.TXN_DT &lt;= #{endDate}
+            </if>
+            ORDER BY tod.UPDATE_DT DESC
+            LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+    </select>
+
+    <select id="querySettlementAmount_count" parameterType="com.dispart.dto.dataquery.Disp20210067InDto" resultType="com.dispart.entity.DatabaseCount">
+        SELECT
+            count(*) as countRec, sum(tod.PRDCT_AMT) tolAmt
+        FROM
+            t_order_detail_info tod
+            INNER JOIN t_order_relevancy_info tor ON tod.ORDER_ID = tor.ORDER_ID
+            INNER JOIN t_apportion_details_info tad ON tor.CCB_ORDER_DETAIL_ID = tad.SUB_ORDER_ID
+        WHERE
+            tod.PROV_ID = #{provId}
+            AND tod.ORDER_ST = '2'
+            AND tad.RESP_ST = '2'
+            AND tor.TYPE = '0'
+            <if test="beginDate != null and beginDate != '' ">
+                AND tod.TXN_DT &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND tod.TXN_DT &lt;= #{endDate}
+            </if>
+<!--            <if test="(beginDate == null or beginDate == '') and (endDate == null or endDate == '') ">-->
+<!--                AND tod.TXN_DT = DATE_FORMAT(CURDATE(),'%Y%m%d')-->
+<!--            </if>-->
+    </select>
+
+    <select id="queryUnSettlementAmount" parameterType="com.dispart.dto.dataquery.Disp20210068InDto" resultType="com.dispart.dto.dataquery.Disp20210068OutMx">
+        SELECT DISTINCT
+            tod.ORDER_ID as orderId,
+            tod.PURCH_ID as purchId,
+            tod.PROV_ID as provId,
+            tod.PRDCT_AMT as prdctAmt,
+            tod.ORDER_MODEL as orderModel,
+            tod.PROV_NM as provNm,
+            tod.PREFER_PRICE as preferPrice,
+            tod.ADDIT_AMT as additAmt,
+            tod.ORDER_ST as orderSt,
+            tod.ORDER_TM as orderTm,
+            tod.PART_AMT as partAmt,
+            tod.SERV_CHRG as servChrg
+        FROM
+            t_order_detail_info tod
+            left JOIN t_order_relevancy_info tor ON tod.ORDER_ID = tor.ORDER_ID
+            left JOIN t_apportion_details_info tad ON tor.CCB_ORDER_DETAIL_ID = tad.SUB_ORDER_ID
+        WHERE
+            tod.PROV_ID = #{provId}
+            AND tod.ORDER_ST = '2'
+            AND ((tor.TYPE = '0'
+            AND tad.RESP_ST != '2')
+            or tod.ORDER_TM>= DATE_FORMAT(CURDATE(),'%Y%m%d'))
+
+            <if test="beginDate != null and beginDate != '' ">
+                AND tod.ORDER_TM &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND tod.ORDER_TM &lt;= #{endDate}
+            </if>
+            ORDER BY tod.UPDATE_DT DESC
+            LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryUnSettlementAmount_count" parameterType="com.dispart.dto.dataquery.Disp20210068InDto" resultType="com.dispart.entity.DatabaseCount">
+        SELECT DISTINCT
+            count(*) as countRec, sum(tod.PRDCT_AMT) as tolAmt
+        FROM
+            t_order_detail_info tod
+            left JOIN t_order_relevancy_info tor ON tod.ORDER_ID = tor.ORDER_ID
+            left JOIN t_apportion_details_info tad ON tor.CCB_ORDER_DETAIL_ID = tad.SUB_ORDER_ID
+        WHERE
+            tod.PROV_ID = #{provId}
+            AND tod.ORDER_ST = '2'
+            AND ((tor.TYPE = '0'
+            AND tad.RESP_ST != '2')
+            or tod.ORDER_TM>= DATE_FORMAT(CURDATE(),'%Y%m%d'))
+
+            <if test="beginDate != null and beginDate != '' ">
+                AND tod.TXN_DT &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND tod.TXN_DT &lt;= #{endDate}
+            </if>
+
+    </select>
+
+</mapper>

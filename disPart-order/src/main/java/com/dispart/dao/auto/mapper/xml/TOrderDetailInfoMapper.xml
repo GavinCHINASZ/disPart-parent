@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TOrderDetailInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TOrderDetailInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_order_detail_info-->
+    <id column="ORDER_ID" jdbcType="CHAR" property="orderId" />
+    <result column="PURCH_ID" jdbcType="CHAR" property="purchId" />
+    <result column="PROV_ID" jdbcType="CHAR" property="provId" />
+    <result column="PRDCT_TYPE" jdbcType="VARCHAR" property="prdctType" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="PRDCT_PRICE" jdbcType="DECIMAL" property="prdctPrice" />
+    <result column="PRDCT_NUM" jdbcType="INTEGER" property="prdctNum" />
+    <result column="PRDCT_UNIT" jdbcType="VARCHAR" property="prdctUnit" />
+    <result column="PRDCT_AMT" jdbcType="DECIMAL" property="prdctAmt" />
+    <result column="PROV_NM" jdbcType="VARCHAR" property="provNm" />
+    <result column="PREFER_PRICE" jdbcType="DECIMAL" property="preferPrice" />
+    <result column="ADDIT_AMT" jdbcType="DECIMAL" property="additAmt" />
+    <result column="ORDER_ST" jdbcType="CHAR" property="orderSt" />
+    <result column="ORDER_TM" jdbcType="TIME" property="orderTm" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ORDER_ID, PURCH_ID, PROV_ID, PRDCT_TYPE, PRDCT_NM, PRDCT_PRICE, PRDCT_NUM, PRDCT_UNIT, 
+    PRDCT_AMT, PROV_NM, PREFER_PRICE, ADDIT_AMT, ORDER_ST, ORDER_TM, UPDATE_DT
+  </sql>
+
+
+
+
+</mapper>

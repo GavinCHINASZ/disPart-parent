@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.BillTransInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.PayJrn">
+    <!--@mbg.generated-->
+    <!--@Table t_pay_jrn-->
+    <id column="JRNL_NUM" jdbcType="VARCHAR" property="jrnlNum" />
+    <result column="BUSINESS_NO" jdbcType="VARCHAR" property="businessNo" />
+    <result column="TXN_TYPE" jdbcType="CHAR" property="txnType" />
+    <result column="TRANS_MD" jdbcType="VARCHAR" property="transMd" />
+    <result column="TXN_TM" jdbcType="TIMESTAMP" property="txnTm" />
+    <result column="TXN_AMT" jdbcType="DECIMAL" property="txnAmt" />
+    <result column="PAYER_NO" jdbcType="VARCHAR" property="payerNo" />
+    <result column="PAY_NAME" jdbcType="VARCHAR" property="payName" />
+    <result column="PAY_CARD" jdbcType="VARCHAR" property="payCard" />
+    <result column="PAY_ACCT" jdbcType="VARCHAR" property="payAcct" />
+    <result column="PAYEE_NUM" jdbcType="VARCHAR" property="payeeNum" />
+    <result column="PAYEE" jdbcType="VARCHAR" property="payee" />
+    <result column="PAYEE_ACCT" jdbcType="VARCHAR" property="payeeAcct" />
+    <result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    t.JRNL_NUM, t.BUSINESS_NO, t.TXN_TYPE, t.TRANS_MD, t.TXN_TM, t.TXN_AMT, t.PAYER_NO, t.PAY_CARD,
+    t.PAY_ACCT, t.PAYEE_NUM, t.PAYEE_ACCT, t.SUMMARY, t.`STATUS`, t.REMARK, t.CREAT_TIME,
+    t.UP_TIME
+  </sql>
+
+  <select id="getBillTransInfo" parameterType="com.dispart.dto.dataquery.DISP20210355InDto" resultType="com.dispart.dto.dataquery.DISP20210355OutDto">
+    SELECT <include refid="Base_Column_List"></include>,POS_ORDER_ID posOrderId, t.CHARGES extraAmt, e.EMP_NM operId, c1.PROV_NM payName,c2.PROV_NM payee
+    FROM t_pay_jrn t
+    LEFT JOIN t_employee_info e on t.OPER_ID = e.EMP_ID
+    LEFT JOIN t_custom_info_manager c1 on t.PAYER_NO = c1.PROV_ID
+    LEFT JOIN t_custom_info_manager c2 on t.PAYEE_NUM = c2.PROV_ID
+    where (t.TXN_TYPE = '4' or t.TXN_TYPE = '6')
+    <if test="txnType != null and txnType != ''">AND t.TXN_TYPE = #{txnType}</if>
+    <if test="transMd != null and transMd != ''">AND t.TRANS_MD = #{transMd}</if>
+    <if test="status != null and status != ''">AND t.STATUS = #{status}</if>
+    <if test="provId != null and provId != ''">AND (t.PAYER_NO = #{provId} or t.PAYEE_NUM = #{provId})</if>
+    <if test="beginDate != null and beginDate != ''">AND t.TXN_TM >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= t.TXN_TM</if>
+    <if test="provNm != null and provNm != ''">AND (c1.PROV_NM like #{provNm} or c2.PROV_NM like #{provNm})</if>
+    ORDER BY t.CREAT_TIME DESC
+    <if test="pageSize != null and pageNum != null">limit #{pageNum},#{pageSize}</if>
+  </select>
+
+  <select id="getBillTransInfoCount" parameterType="com.dispart.dto.dataquery.DISP20210355InDto" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM t_pay_jrn t
+    LEFT JOIN t_employee_info e on t.OPER_ID = e.EMP_ID
+    LEFT JOIN t_custom_info_manager c1 on t.PAYER_NO = c1.PROV_ID
+    LEFT JOIN t_custom_info_manager c2 on t.PAYEE_NUM = c2.PROV_ID
+    where (t.TXN_TYPE = '4' or t.TXN_TYPE = '6')
+    <if test="txnType != null and txnType != ''">AND t.TXN_TYPE = #{txnType}</if>
+    <if test="transMd != null and transMd != ''">AND t.TRANS_MD = #{transMd}</if>
+    <if test="status != null and status != ''">AND t.STATUS = #{status}</if>
+    <if test="provId != null and provId != ''">AND (t.PAYER_NO = #{provId} or t.PAYEE_NUM = #{provId})</if>
+    <if test="beginDate != null and beginDate != ''">AND t.TXN_TM >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= t.TXN_TM</if>
+    <if test="provNm != null and provNm != ''">AND (c1.PROV_NM like #{provNm} or c2.PROV_NM like #{provNm})</if>
+  </select>
+</mapper>

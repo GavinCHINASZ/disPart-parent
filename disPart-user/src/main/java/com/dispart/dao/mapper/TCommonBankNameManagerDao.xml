@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TCommonBankNameDao">
+
+    <resultMap id="BaseResultMap" type="com.dispart.vo.user.TCommonBankNameVo">
+        <!--@mbg.generated-->
+        <!--@Table t_common_bank_name-->
+        <id column="BANK_PAY_NO" property="bankPayNo" jdbcType="VARCHAR" />
+        <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <result column="OPER_ID" property="operId" jdbcType="VARCHAR"/>
+
+        <result column="CREAT_TIME" property="creatTime" jdbcType="TIMESTAMP"/>
+        <result column="UP_TIME" property="upTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="tCommonBankNameVoSql">
+        `BANK_PAY_NO`, `BANK_NAME`, `REMARK`, `OPER_ID`, `CREAT_TIME`, `UP_TIME`
+    </sql>
+
+    <!-- 常用银行信息查询 -->
+    <select id="selectTCommonBankNameVoList" resultMap="BaseResultMap">
+        SELECT <include refid="tCommonBankNameVoSql"/>
+        FROM t_common_bank_name;
+    </select>
+
+    <!-- 常用银行信息数量 -->
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_common_bank_name
+    </select>
+</mapper>

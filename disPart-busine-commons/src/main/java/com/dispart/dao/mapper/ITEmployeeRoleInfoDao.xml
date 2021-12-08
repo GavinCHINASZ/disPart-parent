@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.ITEmployeeRoleInfoDao">
+
+    <select id="queryAll"  parameterType="java.util.Map" resultType="com.dispart.dto.auth.TRoleInfoDto">
+        select
+          b.ROLE_ID roleId, b.ORG_ID orgId, b.ROLE_NM roleNm, b.REMARK remark, b.UPDATE_DT updateDt
+        from t_employee_role_info a ,t_role_info b
+        where a.ROLE_ID=b.ROLE_ID and a.EMP_ID=#{empId} and b.CHANL_NO=#{chanlNo}
+    </select>
+
+</mapper>

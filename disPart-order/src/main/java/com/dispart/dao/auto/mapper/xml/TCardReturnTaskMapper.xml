@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TCardReturnTaskMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TCardReturnTask">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_card_return_task-->
+    <id column="TASK_ID" jdbcType="INTEGER" property="taskId" />
+    <result column="TASK_DT" jdbcType="DATE" property="taskDt" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+    <result column="ACCOUNT" jdbcType="VARCHAR" property="account" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="USE_OF" jdbcType="VARCHAR" property="useOf" />
+    <result column="JRNL_NUM" jdbcType="VARCHAR" property="jrnlNum" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="REQUEST_SN" jdbcType="VARCHAR" property="requestSn" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    TASK_ID, TASK_DT, PROV_ID, CARD_NO, ACCOUNT, AMOUNT, USE_OF, JRNL_NUM, `STATUS`, 
+    REQUEST_SN, REMARK, CREAT_TIME, UP_TIME
+  </sql>
+</mapper>

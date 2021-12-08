@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.CarChargeStdManageMapper">
+
+  <insert id="insertCarChargeStd" parameterType="com.dispart.model.base.CarChargeStdManage">
+    insert into t_vechicle_pay_manager(CHRG_ID,VEHICLE_TP,VEHICLE_ID,VEHICLE,CHRG_TP,CHRG_MD,CHRG_ST_TM,CHRG_END_TM,
+    FIXED_CHRG,CHRG_TM,CHRG_RATE,REMARK,OPER_ID,CREAT_TIME,UP_TIME) values (#{carChargeStdManage.chrgId},
+    #{carChargeStdManage.vehicleTp}, #{carChargeStdManage.vehicleId},#{carChargeStdManage.vehicle},#{carChargeStdManage.chrgTp},#{carChargeStdManage.chrgMd},
+    #{carChargeStdManage.chrgStTm},#{carChargeStdManage.chrgEndTm},#{carChargeStdManage.fixedChrg},
+    #{carChargeStdManage.chrgTm},#{carChargeStdManage.chrgRate},#{carChargeStdManage.remark},
+    #{carChargeStdManage.operId},#{carChargeStdManage.creatTime},#{carChargeStdManage.upTime})
+  </insert>
+<!--  <resultMap id="carTypeAndCharge" type="com.dispart.model.base.CarChargeStdManage">
+    <id column="CHRG_ID" property="chrgId"></id>
+    <result column="VEHICLE_ID" property="vehicleId"></result>
+    <result column="VEHICLE" property="vehicle"></result>
+    <result column="CHRG_TP" property="chrgTp"></result>
+    <result column="CHRG_MD" property="chrgMd"></result>
+    <result column="CHRG_ST_TM" property="chrgStTm"></result>
+    <result column="CHRG_END_TM" property="chrgEndTm"></result>
+    <result column="CHRG_TM" property="chrgTm"></result>
+    <result column="CHRG_RATE" property="chrgRate"></result>
+    <result column="REMARK" property="remark"></result>
+    <result column="OPER_ID" property="operId"></result>
+    <result column="CREAT_TIME" property="creatTime"></result>
+    <result column="UP_TIME" property="upTime"></result>
+    <collection property="carTypeManage" ofType="com.dispart.model.base.CarTypeManage">
+      <id column="VEHICLE_TP_ID" property="vehicleTpId"></id>
+      <result column="VEHICLE_ID" property="vehicleId"></result>
+      <result column="VEHICLE_TP" property="vehicleTp"></result>
+      <result column="VEHICLE" property="vehicle"></result>
+    </collection>
+  </resultMap>-->
+<!--  <select id="selectCarChargeStd" resultMap="carTypeAndCharge">
+    select a.CHRG_ID,a.VEHICLE_ID,a.VEHICLE,a.CHRG_TP,a.CHRG_MD,a.CHRG_ST_TM,a.CHRG_END_TM,
+    a.FIXED_CHRG,a.CHRG_TM,a.CHRG_RATE,a.REMARK,a.OPER_ID,a.CREAT_TIME,a.UP_TIME,b.VEHICLE_TP_ID,b.VEHICLE_ID,b.VEHICLE_TP,b.VEHICLE from t_vechicle_pay_manager a left join t_vehicle_manager b
+    on a.VEHICLE=b.VEHICLE  OR a.VEHICLE_TP=b.VEHICLE_TP
+    where 1=1
+    <if test="carChargeStdManage.vehicleId != null and carChargeStdManage.vehicleId != ''"> and b.VEHICLE_ID like "%"#{carChargeStdManage.vehicleId}"%"</if>
+    <if test="carChargeStdManage.vehicleTp != null and carChargeStdManage.vehicleTp != ''">and b.VEHICLE_TP like "%"#{carChargeStdManage.vehicleTp}"%"</if>
+    <if test="carChargeStdManage.vehicle != null and carChargeStdManage.vehicle != ''">and b.VEHICLE like "%"#{carChargeStdManage.vehicle}"%"</if>
+    <if test="carChargeStdManage.pageSize>0">limit #{carChargeStdManage.pageNum,jdbcType=INTEGER},#{carChargeStdManage.pageSize,jdbcType=INTEGER}</if>
+  </select>-->
+  <update id="updateCarChargeStd" parameterType="com.dispart.model.base.CarChargeStdManage">
+    update  t_vechicle_pay_manager set
+    CHRG_MD=#{carChargeStdManage.chrgMd},CHRG_TP=#{carChargeStdManage.chrgTp},CHRG_ST_TM=#{carChargeStdManage.chrgStTm},CHRG_END_TM=#{carChargeStdManage.chrgEndTm},
+    FIXED_CHRG=#{carChargeStdManage.fixedChrg},CHRG_TM=#{carChargeStdManage.chrgTm},CHRG_RATE=#{carChargeStdManage.chrgRate},REMARK=#{carChargeStdManage.remark},
+    OPER_ID=#{carChargeStdManage.operId},UP_TIME=#{carChargeStdManage.upTime} where VEHICLE_ID=#{carChargeAndCarType.vehicleId} and VEHICLE_TP=#{carChargeAndCarType.vehicleTp} and CHRG_ID=#{carChargeStdManage.chrgId}
+  </update>
+  <select id="selectCarChargeStdBychrgId" resultType="com.dispart.model.base.CarChargeStdManage">
+    select * from t_vechicle_pay_manager where CHRG_ID=#{chrgId}
+  </select>
+  <delete id="deleteCarChargeStdByChrgId">
+    delete from t_vechicle_pay_manager where CHRG_ID=#{chrgId}
+  </delete>
+  <select id="selectCarChargeStdCount" resultType="java.lang.Integer">
+    select count(1) from t_vechicle_pay_manager a left join t_vehicle_manager b on a.VEHICLE=b.VEHICLE
+    where b.VEHICLE_ID=#{carChargeStdManage.vehicleId} OR b.VEHICLE_TP=#{carChargeStdManage.vehicleTp} OR b.VEHICLE=#{carChargeStdManage.vehicle}
+  </select>
+  <select id="selectCarChargeStdByVehicleId" resultType="com.dispart.model.base.CarChargeStdManage">
+    select * from t_vechicle_pay_manager where VEHICLE_ID=#{vehicleId} and VEHICLE_TP=#{vehicleTp}
+  </select>
+  <!-- 获取序列员-->
+  <select id="selectEmployeeIdSeq" resultType="Integer">
+        select nextval('chrgId') from dual
+    </select>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.DeviceMapper">
+    <select id="findDevice" resultType="com.dispart.dto.deviceManagerDto.DeviceVo">
+        SELECT
+	        PARAM_NM  paramNm, PARAM_VAL paramVal
+        FROM
+            t_parmeter_info
+        where
+            PARAM_TYPE=#{paramType} AND PARAM_NM=#{paramNm}
+    </select>
+
+
+    <select id="findDeviceIdByCustomer" resultType="java.lang.String">
+        SELECT
+            DEVICE_ID deviceId
+        FROM
+        t_device_manager
+        where
+         CUSTOMER_ID = #{customerId}
+    </select>
+
+    <select id="findReqId" resultType="java.lang.Integer">
+        select nextval(#{seqName})
+    </select>
+    <select id="findYunInfoVo" resultType="com.dispart.dto.deviceManagerDto.YunInfoVo">
+        SELECT c.PROV_ID,sum(c.TXN_AMT) txnAmt,sum(c.ADDIT_AMT) additAmt  from
+        (        SELECT
+        DISTINCT b.ORDER_ID,b.PROV_ID,b.TXN_AMT,b.ADDIT_AMT
+        FROM
+        t_order_relevancy_info a
+        JOIN
+        t_order_detail_info b
+        ON
+        a.MAIN_ORDER_ID=#{mainOrderId} and a.ORDER_ID=b.ORDER_ID ) c GROUP BY c.PROV_ID
+    </select>
+
+</mapper>

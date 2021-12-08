@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TGoodsUnitRelevanceMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.entrance.TGoodsUnitRelevance">
+    <!--@mbg.generated-->
+    <!--@Table t_goods_unit_relevance-->
+    <result column="UNIT_ID" jdbcType="INTEGER" property="unitId" />
+    <result column="WEIGHT" jdbcType="DECIMAL" property="weight" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    UNIT_ID, WEIGHT, REMARK, CREAT_TIME, UP_TIME
+  </sql>
+  <insert id="insert" parameterType="com.dispart.vo.entrance.TGoodsUnitRelevance">
+    <!--@mbg.generated-->
+    insert into t_goods_unit_relevance (UNIT_ID, WEIGHT, REMARK, 
+      CREAT_TIME, UP_TIME)
+    values (#{unitId,jdbcType=INTEGER}, #{weight,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{creatTime,jdbcType=TIMESTAMP}, #{upTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dispart.vo.entrance.TGoodsUnitRelevance">
+    <!--@mbg.generated-->
+    insert into t_goods_unit_relevance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="unitId != null">
+        UNIT_ID,
+      </if>
+      <if test="weight != null">
+        WEIGHT,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="creatTime != null">
+        CREAT_TIME,
+      </if>
+      <if test="upTime != null">
+        UP_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTime != null">
+        #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectByUnitId" resultType="com.dispart.dto.entrance.TGoodsUnitRelevanceDto">
+    select WEIGHT,UNIT_ID,REMARK from t_goods_unit_relevance where
+    UNIT_ID = #{unitId,jdbcType=VARCHAR} order by WEIGHT asc
+  </select>
+
+  <select id="selectByUnitIdCount" resultType="Integer">
+    select count(*) from t_goods_unit_relevance where
+    UNIT_ID = #{unitId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUnitIdAndWeightCount" resultType="Integer">
+    select count(*) from t_goods_unit_relevance where
+    UNIT_ID = #{unitId,jdbcType=VARCHAR}
+    and  WEIGHT = #{weight,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByUnitIdAndWeight" >
+    delete from t_goods_unit_relevance where
+    UNIT_ID = #{unitId,jdbcType=VARCHAR}
+    <if test="weight != null ">
+    and  WEIGHT = #{weight,jdbcType=VARCHAR}
+    </if>
+  </delete>
+</mapper>

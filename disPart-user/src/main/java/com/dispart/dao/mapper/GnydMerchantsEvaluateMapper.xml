@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.GnydMerchantsEvaluateMapper">
+
+  <select id="query" parameterType="com.dispart.dto.GnydMerchantsEvaluateDto"
+          resultType="com.dispart.dto.GnydMerchantsEvaluateDto">
+
+    select
+      PROV_ID as provId,
+      BUSINESS_TYPE as businessType,
+      LEASE_EXPIRES as leaseExpires,
+      SETTLEMENT as settlement,
+      CREDIT as credit,
+      REMARK as remark,
+      OPER_ID as operId,
+      OPERATOR as operator,
+      DEP_ID as depId,
+      SUB_ORG as subOrg,
+      CREAT_TIME as creatTime,
+      UP_TIME as upTime
+    from t_gnyd_merchants_evaluate
+    <where>
+        <if test="provId != null and provId != ''">
+          PROV_ID = #{provId}
+        </if>
+    </where>
+    <if test="pageSize != null and pageNum != null">
+      limit #{pageNum}, #{pageSize}
+    </if>
+  </select>
+
+  <select id="count" parameterType="com.dispart.dto.GnydMerchantsEvaluateDto"
+          resultType="java.lang.Integer">
+    select
+        count(1)
+    from t_gnyd_merchants_evaluate
+    <where>
+      <if test="provId != null and provId != ''">
+        PROV_ID = #{provId}
+      </if>
+    </where>
+  </select>
+
+  <update id="updateEvalteInfo" parameterType="com.dispart.dto.GnydMerchantsEvaluateDto">
+    update t_gnyd_merchants_evaluate
+    <set>
+      <if test="provId != null and provId != ''">
+        PROV_ID = #{provId},
+      </if>
+      <if test="businessType != null and businessType != ''">
+        BUSINESS_TYPE = #{businessType},
+      </if>
+      <if test="leaseExpires != null and leaseExpires != ''">
+        LEASE_EXPIRES = #{leaseExpires},
+      </if>
+      <if test="settlement != null and settlement != ''">
+        SETTLEMENT = #{settlement},
+      </if>
+      <if test="credit != null and credit != ''">
+        CREDIT = #{credit},
+      </if>
+      <if test="remark != null and remark != ''">
+        REMARK = #{remark},
+      </if>
+      <if test="operId != null and operId != ''">
+        OPER_ID = #{operId},
+      </if>
+      <if test="operator != null and operator != ''">
+        OPERATOR = #{operator},
+      </if>
+      <if test="depId != null and depId != ''">
+        DEP_ID = #{depId},
+      </if>
+      <if test="subOrg != null and subOrg != ''">
+        SUB_ORG = #{subOrg}
+      </if>
+    </set>
+    where PROV_ID = #{provId}
+  </update>
+
+
+  <insert id="addEvalteInfo" parameterType="com.dispart.dto.GnydMerchantsEvaluateDto">
+    insert into t_gnyd_merchants_evaluate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="provId != null and provId != ''">
+        PROV_ID,
+      </if>
+      <if test="businessType != null and businessType != ''">
+        BUSINESS_TYPE,
+      </if>
+      <if test="leaseExpires != null and leaseExpires != ''">
+        LEASE_EXPIRES,
+      </if>
+      <if test="settlement != null and settlement != ''">
+        SETTLEMENT,
+      </if>
+      <if test="credit != null and credit != ''">
+        CREDIT,
+      </if>
+      <if test="remark != null and remark != ''">
+        REMARK,
+      </if>
+      <if test="operId != null and operId != ''">
+        OPER_ID,
+      </if>
+      <if test="operator != null and operator != ''">
+        OPERATOR,
+      </if>
+      <if test="depId != null and depId != ''">
+        DEP_ID,
+      </if>
+      <if test="subOrg != null and subOrg != ''">
+        SUB_ORG
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="provId != null and provId != ''">
+        provId,
+      </if>
+      <if test="businessType != null and businessType != ''">
+        businessType,
+      </if>
+      <if test="leaseExpires != null and leaseExpires != ''">
+        leaseExpires,
+      </if>
+      <if test="settlement != null and settlement != ''">
+        settlement,
+      </if>
+      <if test="credit != null and credit != ''">
+        credit,
+      </if>
+      <if test="remark != null and remark != ''">
+        remark,
+      </if>
+      <if test="operId != null and operId != ''">
+        operId,
+      </if>
+      <if test="operator != null and operator != ''">
+        operator,
+      </if>
+      <if test="depId != null and depId != ''">
+        depId,
+      </if>
+      <if test="subOrg != null and subOrg != ''">
+        subOrg
+      </if>
+    </trim>
+  </insert>
+</mapper>

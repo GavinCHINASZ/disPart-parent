@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TRoleMenuInfoDao">
+    <resultMap type="com.dispart.vo.commons.TRoleMenuInfo" id="TRoleMenuInfoMap">
+        <result property="roleId" column="ROLE_ID" jdbcType="VARCHAR"/>
+        <result property="menuId" column="MENU_ID" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="dataParm" column="DATA_PARM" jdbcType="VARCHAR"/>
+        <result property="updateDt" column="UPDATE_DT" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TRoleMenuInfoMap">
+        select
+          ROLE_ID, MENU_ID, REMARK, DATA_PARM, UPDATE_DT
+        from logistics.t_role_menu_info
+        <where>
+            <if test="roleId != null and roleId != ''">
+                and ROLE_ID = #{roleId}
+            </if>
+            <if test="menuId != null and menuId != ''">
+                and MENU_ID = #{menuId}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK = #{remark}
+            </if>
+            <if test="dataParm != null and dataParm != ''">
+                and DATA_PARM = #{dataParm}
+            </if>
+            <if test="updateDt != null">
+                and UPDATE_DT = #{updateDt}
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>

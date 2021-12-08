@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TransactionQueryMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.PayJrn">
+    <!--@mbg.generated-->
+    <!--@Table t_pay_jrn-->
+    <id column="JRNL_NUM" property="jrnlNum" />
+    <result column="BUSINESS_NO" property="businessNo" />
+    <result column="TXN_TYPE" property="txnType" />
+    <result column="TRANS_MD" property="transMd" />
+    <result column="TXN_TM" property="txnTm" />
+    <result column="TXN_AMT" property="txnAmt" />
+    <result column="CHARGES" property="charges" />
+    <result column="RATE" property="rate" />
+    <result column="PAYER_NO" property="payerNo" />
+    <result column="PAY_NAME" property="payName" />
+    <result column="PAY_CARD" property="payCard" />
+    <result column="PAY_ACCT" property="payAcct" />
+    <result column="PAYEE_NUM" property="payeeNum" />
+    <result column="PAYEE" property="payee" />
+    <result column="PAYEE_CARD" property="payeeCard" />
+    <result column="PAYEE_ACCT" property="payeeAcct" />
+    <result column="MAIN_ORDER_ID" property="mainOrderId" />
+    <result column="POS_ORDER_ID" property="posOrderId" />
+    <result column="SUMMARY" property="summary" />
+    <result column="CREDIT_NO" property="creditNo" />
+    <result column="DISCOUNT_ID" property="discountId" />
+    <result column="STATUS" property="status" />
+    <result column="REMARK" property="remark" />
+    <result column="OPER_ID" property="operId" />
+    <result column="CREAT_TIME" property="creatTime" />
+    <result column="UP_TIME" property="upTime" />
+    <result column="CHANL_NO" property="chanlNo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    JRNL_NUM, BUSINESS_NO, TXN_TYPE, TRANS_MD, TXN_TM, TXN_AMT, CHARGES, RATE, PAYER_NO,
+    PAY_NAME, PAY_CARD, PAY_ACCT, PAYEE_NUM, PAYEE, PAYEE_CARD, PAYEE_ACCT, MAIN_ORDER_ID,
+    POS_ORDER_ID, SUMMARY, CREDIT_NO, DISCOUNT_ID, `STATUS`, REMARK, OPER_ID, CREAT_TIME,
+    UP_TIME, CHANL_NO
+  </sql>
+
+  <select id="transQueryCount" parameterType="com.dispart.dto.transactionDto.TransactionSelectInDto" resultType="java.lang.Integer">
+    select DISTINCT count(*)
+    from t_pay_jrn p
+    LEFT JOIN t_custom_info_manager c ON p.PAYER_NO = c.PROV_ID
+    LEFT JOIN t_employee_info e ON e.EMP_ID = p.OPER_ID
+    where p.TXN_TYPE = #{txnType,jdbcType=VARCHAR}
+    <if test="appSelectKey != null and appSelectKey != ''">
+        AND
+        (
+            p.PAY_CARD like concat('%',#{appSelectKey},'%')
+            or c.PROV_NM like concat('%',#{appSelectKey},'%')
+        )
+    </if>
+    <if test="operNm != null and operNm != ''">AND e.EMP_NM like CONCAT('%',#{operNm},'%')</if>
+    <if test="payCard != null and payCard != ''">AND p.PAY_CARD like concat('%',#{payCard},'%')</if>
+    <if test="payName != null and payName != ''">AND c.PROV_NM like concat('%',#{payName},'%')</if>
+    <if test="jrnlNum != null and jrnlNum != ''">AND p.JRNL_NUM like concat('%',#{jrnlNum},'%')</if>
+    <if test="transMd != null and transMd != ''">AND p.TRANS_MD = #{transMd,jdbcType=VARCHAR}</if>
+    <if test="status != null and status != ''">AND p.STATUS = #{status,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND p.TXN_TM >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= p.TXN_TM </if>
+    <if test="payerNo != null and payerNo != ''">AND p.PAYER_NO = #{payerNo,jdbcType=VARCHAR}</if>
+  </select>
+
+  <select id="transQuery" parameterType="com.dispart.dto.transactionDto.TransactionSelectInDto" resultType="com.dispart.model.PayJrn">
+    SELECT DISTINCT
+    p.JRNL_NUM jrnlNum, p.BUSINESS_NO businessNo, p.TXN_TYPE txnType, p.TRANS_MD transMd, p.TXN_TM txnTm, p.TXN_AMT txnAmt,
+    p.PAYER_NO payerNo, c.PROV_NM payName, p.PAY_CARD payCard,
+    p.PAY_ACCT payAcct, p.PAYEE_NUM payeeNum, p.PAYEE payee, p.PAYEE_ACCT payeeAcct, p.SUMMARY summary, p.STATUS status,
+    p.REMARK remark, e.EMP_NM operId, p.CREAT_TIME creatTime,p.UP_TIME upTime
+    from t_pay_jrn p
+    LEFT JOIN t_custom_info_manager c ON p.PAYER_NO = c.PROV_ID
+	LEFT JOIN t_employee_info e ON e.EMP_ID = p.OPER_ID
+    where p.TXN_TYPE = #{txnType,jdbcType=VARCHAR}
+    <if test="appSelectKey != null and appSelectKey != ''">
+        AND
+        (
+            p.PAY_CARD like concat('%',#{appSelectKey},'%')
+            or c.PROV_NM like concat('%',#{appSelectKey},'%')
+        )
+    </if>
+    <if test="operNm != null and operNm != ''">AND e.EMP_NM like CONCAT('%',#{operNm},'%')</if>
+    <if test="payCard != null and payCard != ''">AND p.PAY_CARD like concat('%',#{payCard},'%')</if>
+    <if test="payName != null and payName != ''">AND c.PROV_NM like concat('%',#{payName},'%')</if>
+    <if test="jrnlNum != null and jrnlNum != ''">AND p.JRNL_NUM like concat('%',#{jrnlNum},'%')</if>
+    <if test="transMd != null and transMd != ''">AND p.TRANS_MD = #{transMd,jdbcType=VARCHAR}</if>
+    <if test="status != null and status != ''">AND p.STATUS = #{status,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND p.TXN_TM >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= p.TXN_TM </if>
+    <if test="payerNo != null and payerNo != ''">AND p.PAYER_NO = #{payerNo,jdbcType=VARCHAR}</if>
+    ORDER BY p.CREAT_TIME DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}</if>
+
+  </select>
+
+  <select id="chargeTransQueryCount" parameterType="com.dispart.dto.transactionDto.TransactionSelectInDto" resultType="java.lang.Integer">
+    SELECT DISTINCT count(*)
+    from t_pay_jrn p
+    LEFT JOIN t_custom_info_manager c ON p.PAYER_NO = c.PROV_ID
+    LEFT JOIN t_employee_info e ON e.EMP_ID = p.OPER_ID
+    where
+    (p.TXN_TYPE = '0' or p.TXN_TYPE = '12')
+    <if test="txnType != null and txnType != ''">AND p.TXN_TYPE = #{txnType}</if>
+    <if test="appSelectKey != null and appSelectKey != ''">
+        AND
+        (
+            p.PAYEE_CARD like concat('%',#{appSelectKey},'%')
+            or c.PROV_NM like concat('%',#{appSelectKey},'%')
+        )
+    </if>
+    <if test="operNm != null and operNm != ''">AND e.EMP_NM like concat('%',#{operNm},'%')</if>
+    <if test="payCard != null and payCard != ''">AND p.PAYEE_CARD like concat('%',#{payCard},'%')</if>
+    <if test="payName != null and payName != ''">AND c.PROV_NM like concat('%',#{payName},'%')</if>
+    <if test="jrnlNum != null and jrnlNum != ''">AND p.JRNL_NUM like concat('%',#{jrnlNum},'%')</if>
+    <if test="transMd != null and transMd != ''">AND p.TRANS_MD = #{transMd,jdbcType=VARCHAR}</if>
+    <if test="status != null and status != ''">AND p.STATUS = #{status,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND p.TXN_TM >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= p.TXN_TM </if>
+    <if test="payerNo != null and payerNo != ''">AND p.PAYER_NO = #{payerNo,jdbcType=VARCHAR}</if>
+  </select>
+
+  <select id="chargeTransQuery" parameterType="com.dispart.dto.transactionDto.TransactionSelectInDto" resultType="com.dispart.dto.transactionDto.ChargeQueryOutDto">
+    SELECT DISTINCT
+    p.JRNL_NUM jrnlNum, p.BUSINESS_NO businessNo, p.TXN_TYPE txnType, p.TRANS_MD transMd, p.TXN_TM txnTm, p.TXN_AMT txnAmt,
+    p.PAYER_NO payerNo, c.PROV_NM payName, p.PAYEE_CARD payCard,
+    p.PAY_ACCT payAcct, p.PAYEE_NUM payeeNum, p.PAYEE payee, p.PAYEE_ACCT payeeAcct, p.SUMMARY summary, p.STATUS status,
+    p.REMARK remark, e.EMP_NM operId, p.CREAT_TIME creatTime,p.UP_TIME upTime, p.POS_ORDER_ID posOrderId, o.PAYMENT_TRACE_ID hsbOrderId,
+	a.CHECK_ST checkSt, e2.EMP_NM checkNm
+    from t_pay_jrn p
+    LEFT JOIN t_order_info o ON p.MAIN_ORDER_ID = o.MAIN_ORDER_ID
+    LEFT JOIN t_custom_info_manager c ON p.PAYER_NO = c.PROV_ID
+    LEFT JOIN t_employee_info e ON e.EMP_ID = p.OPER_ID
+    LEFT JOIN t_accno_reverse_apply a on a.JRNL_NUM = p.BUSINESS_NO
+    LEFT JOIN t_employee_info e2 ON a.CHECK_ID = e2.EMP_ID
+    where
+    (p.TXN_TYPE = '0' or p.TXN_TYPE = '12')
+    <if test="txnType != null and txnType != ''">AND p.TXN_TYPE = #{txnType}</if>
+    <if test="appSelectKey != null and appSelectKey != ''">
+        AND
+        (
+            p.PAYEE_CARD like concat('%',#{appSelectKey},'%')
+            or c.PROV_NM like concat('%',#{appSelectKey},'%')
+        )
+    </if>
+    <if test="operNm != null and operNm != ''">AND e.EMP_NM like concat('%',#{operNm},'%')</if>
+    <if test="payCard != null and payCard != ''">AND p.PAYEE_CARD like concat('%',#{payCard},'%')</if>
+    <if test="payName != null and payName != ''">AND c.PROV_NM like concat('%',#{payName},'%')</if>
+    <if test="jrnlNum != null and jrnlNum != ''">AND p.JRNL_NUM like concat('%',#{jrnlNum},'%')</if>
+    <if test="transMd != null and transMd != ''">AND p.TRANS_MD = #{transMd}</if>
+    <if test="status != null and status != ''">AND p.STATUS = #{status,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND p.TXN_TM >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= p.TXN_TM </if>
+    <if test="payerNo != null and payerNo != ''">AND p.PAYER_NO = #{payerNo}</if>
+    ORDER BY p.CREAT_TIME DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum},#{pageSize}</if>
+
+  </select>
+
+  <select id="areaInOutQueryCount" parameterType="com.dispart.dto.transactionDto.TransactionSelectInDto" resultType="java.lang.Integer">
+    SELECT DISTINCT count(*)
+    from t_pay_jrn p
+    LEFT JOIN t_custom_info_manager c ON p.PAYER_NO = c.PROV_ID
+    LEFT JOIN t_custom_info_manager c1 ON p.PAYEE_NUM = c1.PROV_ID
+    LEFT JOIN t_vechicle_procurer v ON p.BUSINESS_NO = v.IN_ID
+    LEFT JOIN t_employee_info e ON e.EMP_ID = p.OPER_ID
+    WHERE (p.TXN_TYPE = '2' or p.TXN_TYPE = '3' or p.TXN_TYPE = '10' or p.TXN_TYPE = '16')
+    <if test="appSelectKey != null and appSelectKey != ''">
+        AND
+        (
+            p.PAY_CARD like concat('%',#{appSelectKey},'%')
+            or c.PROV_NM like concat('%',#{appSelectKey},'%')
+        )
+    </if>
+    <if test="vehicleNum != null and vehicleNum != ''">AND v.VEHICLE_NUM like concat('%',#{vehicleNum},'%')</if>
+    <if test="txnType != null and txnType != ''">AND p.TXN_TYPE = #{txnType} </if>
+    <if test="operNm != null and operNm != ''">AND e.EMP_NM like concat('%',#{operNm},'%')</if>
+    <if test="payCard != null and payCard != ''">AND p.PAY_CARD like concat('%',#{payCard},'%')</if>
+    <if test="payName != null and payName != ''">
+        AND (
+				c.PROV_NM like concat('%',#{payName},'%')
+				or c1.PROV_NM like concat('%',#{payName},'%')
+		)
+    </if>
+    <if test="jrnlNum != null and jrnlNum != ''">AND p.JRNL_NUM like concat('%',#{jrnlNum},'%')</if>
+    <if test="transMd != null and transMd != ''">AND p.TRANS_MD = #{transMd,jdbcType=VARCHAR}</if>
+    <if test="status != null and status != ''">AND p.STATUS = #{status,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND CONVERT(p.TXN_TM,date) >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= CONVERT(p.TXN_TM,date) </if>
+    <if test="payerNo != null and payerNo != ''">AND p.PAYER_NO = #{payerNo,jdbcType=VARCHAR}</if>
+    <if test="businessNum != null and businessNum != ''">AND p.BUSINESS_NO like concat('%',#{businessNum},'%')</if>
+  </select>
+
+  <select id="areaInOutQuery" parameterType="com.dispart.dto.transactionDto.TransactionSelectInDto" resultType="com.dispart.dto.dataquery.DISP20210216OutDto">
+    SELECT DISTINCT
+    p.JRNL_NUM jrnlNum, p.BUSINESS_NO businessNo, p.TXN_TYPE txnType, p.TRANS_MD transMd, p.TXN_TM txnTm, p.TXN_AMT txnAmt,
+    p.PAYER_NO payerNo, c.PROV_NM payName, p.PAY_CARD payCard,
+    p.PAY_ACCT payAcct, p.PAYEE_NUM payeeNum, p.PAYEE payee, p.PAYEE_ACCT payeeAcct, p.SUMMARY summary, p.STATUS status,
+    p.REMARK remark, p.CREAT_TIME creatTime,p.UP_TIME upTime, e.EMP_NM operId,
+    v.VEHICLE_NUM vehicleNum, v.IN_TIME inTime, v.OUT_TIME outTime, c1.PROV_NM payeeName
+    from t_pay_jrn p
+    LEFT JOIN t_custom_info_manager c ON p.PAYER_NO = c.PROV_ID
+    LEFT JOIN t_custom_info_manager c1 ON p.PAYEE_NUM = c1.PROV_ID
+    LEFT JOIN t_vechicle_procurer v ON p.BUSINESS_NO = v.IN_ID
+    LEFT JOIN t_employee_info e ON e.EMP_ID = p.OPER_ID
+    WHERE (p.TXN_TYPE = '2' or p.TXN_TYPE = '3' or p.TXN_TYPE = '10' or p.TXN_TYPE = '16')
+    <if test="appSelectKey != null and appSelectKey != ''">
+        AND
+        (
+            p.PAY_CARD like concat('%',#{appSelectKey},'%')
+            or c.PROV_NM like concat('%',#{appSelectKey},'%')
+        )
+    </if>
+    <if test="vehicleNum != null and vehicleNum != ''">AND v.VEHICLE_NUM like concat('%',#{vehicleNum},'%')</if>
+    <if test="txnType != null and txnType != ''">AND p.TXN_TYPE = #{txnType} </if>
+    <if test="operNm != null and operNm != ''">AND e.EMP_NM like concat('%',#{operNm},'%')</if>
+    <if test="payCard != null and payCard != ''">AND p.PAY_CARD like concat('%',#{payCard},'%')</if>
+    <if test="payName != null and payName != ''">
+        AND (
+				c.PROV_NM like concat('%',#{payName},'%')
+				or c1.PROV_NM like concat('%',#{payName},'%')
+		)
+    </if>
+    <if test="jrnlNum != null and jrnlNum != ''">AND p.JRNL_NUM like concat('%',#{jrnlNum},'%')</if>
+    <if test="transMd != null and transMd != ''">AND p.TRANS_MD = #{transMd,jdbcType=VARCHAR}</if>
+    <if test="status != null and status != ''">AND p.STATUS = #{status,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND CONVERT(p.TXN_TM,date) >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= CONVERT(p.TXN_TM,date) </if>
+    <if test="payerNo != null and payerNo != ''">AND p.PAYER_NO = #{payerNo,jdbcType=VARCHAR}</if>
+    <if test="businessNum != null and businessNum != ''">AND p.BUSINESS_NO like concat('%',#{businessNum},'%')</if>
+    ORDER BY p.CREAT_TIME DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}</if>
+
+  </select>
+
+  <select id="frazeTransQueryCount" parameterType="com.dispart.dto.transactionDto.FrazeTransInDto" resultType="java.lang.Integer">
+    SELECT DISTINCT count(*)
+    FROM t_accno_info_details acc
+    LEFT JOIN t_employee_info emp on emp.EMP_ID = acc.OPER_ID
+    LEFT JOIN t_custom_info_manager cus on cus.PROV_ID = acc.PROV_ID
+    where 1=1
+    <if test="txnType == null or txnType == ''">AND (acc.TXN_TYPE = '1' or acc.TXN_TYPE = '10')</if>
+    <if test="appSelectKey != null and appSelectKey != ''">AND  acc.CARD_NO like concat('%',#{appSelectKey},'%')</if>
+    <if test="cardNo != null and cardNo != ''">AND acc.CARD_NO like concat('%',#{cardNo},'%')</if>
+    <if test="operNm != null and operNm != ''">AND AND emp.EMP_NM LIKE concat('%',#{operNm},'%')</if>
+    <if test="provNm != null and provNm != ''">AND cus.PROV_NM LIKE concat('%',#{provNm},'%')</if>
+    <if test="beginDate != null and beginDate != ''">AND acc.TXN_DT >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= acc.TXN_DT</if>
+    <if test="txnType != null and txnType != ''">AND acc.TXN_TYPE = #{txnType}</if>
+    <if test="provId != null and provId != ''">AND acc.PROV_ID = #{provId,jdbcType=VARCHAR}</if>
+  </select>
+
+  <select id="frazeTransQuery" parameterType="com.dispart.dto.transactionDto.FrazeTransInDto" resultType="com.dispart.dto.transactionDto.FrazeTransOutDto">
+    SELECT DISTINCT
+        acc.ID id,
+        acc.ACCOUNT account,
+        acc.CARD_NO cardNo,
+        acc.PROV_ID provId,
+        cus.PROV_NM provNm,
+        acc.BEFORE_AMT beforAmt,
+        acc.TXN_AMT txnAmt,
+        acc.AFTER_AMT afterAmt,
+        acc.TXN_TYPE txnType,
+        acc.CREAT_TIME txnDt,
+        emp.EMP_NM operNm,
+        acc.REMARK remark
+    FROM t_accno_info_details acc
+    LEFT JOIN t_employee_info emp on emp.EMP_ID = acc.OPER_ID
+    LEFT JOIN t_custom_info_manager cus on cus.PROV_ID = acc.PROV_ID
+    where 1=1
+    <if test="txnType == null or txnType == ''">AND (acc.TXN_TYPE = '1' or acc.TXN_TYPE = '10')</if>
+    <if test="appSelectKey != null and appSelectKey != ''">AND acc.CARD_NO like concat('%',#{appSelectKey},'%')</if>
+    <if test="cardNo != null and cardNo != ''">AND acc.CARD_NO like concat('%',#{cardNo},'%')</if>
+    <if test="operNm != null and operNm != ''">AND AND emp.EMP_NM LIKE concat('%',#{operNm},'%')</if>
+    <if test="provNm != null and provNm != ''">AND cus.PROV_NM LIKE concat('%',#{provNm},'%')</if>
+    <if test="provId != null and provId != ''">AND acc.PROV_ID = #{provId,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND acc.TXN_DT >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= acc.TXN_DT</if>
+    <if test="txnType != null and txnType != ''">AND acc.TXN_TYPE = #{txnType}</if>
+    ORDER BY acc.CREAT_TIME DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}</if>
+  </select>
+
+  <select id="adjustTransQueryCount" parameterType="com.dispart.dto.transactionDto.AdjustTransInDto" resultType="java.lang.Integer">
+    SELECT DISTINCT count(*)
+    FROM t_accno_info_details acc
+    LEFT JOIN t_employee_info emp on emp.EMP_ID = acc.OPER_ID
+    LEFT JOIN t_custom_info_manager cus on cus.PROV_ID = acc.PROV_ID
+    where acc.TXN_TYPE = '2'
+    <if test="appSelectKey != null and appSelectKey != ''">AND acc.CARD_NO like concat('%',#{appSelectKey},'%')</if>
+    <if test="cardNo != null and cardNo != ''">AND acc.CARD_NO like concat('%',#{cardNo},'%')</if>
+    <if test="provNm != null and provNm != ''">AND cus.PROV_NM like  concat('%',#{provNm},'%')</if>
+    <if test="operNm != null and operNm != '' != null and provNm != ''">AND emp.PROV_NM like  concat('%',#{provNm},'%')</if>
+    <if test="operTp != null and operTp != ''">AND acc.OPER_TP = #{operTp,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND acc.TXN_DT >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= acc.TXN_DT</if>
+    <if test="provId != null and provId != ''">AND acc.PROV_ID = #{provId,jdbcType=VARCHAR}</if>
+  </select>
+
+  <select id="adjustTransQuery" parameterType="com.dispart.dto.transactionDto.AdjustTransInDto" resultType="com.dispart.dto.transactionDto.AdjustTransOutDto">
+    SELECT DISTINCT
+        acc.ID id,
+        acc.ACCOUNT account,
+        acc.CARD_NO cardNo,
+        acc.PROV_ID provId,
+        cus.PROV_NM provNm,
+        acc.TXN_AMT txnAmt,
+        acc.OPER_TP operTp,
+        acc.CREAT_TIME txnDt,
+        emp.EMP_NM operNm,
+        acc.REMARK remark
+    FROM t_accno_info_details acc
+    LEFT JOIN t_employee_info emp on emp.EMP_ID = acc.OPER_ID
+    LEFT JOIN t_custom_info_manager cus on cus.PROV_ID = acc.PROV_ID
+    where acc.TXN_TYPE = '2'
+    <if test="appSelectKey != null and appSelectKey != ''">AND acc.CARD_NO like concat('%',#{appSelectKey},'%')</if>
+    <if test="cardNo != null and cardNo != ''">AND acc.CARD_NO like concat('%',#{cardNo},'%')</if>
+    <if test="provNm != null and provNm != ''">AND cus.PROV_NM like concat('%',#{provNm},'%'}</if>
+    <if test="operNm != null and operNm != ''">AND emp.EMP_NM like concat('%',#{operNm},'%')</if>
+    <if test="operTp != null and operTp != ''">AND acc.OPER_TP = #{operTp,jdbcType=VARCHAR}</if>
+    <if test="provId != null and provId != ''">AND acc.PROV_ID = #{provId,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND acc.TXN_DT >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= acc.TXN_DT</if>
+    ORDER BY acc.CREAT_TIME DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}</if>
+
+  </select>
+
+  <select id="getAdjustAmt" parameterType="com.dispart.dto.transactionDto.AdjustTransInDto" resultType="java.math.BigDecimal">
+    SELECT DISTINCT SUM(acc.TXN_AMT) incAmt
+    FROM t_accno_info_details acc
+    LEFT JOIN t_employee_info emp on emp.EMP_ID = acc.OPER_ID
+    LEFT JOIN t_custom_info_manager cus on cus.PROV_ID = acc.PROV_ID
+    where acc.TXN_TYPE = '2'
+    <if test="appSelectKey != null and appSelectKey != ''">AND acc.CARD_NO like concat('%',#{appSelectKey},'%')</if>
+    <if test="cardNo != null and cardNo != ''">AND acc.CARD_NO like concat('%',#{cardNo},'%')</if>
+    <if test="provNm != null and provNm != ''">AND cus.PROV_NM like  concat('%',#{provNm},'%')</if>
+    <if test="operNm != null and operNm != '' != null and provNm != ''">AND emp.PROV_NM like  concat('%',#{provNm},'%')</if>
+    <if test="operTp != null and operTp != ''">AND acc.OPER_TP = #{operTp,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND acc.TXN_DT >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= acc.TXN_DT</if>
+    <if test="provId != null and provId != ''">AND acc.PROV_ID = #{provId,jdbcType=VARCHAR}</if>
+  </select>
+
+  <select id="getAccnoDailyCount" parameterType="com.dispart.dto.dataquery.Disp20210336InDto" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM t_accno_daily d
+    WHERE 1=1
+    <if test="dayDt != null">and d.DAY_DT = #{dayDt}</if>
+  </select>
+
+  <select id="getAccnoDaily" parameterType="com.dispart.dto.dataquery.Disp20210336InDto" resultType="com.dispart.dto.dataquery.Disp20210336OutDto">
+    SELECT d.DAY_DT dayDt, d.CURR_AMT currAmt, d.AVAIL_BAL availBal, d.FREEZE_AMT freezeAmt,
+		   d.DEBIT_AMT debitAmt, d.CREDIT_AMT creditAmt
+    FROM t_accno_daily d
+    WHERE 1=1
+    <if test="dayDt != null">and d.DAY_DT = #{dayDt}</if>
+    ORDER BY d.DAY_DT DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum},#{pageSize}</if>
+  </select>
+
+  <select id="getAccnoRevereApplyInfo" parameterType="com.dispart.dto.transactionDto.TransactionSelectInDto" resultType="com.dispart.dto.transactionDto.ChargeQueryOutDto">
+    SELECT DISTINCT
+    p.JRNL_NUM jrnlNum, p.BUSINESS_NO businessNo, p.TXN_TYPE txnType, p.TRANS_MD transMd, p.TXN_TM txnTm, p.TXN_AMT txnAmt,
+    p.PAYER_NO payerNo, c.PROV_NM payName, p.PAYEE_CARD payCard,
+    p.PAY_ACCT payAcct, p.PAYEE_NUM payeeNum, p.PAYEE payee, p.PAYEE_ACCT payeeAcct, p.SUMMARY summary, p.STATUS status,
+    p.REMARK remark, e.EMP_NM operId, p.CREAT_TIME creatTime,p.UP_TIME upTime, p.POS_ORDER_ID posOrderId, o.PAYMENT_TRACE_ID hsbOrderId,
+	a.ID reservId, a.CHECK_ST checkSt, e2.EMP_NM checkNm
+    from t_accno_reverse_apply a
+    LEFT JOIN t_pay_jrn p on a.JRNL_NUM = p.JRNL_NUM
+    LEFT JOIN t_order_info o on o.MAIN_ORDER_ID = p.MAIN_ORDER_ID
+    LEFT JOIN t_custom_info_manager c ON p.PAYER_NO = c.PROV_ID
+    LEFT JOIN t_employee_info e ON e.EMP_ID = p.OPER_ID
+    LEFT JOIN t_employee_info e2 ON a.CHECK_ID = e2.EMP_ID
+    where 1=1
+    <if test="txnType != null and txnType != ''">AND p.TXN_TYPE = #{txnType}</if>
+    <if test="appSelectKey != null and appSelectKey != ''">
+        AND
+        (
+            p.PAYEE_CARD like concat('%',#{appSelectKey},'%')
+            or c.PROV_NM like concat('%',#{appSelectKey},'%')
+        )
+    </if>
+    <if test="operNm != null and operNm != ''">AND e.EMP_NM like concat('%',#{operNm},'%')</if>
+    <if test="payCard != null and payCard != ''">AND p.PAYEE_CARD like concat('%',#{payCard},'%')</if>
+    <if test="payName != null and payName != ''">AND c.PROV_NM like concat('%',#{payName},'%')</if>
+    <if test="jrnlNum != null and jrnlNum != ''">AND p.JRNL_NUM like concat('%',#{jrnlNum},'%')</if>
+    <if test="transMd != null and transMd != ''">AND p.TRANS_MD = #{transMd}</if>
+    <if test="status != null and status != ''">AND a.CHECK_ST = #{status,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND p.TXN_TM >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= p.TXN_TM </if>
+    <if test="payerNo != null and payerNo != ''">AND p.PAYER_NO = #{payerNo}</if>
+    ORDER BY p.CREAT_TIME DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum},#{pageSize}</if>
+
+  </select>
+
+  <select id="getAccnoRevereApplyCount" parameterType="com.dispart.dto.transactionDto.TransactionSelectInDto" resultType="java.lang.Integer">
+    SELECT DISTINCT count(*)
+    from t_accno_reverse_apply a
+    LEFT JOIN t_pay_jrn p on a.JRNL_NUM = p.JRNL_NUM
+    LEFT JOIN t_custom_info_manager c ON p.PAYER_NO = c.PROV_ID
+    LEFT JOIN t_employee_info e ON e.EMP_ID = p.OPER_ID
+    LEFT JOIN t_employee_info e2 ON a.CHECK_ID = e2.EMP_ID
+    where 1=1
+    <if test="txnType != null and txnType != ''">AND p.TXN_TYPE = #{txnType}</if>
+    <if test="appSelectKey != null and appSelectKey != ''">
+        AND
+        (
+            p.PAYEE_CARD like concat('%',#{appSelectKey},'%')
+            or c.PROV_NM like concat('%',#{appSelectKey},'%')
+        )
+    </if>
+    <if test="operNm != null and operNm != ''">AND e.EMP_NM like concat('%',#{operNm},'%')</if>
+    <if test="payCard != null and payCard != ''">AND p.PAYEE_CARD like concat('%',#{payCard},'%')</if>
+    <if test="payName != null and payName != ''">AND c.PROV_NM like concat('%',#{payName},'%')</if>
+    <if test="jrnlNum != null and jrnlNum != ''">AND p.JRNL_NUM like concat('%',#{jrnlNum},'%')</if>
+    <if test="transMd != null and transMd != ''">AND p.TRANS_MD = #{transMd,jdbcType=VARCHAR}</if>
+    <if test="status != null and status != ''">AND a.CHECK_ST = #{status,jdbcType=VARCHAR}</if>
+    <if test="beginDate != null and beginDate != ''">AND p.TXN_TM >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= p.TXN_TM </if>
+    <if test="payerNo != null and payerNo != ''">AND p.PAYER_NO = #{payerNo,jdbcType=VARCHAR}</if>
+  </select>
+
+</mapper>

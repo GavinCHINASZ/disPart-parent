@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TVehicleBlacklistMapper">
+    <select id="selectByPk" resultType="com.dispart.vo.entrance.TVehicleBlacklist" >
+        select *
+        from t_vehicle_blacklist
+        where VEHICEL_NUM = #{vehicleNum} and TYPE = '0'
+    </select>
+</mapper>

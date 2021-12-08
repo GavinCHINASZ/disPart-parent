@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.mapper.auto.dao.BaseMerchantDao">
+
+    <resultMap type="com.disPart.dao.mapper.auto.entity.BaseMerchant" id="BaseMerchantMap">
+        <result property="merchantcode" column="merchantcode" jdbcType="VARCHAR"/>
+        <result property="companytype" column="companytype" jdbcType="VARCHAR"/>
+        <result property="merchanttype" column="merchanttype" jdbcType="VARCHAR"/>
+        <result property="idtcode" column="idtcode" jdbcType="VARCHAR"/>
+        <result property="ename" column="ename" jdbcType="VARCHAR"/>
+        <result property="cname" column="cname" jdbcType="VARCHAR"/>
+        <result property="rname" column="rname" jdbcType="VARCHAR"/>
+        <result property="taxno" column="taxno" jdbcType="VARCHAR"/>
+        <result property="bankno" column="bankno" jdbcType="VARCHAR"/>
+        <result property="bankacct" column="bankacct" jdbcType="VARCHAR"/>
+        <result property="areacode" column="areacode" jdbcType="VARCHAR"/>
+        <result property="telno" column="telno" jdbcType="VARCHAR"/>
+        <result property="faxno" column="faxno" jdbcType="VARCHAR"/>
+        <result property="zipno" column="zipno" jdbcType="VARCHAR"/>
+        <result property="ceo" column="ceo" jdbcType="VARCHAR"/>
+        <result property="contacts" column="contacts" jdbcType="VARCHAR"/>
+        <result property="settleaccno" column="settleaccno" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="levnum" column="levnum" jdbcType="VARCHAR"/>
+        <result property="merchantcodeF" column="merchantcode_f" jdbcType="VARCHAR"/>
+        <result property="sumflg" column="sumflg" jdbcType="VARCHAR"/>
+        <result property="isstore" column="isstore" jdbcType="VARCHAR"/>
+        <result property="memo" column="memo" jdbcType="VARCHAR"/>
+        <result property="entdate" column="entdate" jdbcType="OTHER"/>
+        <result property="upddate" column="upddate" jdbcType="OTHER"/>
+        <result property="operator" column="operator" jdbcType="VARCHAR"/>
+        <result property="auditing" column="auditing" jdbcType="VARCHAR"/>
+        <result property="orgcode" column="orgcode" jdbcType="VARCHAR"/>
+        <result property="abbreviation" column="abbreviation" jdbcType="VARCHAR"/>
+        <result property="settlebankno" column="settlebankno" jdbcType="VARCHAR"/>
+        <result property="settlebankacct" column="settlebankacct" jdbcType="VARCHAR"/>
+        <result property="riskctrlid" column="riskctrlid" jdbcType="INTEGER"/>
+        <result property="ceotelno" column="ceotelno" jdbcType="VARCHAR"/>
+        <result property="contactstelno" column="contactstelno" jdbcType="VARCHAR"/>
+        <result property="opendate" column="opendate" jdbcType="OTHER"/>
+        <result property="ceoid" column="ceoid" jdbcType="VARCHAR"/>
+        <result property="banknetname" column="banknetname" jdbcType="VARCHAR"/>
+        <result property="cardcode" column="cardcode" jdbcType="VARCHAR"/>
+        <result property="idcard" column="idcard" jdbcType="VARCHAR"/>
+        <result property="merchantcodeM" column="merchantcode_m" jdbcType="VARCHAR"/>
+        <result property="isrealname" column="isrealname" jdbcType="VARCHAR"/>
+        <result property="ceoaddress" column="ceoaddress" jdbcType="VARCHAR"/>
+        <result property="contactaddress" column="contactaddress" jdbcType="VARCHAR"/>
+        <result property="positivePhone" column="positive_phone" jdbcType="VARCHAR"/>
+        <result property="oppositePhone" column="opposite_phone" jdbcType="VARCHAR"/>
+        <result property="rebackAmount" column="reback_amount" jdbcType="NUMERIC"/>
+        <result property="amount" column="amount" jdbcType="NUMERIC"/>
+        <result property="isAdvance" column="is_advance" jdbcType="VARCHAR"/>
+        <result property="text1" column="text1" jdbcType="VARCHAR"/>
+        <result property="text2" column="text2" jdbcType="VARCHAR"/>
+        <result property="saleaddress" column="saleaddress" jdbcType="VARCHAR"/>
+        <result property="legalname" column="legalname" jdbcType="VARCHAR"/>
+        <result property="legaltel" column="legaltel" jdbcType="VARCHAR"/>
+        <result property="entrustname" column="entrustname" jdbcType="VARCHAR"/>
+        <result property="entrusttel" column="entrusttel" jdbcType="VARCHAR"/>
+        <result property="entrustid" column="entrustid" jdbcType="VARCHAR"/>
+        <result property="entrustaddress" column="entrustaddress" jdbcType="VARCHAR"/>
+        <result property="entrusttype" column="entrusttype" jdbcType="VARCHAR"/>
+        <result property="entrustdate" column="entrustdate" jdbcType="OTHER"/>
+        <result property="businessSector" column="business_sector" jdbcType="VARCHAR"/>
+        <result property="mnemonicCode" column="mnemonic_code" jdbcType="VARCHAR"/>
+        <result property="qrcode" column="qrcode" jdbcType="OTHER"/>
+        <result property="qrcodeUrl" column="qrcode_url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseMerchantMap">
+        select
+          merchantcode, companytype, merchanttype, idtcode, ename, cname, rname, taxno, bankno, bankacct, areacode, telno, faxno, zipno, ceo, contacts, settleaccno, status, levnum, merchantcode_f, sumflg, isstore, memo, entdate, upddate, operator, auditing, orgcode, abbreviation, settlebankno, settlebankacct, riskctrlid, ceotelno, contactstelno, opendate, ceoid, banknetname, cardcode, idcard, merchantcode_m, isrealname, ceoaddress, contactaddress, positive_phone, opposite_phone, reback_amount, amount, is_advance, text1, text2, saleaddress, legalname, legaltel, entrustname, entrusttel, entrustid, entrustaddress, entrusttype, entrustdate, business_sector, mnemonic_code, qrcode, qrcode_url
+        from logistics.base_merchant
+        where merchantcode = #{merchantcode}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseMerchantMap">
+        select
+          merchantcode, companytype, merchanttype, idtcode, ename, cname, rname, taxno, bankno, bankacct, areacode, telno, faxno, zipno, ceo, contacts, settleaccno, status, levnum, merchantcode_f, sumflg, isstore, memo, entdate, upddate, operator, auditing, orgcode, abbreviation, settlebankno, settlebankacct, riskctrlid, ceotelno, contactstelno, opendate, ceoid, banknetname, cardcode, idcard, merchantcode_m, isrealname, ceoaddress, contactaddress, positive_phone, opposite_phone, reback_amount, amount, is_advance, text1, text2, saleaddress, legalname, legaltel, entrustname, entrusttel, entrustid, entrustaddress, entrusttype, entrustdate, business_sector, mnemonic_code, qrcode, qrcode_url
+        from logistics.base_merchant
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseMerchantMap">
+        select
+          merchantcode, companytype, merchanttype, idtcode, ename, cname, rname, taxno, bankno, bankacct, areacode, telno, faxno, zipno, ceo, contacts, settleaccno, status, levnum, merchantcode_f, sumflg, isstore, memo, entdate, upddate, operator, auditing, orgcode, abbreviation, settlebankno, settlebankacct, riskctrlid, ceotelno, contactstelno, opendate, ceoid, banknetname, cardcode, idcard, merchantcode_m, isrealname, ceoaddress, contactaddress, positive_phone, opposite_phone, reback_amount, amount, is_advance, text1, text2, saleaddress, legalname, legaltel, entrustname, entrusttel, entrustid, entrustaddress, entrusttype, entrustdate, business_sector, mnemonic_code, qrcode, qrcode_url
+        from logistics.base_merchant
+        <where>
+            <if test="merchantcode != null and merchantcode != ''">
+                and merchantcode = #{merchantcode}
+            </if>
+            <if test="companytype != null and companytype != ''">
+                and companytype = #{companytype}
+            </if>
+            <if test="merchanttype != null and merchanttype != ''">
+                and merchanttype = #{merchanttype}
+            </if>
+            <if test="idtcode != null and idtcode != ''">
+                and idtcode = #{idtcode}
+            </if>
+            <if test="ename != null and ename != ''">
+                and ename = #{ename}
+            </if>
+            <if test="cname != null and cname != ''">
+                and cname = #{cname}
+            </if>
+            <if test="rname != null and rname != ''">
+                and rname = #{rname}
+            </if>
+            <if test="taxno != null and taxno != ''">
+                and taxno = #{taxno}
+            </if>
+            <if test="bankno != null and bankno != ''">
+                and bankno = #{bankno}
+            </if>
+            <if test="bankacct != null and bankacct != ''">
+                and bankacct = #{bankacct}
+            </if>
+            <if test="areacode != null and areacode != ''">
+                and areacode = #{areacode}
+            </if>
+            <if test="telno != null and telno != ''">
+                and telno = #{telno}
+            </if>
+            <if test="faxno != null and faxno != ''">
+                and faxno = #{faxno}
+            </if>
+            <if test="zipno != null and zipno != ''">
+                and zipno = #{zipno}
+            </if>
+            <if test="ceo != null and ceo != ''">
+                and ceo = #{ceo}
+            </if>
+            <if test="contacts != null and contacts != ''">
+                and contacts = #{contacts}
+            </if>
+            <if test="settleaccno != null and settleaccno != ''">
+                and settleaccno = #{settleaccno}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="levnum != null and levnum != ''">
+                and levnum = #{levnum}
+            </if>
+            <if test="merchantcodeF != null and merchantcodeF != ''">
+                and merchantcode_f = #{merchantcodeF}
+            </if>
+            <if test="sumflg != null and sumflg != ''">
+                and sumflg = #{sumflg}
+            </if>
+            <if test="isstore != null and isstore != ''">
+                and isstore = #{isstore}
+            </if>
+            <if test="memo != null and memo != ''">
+                and memo = #{memo}
+            </if>
+            <if test="entdate != null">
+                and entdate = #{entdate}
+            </if>
+            <if test="upddate != null">
+                and upddate = #{upddate}
+            </if>
+            <if test="operator != null and operator != ''">
+                and operator = #{operator}
+            </if>
+            <if test="auditing != null and auditing != ''">
+                and auditing = #{auditing}
+            </if>
+            <if test="orgcode != null and orgcode != ''">
+                and orgcode = #{orgcode}
+            </if>
+            <if test="abbreviation != null and abbreviation != ''">
+                and abbreviation = #{abbreviation}
+            </if>
+            <if test="settlebankno != null and settlebankno != ''">
+                and settlebankno = #{settlebankno}
+            </if>
+            <if test="settlebankacct != null and settlebankacct != ''">
+                and settlebankacct = #{settlebankacct}
+            </if>
+            <if test="riskctrlid != null">
+                and riskctrlid = #{riskctrlid}
+            </if>
+            <if test="ceotelno != null and ceotelno != ''">
+                and ceotelno = #{ceotelno}
+            </if>
+            <if test="contactstelno != null and contactstelno != ''">
+                and contactstelno = #{contactstelno}
+            </if>
+            <if test="opendate != null">
+                and opendate = #{opendate}
+            </if>
+            <if test="ceoid != null and ceoid != ''">
+                and ceoid = #{ceoid}
+            </if>
+            <if test="banknetname != null and banknetname != ''">
+                and banknetname = #{banknetname}
+            </if>
+            <if test="cardcode != null and cardcode != ''">
+                and cardcode = #{cardcode}
+            </if>
+            <if test="idcard != null and idcard != ''">
+                and idcard = #{idcard}
+            </if>
+            <if test="merchantcodeM != null and merchantcodeM != ''">
+                and merchantcode_m = #{merchantcodeM}
+            </if>
+            <if test="isrealname != null and isrealname != ''">
+                and isrealname = #{isrealname}
+            </if>
+            <if test="ceoaddress != null and ceoaddress != ''">
+                and ceoaddress = #{ceoaddress}
+            </if>
+            <if test="contactaddress != null and contactaddress != ''">
+                and contactaddress = #{contactaddress}
+            </if>
+            <if test="positivePhone != null and positivePhone != ''">
+                and positive_phone = #{positivePhone}
+            </if>
+            <if test="oppositePhone != null and oppositePhone != ''">
+                and opposite_phone = #{oppositePhone}
+            </if>
+            <if test="rebackAmount != null">
+                and reback_amount = #{rebackAmount}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+            <if test="isAdvance != null and isAdvance != ''">
+                and is_advance = #{isAdvance}
+            </if>
+            <if test="text1 != null and text1 != ''">
+                and text1 = #{text1}
+            </if>
+            <if test="text2 != null and text2 != ''">
+                and text2 = #{text2}
+            </if>
+            <if test="saleaddress != null and saleaddress != ''">
+                and saleaddress = #{saleaddress}
+            </if>
+            <if test="legalname != null and legalname != ''">
+                and legalname = #{legalname}
+            </if>
+            <if test="legaltel != null and legaltel != ''">
+                and legaltel = #{legaltel}
+            </if>
+            <if test="entrustname != null and entrustname != ''">
+                and entrustname = #{entrustname}
+            </if>
+            <if test="entrusttel != null and entrusttel != ''">
+                and entrusttel = #{entrusttel}
+            </if>
+            <if test="entrustid != null and entrustid != ''">
+                and entrustid = #{entrustid}
+            </if>
+            <if test="entrustaddress != null and entrustaddress != ''">
+                and entrustaddress = #{entrustaddress}
+            </if>
+            <if test="entrusttype != null and entrusttype != ''">
+                and entrusttype = #{entrusttype}
+            </if>
+            <if test="entrustdate != null">
+                and entrustdate = #{entrustdate}
+            </if>
+            <if test="businessSector != null and businessSector != ''">
+                and business_sector = #{businessSector}
+            </if>
+            <if test="mnemonicCode != null and mnemonicCode != ''">
+                and mnemonic_code = #{mnemonicCode}
+            </if>
+            <if test="qrcode != null">
+                and qrcode = #{qrcode}
+            </if>
+            <if test="qrcodeUrl != null and qrcodeUrl != ''">
+                and qrcode_url = #{qrcodeUrl}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="merchantcode" useGeneratedKeys="true">
+        insert into logistics.base_merchant(companytype, merchanttype, idtcode, ename, cname, rname, taxno, bankno, bankacct, areacode, telno, faxno, zipno, ceo, contacts, settleaccno, status, levnum, merchantcode_f, sumflg, isstore, memo, entdate, upddate, operator, auditing, orgcode, abbreviation, settlebankno, settlebankacct, riskctrlid, ceotelno, contactstelno, opendate, ceoid, banknetname, cardcode, idcard, merchantcode_m, isrealname, ceoaddress, contactaddress, positive_phone, opposite_phone, reback_amount, amount, is_advance, text1, text2, saleaddress, legalname, legaltel, entrustname, entrusttel, entrustid, entrustaddress, entrusttype, entrustdate, business_sector, mnemonic_code, qrcode, qrcode_url)
+        values (#{companytype}, #{merchanttype}, #{idtcode}, #{ename}, #{cname}, #{rname}, #{taxno}, #{bankno}, #{bankacct}, #{areacode}, #{telno}, #{faxno}, #{zipno}, #{ceo}, #{contacts}, #{settleaccno}, #{status}, #{levnum}, #{merchantcodeF}, #{sumflg}, #{isstore}, #{memo}, #{entdate}, #{upddate}, #{operator}, #{auditing}, #{orgcode}, #{abbreviation}, #{settlebankno}, #{settlebankacct}, #{riskctrlid}, #{ceotelno}, #{contactstelno}, #{opendate}, #{ceoid}, #{banknetname}, #{cardcode}, #{idcard}, #{merchantcodeM}, #{isrealname}, #{ceoaddress}, #{contactaddress}, #{positivePhone}, #{oppositePhone}, #{rebackAmount}, #{amount}, #{isAdvance}, #{text1}, #{text2}, #{saleaddress}, #{legalname}, #{legaltel}, #{entrustname}, #{entrusttel}, #{entrustid}, #{entrustaddress}, #{entrusttype}, #{entrustdate}, #{businessSector}, #{mnemonicCode}, #{qrcode}, #{qrcodeUrl})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update logistics.base_merchant
+        <set>
+            <if test="companytype != null and companytype != ''">
+                companytype = #{companytype},
+            </if>
+            <if test="merchanttype != null and merchanttype != ''">
+                merchanttype = #{merchanttype},
+            </if>
+            <if test="idtcode != null and idtcode != ''">
+                idtcode = #{idtcode},
+            </if>
+            <if test="ename != null and ename != ''">
+                ename = #{ename},
+            </if>
+            <if test="cname != null and cname != ''">
+                cname = #{cname},
+            </if>
+            <if test="rname != null and rname != ''">
+                rname = #{rname},
+            </if>
+            <if test="taxno != null and taxno != ''">
+                taxno = #{taxno},
+            </if>
+            <if test="bankno != null and bankno != ''">
+                bankno = #{bankno},
+            </if>
+            <if test="bankacct != null and bankacct != ''">
+                bankacct = #{bankacct},
+            </if>
+            <if test="areacode != null and areacode != ''">
+                areacode = #{areacode},
+            </if>
+            <if test="telno != null and telno != ''">
+                telno = #{telno},
+            </if>
+            <if test="faxno != null and faxno != ''">
+                faxno = #{faxno},
+            </if>
+            <if test="zipno != null and zipno != ''">
+                zipno = #{zipno},
+            </if>
+            <if test="ceo != null and ceo != ''">
+                ceo = #{ceo},
+            </if>
+            <if test="contacts != null and contacts != ''">
+                contacts = #{contacts},
+            </if>
+            <if test="settleaccno != null and settleaccno != ''">
+                settleaccno = #{settleaccno},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="levnum != null and levnum != ''">
+                levnum = #{levnum},
+            </if>
+            <if test="merchantcodeF != null and merchantcodeF != ''">
+                merchantcode_f = #{merchantcodeF},
+            </if>
+            <if test="sumflg != null and sumflg != ''">
+                sumflg = #{sumflg},
+            </if>
+            <if test="isstore != null and isstore != ''">
+                isstore = #{isstore},
+            </if>
+            <if test="memo != null and memo != ''">
+                memo = #{memo},
+            </if>
+            <if test="entdate != null">
+                entdate = #{entdate},
+            </if>
+            <if test="upddate != null">
+                upddate = #{upddate},
+            </if>
+            <if test="operator != null and operator != ''">
+                operator = #{operator},
+            </if>
+            <if test="auditing != null and auditing != ''">
+                auditing = #{auditing},
+            </if>
+            <if test="orgcode != null and orgcode != ''">
+                orgcode = #{orgcode},
+            </if>
+            <if test="abbreviation != null and abbreviation != ''">
+                abbreviation = #{abbreviation},
+            </if>
+            <if test="settlebankno != null and settlebankno != ''">
+                settlebankno = #{settlebankno},
+            </if>
+            <if test="settlebankacct != null and settlebankacct != ''">
+                settlebankacct = #{settlebankacct},
+            </if>
+            <if test="riskctrlid != null">
+                riskctrlid = #{riskctrlid},
+            </if>
+            <if test="ceotelno != null and ceotelno != ''">
+                ceotelno = #{ceotelno},
+            </if>
+            <if test="contactstelno != null and contactstelno != ''">
+                contactstelno = #{contactstelno},
+            </if>
+            <if test="opendate != null">
+                opendate = #{opendate},
+            </if>
+            <if test="ceoid != null and ceoid != ''">
+                ceoid = #{ceoid},
+            </if>
+            <if test="banknetname != null and banknetname != ''">
+                banknetname = #{banknetname},
+            </if>
+            <if test="cardcode != null and cardcode != ''">
+                cardcode = #{cardcode},
+            </if>
+            <if test="idcard != null and idcard != ''">
+                idcard = #{idcard},
+            </if>
+            <if test="merchantcodeM != null and merchantcodeM != ''">
+                merchantcode_m = #{merchantcodeM},
+            </if>
+            <if test="isrealname != null and isrealname != ''">
+                isrealname = #{isrealname},
+            </if>
+            <if test="ceoaddress != null and ceoaddress != ''">
+                ceoaddress = #{ceoaddress},
+            </if>
+            <if test="contactaddress != null and contactaddress != ''">
+                contactaddress = #{contactaddress},
+            </if>
+            <if test="positivePhone != null and positivePhone != ''">
+                positive_phone = #{positivePhone},
+            </if>
+            <if test="oppositePhone != null and oppositePhone != ''">
+                opposite_phone = #{oppositePhone},
+            </if>
+            <if test="rebackAmount != null">
+                reback_amount = #{rebackAmount},
+            </if>
+            <if test="amount != null">
+                amount = #{amount},
+            </if>
+            <if test="isAdvance != null and isAdvance != ''">
+                is_advance = #{isAdvance},
+            </if>
+            <if test="text1 != null and text1 != ''">
+                text1 = #{text1},
+            </if>
+            <if test="text2 != null and text2 != ''">
+                text2 = #{text2},
+            </if>
+            <if test="saleaddress != null and saleaddress != ''">
+                saleaddress = #{saleaddress},
+            </if>
+            <if test="legalname != null and legalname != ''">
+                legalname = #{legalname},
+            </if>
+            <if test="legaltel != null and legaltel != ''">
+                legaltel = #{legaltel},
+            </if>
+            <if test="entrustname != null and entrustname != ''">
+                entrustname = #{entrustname},
+            </if>
+            <if test="entrusttel != null and entrusttel != ''">
+                entrusttel = #{entrusttel},
+            </if>
+            <if test="entrustid != null and entrustid != ''">
+                entrustid = #{entrustid},
+            </if>
+            <if test="entrustaddress != null and entrustaddress != ''">
+                entrustaddress = #{entrustaddress},
+            </if>
+            <if test="entrusttype != null and entrusttype != ''">
+                entrusttype = #{entrusttype},
+            </if>
+            <if test="entrustdate != null">
+                entrustdate = #{entrustdate},
+            </if>
+            <if test="businessSector != null and businessSector != ''">
+                business_sector = #{businessSector},
+            </if>
+            <if test="mnemonicCode != null and mnemonicCode != ''">
+                mnemonic_code = #{mnemonicCode},
+            </if>
+            <if test="qrcode != null">
+                qrcode = #{qrcode},
+            </if>
+            <if test="qrcodeUrl != null and qrcodeUrl != ''">
+                qrcode_url = #{qrcodeUrl},
+            </if>
+        </set>
+        where merchantcode = #{merchantcode}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from logistics.base_merchant where merchantcode = #{merchantcode}
+    </delete>
+
+</mapper>

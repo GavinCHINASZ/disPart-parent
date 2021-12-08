@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.ICustomInfoDao">
+    <resultMap id="qryCodeMap" type="com.dispart.dto.empdto.QrcCodeDto">
+        <result column="qrcode_url" jdbcType="VARCHAR" property="qrcodeUrl"></result>
+    </resultMap>
+    <!--根据手机号查询用户信息-->
+    <select id="quryUserInfoByPhone" resultType="com.dispart.vo.user.UserInfoVo">
+        select * from t_user_info where user_phone = #{phone}
+    </select>
+    <!--根据手机号查询用户信息-->
+    <select id="quryCountByPhone" resultType="Integer">
+        select count(*) from t_user_info where user_phone = #{phone}
+    </select>
+    <!--根据手机号，渠道号查询数量-->
+    <select id="quryCountByPhoneAndChanlNo" resultType="Integer">
+        select count(*) from t_user_info where user_phone = #{phone}  and CHANL_NO=#{chanlNo}
+    </select>
+    <!--根据用户Id查询用户信息-->
+    <select id="quryUserInfoByUserId" resultType="com.dispart.vo.user.UserInfoVo">
+        select * from t_user_info where user_id = #{userId}
+    </select>
+
+    <!--根据手机号，渠道号查询用户信息-->
+    <select id="quryUserInfoByPhoneAndChanlNo" resultType="com.dispart.vo.user.UserInfoVo">
+        select * from t_user_info where user_phone = #{phone} and CHANL_NO=#{chanlNo}
+    </select>
+
+    <!--查询用户微信appid-->
+    <select id="queryUserInfoByWxAppid" parameterType="java.lang.String"  resultType="Integer">
+        select count(*) from t_user_info where wxpay_id = #{appId}
+    </select>
+
+    <!--查询用户支付宝appid-->
+    <select id="queryUserInfoByZfbAppid" parameterType="java.lang.String"  resultType="Integer">
+        select count(*) from t_user_info where alipay_id = #{appId}
+    </select>
+
+    <!--查询用户下单码-->
+    <select id="selectQrcCOdeBylegaltel" parameterType="java.lang.String" resultMap="qryCodeMap">
+        select qrcode_url from t_custom_info_manager
+         <where>
+         <if test="provId != null and provId!=''">
+          and PROV_ID=#{provId};
+         </if>
+             <if test="userPhone != null and userPhone!=''">
+          and PHONE=#{userPhone} or LEGAL_PHONE=#{userPhone};
+         </if>
+         </where>
+    </select>
+
+    <!-- 更新用户昵称-->
+    <update id="updateNickNm">
+         update t_user_info set user_nick_nm = #{userNickNm} where USER_ID = #{userNo}
+    </update>
+
+    <!--更新用户头像-->
+    <update id="updateIcon">
+         update t_user_info set user_icon = #{userIcon} where USER_ID = #{userNo}
+    </update>
+
+    <!-- 更新用户手机号-->
+    <update id="updatePhone">
+         update t_user_info set user_phone = #{userNewPhone} where USER_ID = #{userNo}
+    </update>
+
+    <!-- 查询用户序列号-->
+    <select id="selectUserIdSeq" resultType="Integer">
+        select nextval('userId') from dual
+    </select>
+
+    <!--    &lt;!&ndash;插入用户信息&ndash;&gt;-->
+    <!--    <insert id="insertUserInfo" parameterType="com.dispart.vo.user.UserInfoVo">-->
+    <!--        insert into t_user_info values(-->
+    <!--        #{userId},-->
+    <!--        #{userNm},-->
+    <!--        #{userNickNm},-->
+    <!--        #{userIcon},-->
+    <!--        #{userPhone},-->
+    <!--        #{userPasswd},-->
+    <!--        #{regDt},-->
+    <!--        #{userSt},-->
+    <!--        #{isFirstLand},-->
+    <!--        #{loginSt},-->
+    <!--        #{updateDt},-->
+    <!--        #{wxpayId},-->
+    <!--        #{alipayId})-->
+    <!--    </insert>-->
+
+    <!--插入用户信息-->
+    <insert id="insertUserInfo" parameterType="com.dispart.vo.user.UserInfoVo">
+        insert into t_user_info(user_id,user_passwd,reg_dt,user_phone,update_dt,user_st,WXPAY_ID,ALIPAY_ID,CHANL_NO,PROV_ID) values(
+        #{userId},
+        #{userPasswd},
+        #{regDt},
+        #{userPhone},
+        #{updateDt},
+        #{userSt},
+        #{wxpayId},
+        #{alipayId},
+        #{chanlNo},
+        #{provId}
+        )
+    </insert>
+    <!--更新微信openid-->
+    <update id="updateUserOpenId">
+        update t_user_info set WXPAY_ID=#{openId},update_dt=#{updateDt} where user_id = #{userId}
+    </update>
+
+
+    <!--更新用户密码-->
+    <update id="updateUserPasswd">
+        update t_user_info set user_passwd=#{newPasswd},update_dt=#{updateDt} where user_id = #{userId}
+    </update>
+
+    <!--根据手机号更新用户密码-->
+    <update id="updateUserPasswdByPhone">
+        update t_user_info set user_passwd=#{newPasswd},update_dt=#{updateDt} where user_phone = #{phone}
+    </update>
+
+    <!--插入商户下单模式表-->
+    <insert id="insertPlaceOrderTp" parameterType="com.dispart.vo.user.PlaceOrderTypeVo">
+        insert into t_place_order_type(prov_id,place_order_md,place_order_nm,status,remark,update_dt)
+        values(#{provId},#{placeOrderMd},#{placeOrderNm},#{status},#{remark},#{updateDt})
+    </insert>
+
+    <!-- 根据供货商ID,下单模式查询客户下单模式表 -->
+    <select id="selectTpByProvID" resultType="com.dispart.vo.user.PlaceOrderTypeVo">
+        select * from  t_place_order_type where prov_id=#{provId} and place_order_md=#{placeOrderMd}
+    </select>
+
+    <!-- 根据供货商ID,下单模式查询客户下单模式表 -->
+    <select id="selectTpByProvIDAndStat" resultType="com.dispart.vo.user.PlaceOrderTypeVo">
+        select * from  t_place_order_type where prov_id=#{provId} and place_order_md=#{placeOrderMd} and status = #{status}
+    </select>
+
+    <!-- 根据供货商ID,更新下单模式状态-->
+    <update id="updateStatusByProvID">
+        update t_place_order_type set status=#{status},update_dt=#{updateDt} where prov_id=#{provId} and place_order_md=#{type}
+    </update>
+
+    <!--根据手机号,渠道号更新用户密码-->
+    <update id="updateUserPasswdByPhoneAndChanlNo">
+        update t_user_info set user_passwd=#{newPasswd},update_dt=#{updateDt} where user_phone = #{phone} and CHANL_NO=#{chanlNo}
+    </update>
+
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TCargoInfoReportMapper">
+
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    REPORT_ID, REPORT_DT, PROV_ID, PROV_NM, CUSTOM_TP, PHONE, VEHICLE_NUM, VEHICLE_ID, VEHICLE_WEIGHT,
+    VEHICLE_TTL_WGHT, PRDCT_WGHT, PLACE_URL, IS_FREE, RECORD_ST, AUDITOR_ST, CREATOR, 
+    AUDITOR_TM, MODIFIER, MODIFY_TIME, REMARK, OPER_ID, CREAT_TIME, UP_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.dispart.vo.entrance.TCargoInfoReport">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_cargo_info_report
+    where REPORT_ID = #{reportId,jdbcType=VARCHAR}
+  </select>
+  <update id="updateByPrimaryKey" parameterType="com.dispart.dto.entrance.D_0226UpInDto">
+    <!--@mbg.generated-->
+    update t_cargo_info_report
+    set
+      IS_FREE = #{isFree,jdbcType=CHAR},
+      AUDITOR_ST = #{auditorSt,jdbcType=CHAR},
+      AUDITOR = #{auditor,jdbcType=CHAR},
+      AUDITOR_TM = #{auditorTm,jdbcType=TIMESTAMP}
+    where REPORT_ID = #{reportId,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert0224" parameterType="com.dispart.dto.entrance.D_0224AddDto">
+    insert into t_cargo_info_report (REPORT_ID,PROV_ID,PROV_NM,PHONE,VEHICLE_NUM,VEHICLE_ID,VEHICLE_TP_ID,REPORT_DT,CREATOR,AUDITOR_ST,VEHICLE_WEIGHT,OPER_ID)
+    values (#{reportId,jdbcType=VARCHAR},#{provId,jdbcType=VARCHAR}, #{provNm,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+    #{vehicleNum,jdbcType=VARCHAR}, #{vehicleId,jdbcType=VARCHAR},#{vehicleTpId,jdbcType=VARCHAR,jdbcType=VARCHAR},#{reportDt},#{creator},#{auditorSt},#{vehicleWeight},#{operId})
+  </insert>
+  <select id="findByParm" resultType="com.dispart.dto.entrance.D_0225FindOutYDto">
+    select a.REPORT_ID,a.REPORT_DT,a.PROV_ID,a.PROV_NM,a.CUSTOM_TP,a.PHONE,a.VEHICLE_NUM,a.VEHICLE_ID,a.VEHICLE_TP_ID,a.VEHICLE_WEIGHT,
+    a.VEHICLE_TTL_WGHT,a.PRDCT_WGHT,a.PLACE_URL,a.IS_FREE,a.RECORD_ST,a.AUDITOR_ST,a.AUDITOR_TM,a.MODIFY_TIME,a.REMARK,a.OPER_ID,a.CREAT_TIME,a.UP_TIME,b.VEHICLE ,b.VEHICLE_TP,c.EMP_NM as auditor,d.EMP_NM as creator,e.EMP_NM as modifier
+    from t_cargo_info_report a left join t_vehicle_manager b on a.VEHICLE_ID = b.VEHICLE_ID and a.VEHICLE_TP_ID = b.VEHICLE_TP_ID left join t_employee_info c on c.EMP_ID = a.AUDITOR
+    left join t_employee_info d on d.EMP_ID = a.CREATOR left join t_employee_info e on e.EMP_ID = a.MODIFIER
+    where 1=1
+    <if test="provNm  != null and provNm != ''">and a.PROV_NM like "%"#{provNm}"%"</if>
+    <if test="provId != null and provId != ''">and a.PROV_ID=#{provId}</if>
+    <if test="vehicleNum != null and vehicleNum != ''">and a.VEHICLE_NUM=#{vehicleNum}</if>
+    <if test="phone != null and phone != ''">and a.PHONE=#{phone}</if>
+    <if test="startDt != null">
+      and a.REPORT_DT<![CDATA[>=]]>#{startDt}
+    </if>
+    <if test="endDt != null">
+      and a.REPORT_DT<![CDATA[<=]]>#{endDt}
+    </if>
+    <if test="auditorSt != null and auditorSt != ''">
+      <if test="'9'.toString() eq auditorSt">
+        and a.AUDITOR_ST in ('1','2')
+      </if>
+      <if test="'9'.toString() neq auditorSt">
+        and a.AUDITOR_ST=#{auditorSt}
+      </if>
+    </if>
+    <if test="appSelectKey != null and appSelectKey != ''">
+      and (a.PROV_NM like "%"#{appSelectKey}"%" or a.VEHICLE_NUM like "%"#{appSelectKey}"%" or a.PHONE like "%"#{appSelectKey}"%")
+    </if>
+    order by a.CREAT_TIME DESC
+    <if test="pageSize>0"> limit #{curPage},#{pageSize}</if>
+  </select>
+  <select id="findNumByParm" resultType="java.lang.Integer">
+    select count(1)
+    from t_cargo_info_report
+    where 1=1
+    <if test="provNm  != null and provNm != ''">and PROV_NM like "%"#{provNm}"%"</if>
+    <if test="provId != null and provId != ''">and PROV_ID=#{provId}</if>
+    <if test="vehicleNum != null and vehicleNum != ''">and VEHICLE_NUM=#{vehicleNum}</if>
+    <if test="phone != null and phone != ''">and PHONE=#{phone}</if>
+    <if test="startDt != null">
+      and REPORT_DT<![CDATA[>=]]>#{startDt}
+    </if>
+    <if test="endDt != null">
+      and REPORT_DT<![CDATA[<=]]>#{endDt}
+    </if>
+    <if test="auditorSt != null and auditorSt != ''">
+      <if test="'9'.toString() eq auditorSt">
+        and AUDITOR_ST in ('1','2')
+      </if>
+      <if test="'9'.toString() neq auditorSt">
+        and AUDITOR_ST=#{auditorSt}
+      </if>
+    </if>
+    <if test="appSelectKey != null and appSelectKey != ''">
+      and (PROV_NM like "%"#{appSelectKey}"%" or VEHICLE_NUM like "%"#{appSelectKey}"%" or PHONE like "%"#{appSelectKey}"%")
+    </if>
+  </select>
+
+
+  <update id="updatVeByPrimaryKey" parameterType="com.dispart.dto.entrance.D_0281UpInDto">
+    <!--@mbg.generated-->
+    update t_cargo_info_report
+    <set>
+      <if test="phone != null and phone != ''">
+        PHONE = #{phone},
+      </if>
+      <if test="vehicleNum != null and vehicleNum != ''">
+        VEHICLE_NUM = #{vehicleNum},
+      </if>
+      <if test="vehicleId != null and vehicleId != ''">
+        VEHICLE_ID = #{vehicleId},
+      </if>
+      <if test="vehicleTpId != null and vehicleTpId != ''">
+        VEHICLE_TP_ID = #{vehicleTpId},
+      </if>
+      <if test="vehicleTtlWght != null">
+        VEHICLE_WEIGHT = #{vehicleWeight},
+      </if>
+      <if test="prdctWght != null">
+        PRDCT_WGHT = #{prdctWght},
+      </if>
+      <if test="vehicleTtlWght != null">
+        VEHICLE_TTL_WGHT = #{vehicleTtlWght},
+      </if>
+      <if test="modifier != null and modifier != ''">
+        MODIFIER = #{modifier},
+      </if>
+      <if test="reportId != null and reportId != ''">
+        REPORT_DT = #{reportDt},
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime}
+      </if>
+    </set>
+    where REPORT_ID = #{reportId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updatVeToNoByPrimaryKey" parameterType="com.dispart.dto.entrance.D_0281UpInDto">
+    <!--@mbg.generated-->
+    update t_cargo_info_report
+    set
+    AUDITOR_ST = '4'
+    where REPORT_ID = #{reportId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findVeByParm" resultType="com.dispart.dto.entrance.D_0227FindOutDto">
+    select *
+    from t_cargo_info_report
+    where
+    PROV_ID=#{provId} and VEHICLE_NUM=#{vehicleNum} and AUDITOR_ST = '1' ORDER BY REPORT_ID DESC LIMIT 0,1
+  </select>
+  <select id="findAllVeByParm" resultType="com.dispart.vo.entrance.TCargoInfoReport">
+    select *
+    from t_cargo_info_report
+    where
+    PROV_ID=#{provId} and VEHICLE_NUM=#{vehicleNum} and AUDITOR_ST = '1' ORDER BY REPORT_ID DESC LIMIT 0,1
+  </select>
+  <select id="findVeByVehicleNum" resultType="com.dispart.vo.entrance.TCargoInfoReport">
+    select *
+    from t_cargo_info_report
+    where
+    VEHICLE_NUM=#{vehicleNum} and AUDITOR_ST = '1' and CURRENT_DATE() between DATE_SUB(REPORT_DT,INTERVAL 1 day) and DATE_SUB(REPORT_DT,INTERVAL -2 day) ORDER BY REPORT_ID DESC LIMIT 0,1
+  </select>
+  <select id="findeVchicleInfoByParm" resultType="com.dispart.dto.entrance.QueryVechicleInDto">
+    select VEHICLE_NUM vehicleNum,VEHICLE_ID vehicleId,VEHICLE_WEIGHT vehicleWeight
+    from t_cargo_info_report
+    where
+    VEHICLE_NUM=#{vehicleNum} and PROV_ID=#{provId} and AUDITOR_ST = '1' ORDER BY REPORT_ID DESC LIMIT 0,1
+  </select>
+  <select id="findCargoAuSt" resultType="java.lang.String">
+    select AUDITOR_ST auditorSt
+    from t_cargo_info_report
+    where
+    REPORT_ID = #{reportId,jdbcType=VARCHAR}
+  </select>
+  <update id="updatAuStByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    update t_cargo_info_report
+    set
+    AUDITOR_ST = '3'
+    where REPORT_ID = #{reportId,jdbcType=VARCHAR}
+  </update>
+  <select id="findByVehicleNum" resultType="com.dispart.vo.entrance.TCargoInfoReport">
+    select *
+    from t_cargo_info_report
+    where
+    VEHICLE_NUM=#{vehicleNum} and (AUDITOR_ST = '0' or AUDITOR_ST = '1') and REPORT_DT <![CDATA[>=]]> CURRENT_DATE() ORDER BY REPORT_ID DESC LIMIT 0,1
+  </select>
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.CustomAccountDao">
+  <resultMap id="BaseResultMap" type="com.dispart.parmeterdto.DISP20210184CusAccountDto">
+    <!--@Table logistics.t_product_type_info-->
+    <result column="ACCOUNT" jdbcType="VARCHAR" property="account" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="CARD_ID" jdbcType="VARCHAR" property="cardId" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+
+    <!-- 身份证号-->
+    <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="CERT_NUM" jdbcType="VARCHAR" property="certNum" />
+    <result column="PROV_NM" jdbcType="VARCHAR" property="provNm" />
+    <result column="ACCT_BAL" jdbcType="DECIMAL" property="acctBal" />
+    <result column="FREEZE_AMT" jdbcType="DECIMAL" property="freezeAmt" />
+    <result column="AVAIL_BAL" jdbcType="DECIMAL" property="availBal" />
+
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="OPER_NAME" jdbcType="VARCHAR" property="operName" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+　　 c.ACCOUNT, c.CARD_NO, c.status, c.prov_id,
+    a.ACCT_BAL, a.FREEZE_AMT,  a.AVAIL_BAL,
+    c.UP_TIME, c.remark, b.PROV_NM
+  </sql>
+
+  <select id="queryCustomAccount" parameterType="com.dispart.parmeterdto.DISP20210184CusAccountDto"  resultMap="BaseResultMap">
+    select b.PROV_ID, b.CERT_NUM, b.CERT_NUM, b.PROV_NM, b.PHONE,
+        a.ACCT_BAL, a.FREEZE_AMT, a.CARD_NO, a.ACCOUNT, a.AVAIL_BAL, a.STATUS, a.CREAT_TIME, a.OPER_ID,
+        tei.EMP_NM OPER_NAME
+    from t_custom_info_manager b,
+    (select aa.PROV_ID, aa.ACCOUNT, aa.ACCT_BAL, aa.FREEZE_AMT, aa.AVAIL_BAL, aa.OPER_ID,
+        c.CARD_NO, c.STATUS, aa.CREAT_TIME
+    from t_accno_info aa, t_membership_info c
+    where aa.PROV_ID = c.PROV_ID and aa.ACCOUNT = c.ACCOUNT
+    ) a
+    LEFT JOIN t_employee_info tei ON tei.EMP_ID = a.OPER_ID
+    where a.PROV_ID = b.PROV_ID
+    <if test="provNm != null and provNm != ''">
+      AND b.PROV_NM = #{provNm}
+    </if>
+    <if test="certNum != null and certNum != ''">
+      AND b.CERT_NUM = #{certNum}
+    </if>
+    <if test="phone != null and phone != ''">
+      AND b.phone = #{phone}
+    </if>
+    <if test="chanlNo != null and chanlNo != ''">
+      AND b.CHANL_NO = #{chanlNo}
+    </if>
+    <if test="provNmOrPhone != null and provNmOrPhone != ''">
+      AND CONCAT(b.PROV_NM, b.PHONE) LIKE CONCAT('%',#{provNmOrPhone},'%')
+    </if>
+
+    <if test="cardNo != null and cardNo != ''">
+      AND a.CARD_NO = #{cardNo}
+    </if>
+    <if test="creatTime != null">
+      AND a.CREAT_TIME = #{creatTime}
+    </if>
+    <if test="creatStTime != null and creatEndTime != null">
+      AND a.CREAT_TIME between #{creatStTime} and #{creatEndTime}
+    </if>
+
+    <if test="operName != null and operName != ''">
+      AND tei.EMP_NM LIKE CONCAT('%',#{operName},'%')
+    </if>
+
+    order by a.CREAT_TIME desc
+    <if test="pageSize>0">
+        LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+    </if>
+  </select>
+
+  <select id="countCustomAccount" resultType="java.lang.Integer">
+    select count(*)
+    from t_custom_info_manager b ,
+    (select aa.PROV_ID, aa.ACCOUNT, aa.ACCT_BAL, aa.FREEZE_AMT, aa.AVAIL_BAL, aa.OPER_ID,
+        c.CARD_NO, c.STATUS, aa.CREAT_TIME
+    from t_accno_info aa, t_membership_info c
+    where aa.PROV_ID = c.PROV_ID and aa.ACCOUNT = c.ACCOUNT
+    ) a
+    <if test="operName != null and operName != ''">
+      LEFT JOIN t_employee_info tei ON tei.EMP_ID = a.OPER_ID
+    </if>
+
+    where a.PROV_ID = b.PROV_ID
+    <if test="provNm != null and provNm != ''">
+      AND b.PROV_NM = #{provNm}
+    </if>
+    <if test="certNum != null and certNum != ''">
+      AND b.CERT_NUM = #{certNum}
+    </if>
+    <if test="phone != null and phone != ''">
+      AND b.PHONE = #{phone}
+    </if>
+    <if test="chanlNo != null and chanlNo != ''">
+      AND b.CHANL_NO = #{chanlNo}
+    </if>
+    <if test="provNmOrPhone != null and provNmOrPhone != ''">
+      and CONCAT(b.PROV_NM, b.PHONE) LIKE CONCAT('%',#{provNmOrPhone},'%')
+    </if>
+
+    <if test="cardNo != null and cardNo != ''">
+      AND a.CARD_NO = #{cardNo}
+    </if>
+    <if test="creatTime != null">
+      AND a.CREAT_TIME = #{creatTime}
+    </if>
+    <if test="creatStTime != null and creatEndTime != null">
+      AND a.CREAT_TIME between #{creatStTime} and #{creatEndTime}
+    </if>
+
+    <if test="operName != null and operName != ''">
+      AND tei.EMP_NM LIKE CONCAT('%',#{operName},'%')
+    </if>
+  </select>
+
+  <select id="queryCustomAccountDetail" parameterType="com.dispart.parmeterdto.DISP20210184CusAccountDto" resultType="com.dispart.vo.AccnoInfoVo">
+        SELECT  *
+        from t_accno_info a
+        where a.ACCOUNT = #{account}
+  </select>
+
+    <select id="queryCountByProvId" parameterType="String" resultType="Integer">
+        SELECT count(*)
+        from t_accno_info a
+        where a.PROV_ID = #{provId}
+  </select>
+
+</mapper>

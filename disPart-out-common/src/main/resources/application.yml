@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: disPart-out-common
+  freemarker:
+    suffix: .ftl
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 8090
+sms:
+  username: gynfwl
+  password: gndsj888888
+  templates:
+    #登录短信验证码
+    token1: 41cc2e07
+    templateid1:
+    url1: http://www.lokapi.cn/smsUTF8.aspx
+    #注册短信验证码
+    token2: 5a4144d6
+    templateid2: 51C0604A
+    url2: http://www.lokapi.cn/smsUTF8.aspx
+#登录授权
+login:
+  weixin:
+    weixinLoginUrl: https://api.weixin.qq.com/sns/jscode2session
+    weixinAppid: wx1eae44d44b5764f6
+    weixinsSecret: b7250a7bcd5e3dee2be58f01526fcd03
+    weixinGrantType: authorization_code
+  zhifubao:
+    zfbLoginUrl: https://openapi.alipay.com/gateway.do
+    zfbAppId: 2021002147643888
+    zfbPrivateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCUmg/qRzDqHyaYefn5vMQs9OC6puYWNECuCx9k9d8qWtLFiMaIEQbq4L4m8QdA26JPDSqgozx4hD1lYnJu/ttCKLpkJhwreBaXXnAVizLNY31PS6YtEzTz8uOjE1qqZQh7UFH1kHvRMkHK5Vnim9mqQxvB4LXrZ2jD4WfOMcL7DfkQlLQCs4cU2Z0kRoS+HTjYmRBlFU1K9MEngFsuAbKDF87b1PjaGQUgR/BHECPBCoxsZpFDL560iVtVOtb1UMvsnB3izNwiXh6UCrl9BJzedknpZYiwQg1LICJNacZOZjAcZ4JlHEE1StcHScoPI3+jFE3vyNTSe5SrtR7v7+CxAgMBAAECggEAB/fCxrMOgl8tOJvBtYxTkH2I1zk/uQ0QMsTR6B3u21yHVKQi0QTotAtc5sWht+6O42I3WOmnwmaEzDzdGep8Yy2/4MLSW9pSi8c6h00xaiXdgDT0MhKHklUBs6rD/8LvE32ZB2u519uz/2cQzL/CigiTInAkEP04dthNMpckd0WRCTY5stSyV9DgcqC97PjSkOMduNTpLJgbjpyI8YdFYFyxKbf4091M4xGfydnP7hmll0juVaYCEIHlWmp7wMl+FcGC/tX+qmJM4CFoznIK4Hx8FHxkspmBzv5X7rsh+72D9ZYK672sX2ioGPCOp8raJ1k7a2HfDpQFKeMCOoVYSQKBgQD2gR67DlkmiUcKucuGfcHi85H/z+QtXO/JOJxo7b8HtXvpMHqaWK6xIQZVODMkFzX7+lDGLGNQ/e7U//FBiEWk8EnR8kGrIWzfSZUZr1z+XCrz4lHHLjkbfu/TszGIrXlwEIHcNCSKJSoWFIkN9g9D6pEj3EQA8eAqNFVPrzEGOwKBgQCaU3wr36JqH88qRkJrjKaNSGuOLrd2Xh4Es9/A2mYB0ISeiVJQ0kVpGNzczu3FPi/L+GKbQZwYyRxbLrAlbv4fBtdqEyYcI/yFMmXR74qsdTo/X3v+MZeO1DD31LbzQavvLIjMrDBin0dmpFEn5IQjFRQVMisK65oflPB78fOKAwKBgQC+zaMj1y9ajNfYjYfkSmNRcIeKIzjThCR29MLc1WoQZYHMNiIwZoSRxqZIQIAVZ4H50P/E5YbaojPD23i66Og/i18YixQZin3jN+mZQAwTNvRoYr46FqVNiyvICeRFj0F4ZM6fzByccbfp72tGyzd1spM11sEsmgyRnoCKdWjVEQKBgBzF8gHQGV0F/z8XiGy69Zaj6QHCbgxQsfIYg2BWl+xAr2lLmyBcg/p7WzqEDkrXNFwoPGJMEkmAvZu2kbr4/cJVKTaqyVE32G4RHnDM46MR3EFSkTCsmGBV6adbbpzeIqteN0dJ11+b6NkXS9ZPQd+0n2DwUJwhn0PCJjBFxS13AoGASbyRwJG11trjCqVPL5DidxkxnfYXcnW0whlSH1c5lbgajFBX3SS0Y5rFpdYSsZtJF3UYobWwFwsQTRJsDHegRaqJ7dsEtL0B1I1yiai9lkTT48QgVAgwfqknStu1jQ8IoY9CqQzpLKH1LY1joZ0NPFzfeuirDoKgQBuK5MRacbQ=
+    zfbPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlJoP6kcw6h8mmHn5+bzELPTguqbmFjRArgsfZPXfKlrSxYjGiBEG6uC+JvEHQNuiTw0qoKM8eIQ9ZWJybv7bQii6ZCYcK3gWl15wFYsyzWN9T0umLRM08/LjoxNaqmUIe1BR9ZB70TJByuVZ4pvZqkMbweC162dow+FnzjHC+w35EJS0ArOHFNmdJEaEvh042JkQZRVNSvTBJ4BbLgGygxfO29T42hkFIEfwRxAjwQqMbGaRQy+etIlbVTrW9VDL7Jwd4szcIl4elAq5fQSc3nZJ6WWIsEINSyAiTWnGTmYwHGeCZRxBNUrXB0nKDyN/oxRN78jU0nuUq7Ue7+/gsQIDAQAB
+    zfbGrantType: authorization_code
+
+logging:
+  file:
+    name: /home/ap/outCommon/log/outCommon_log.log
+
+getui:
+  appId: VxHF6idnsf6CmxXwbn0nu5
+  appKey: J4qlTVnmv98pX4fwkTrMB9
+  masterSecret: r1UmvyhNY8ATvn8Mwuw6q1
+  url: http://api.getui.com/apiex.htm

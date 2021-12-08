@@ -1,0 +1,76 @@
+server:
+  port: 8086
+spring:
+  cloud:
+    nacos:
+      config:
+        enabled: false
+      discovery:
+        server-addr: localhost:8848
+
+  #  zipkin:
+  #    base-url: http://localhost:9411
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  #mysql数据库链接 om.mysql.cj.jdbc.Driver
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://128.11.132.1:3306/logistics?charaterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+
+  #返回json的全局时间格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+#配置mapper.xml文件的路径
+mybatis-plus:
+  mapper-locations: classpath*:com/dispart/dao/mapper/*.xml
+  #  configuration:
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: flag  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+
+feign:
+  sentinel:
+    enabled: true
+
+    ##安全配置##
+    #security:
+    #  oauth2:
+    #    resource:
+    #      id: resource-server
+    ## user-info-uri和token-info-uri二选择即可
+    ##如果配置了user-info-uri，该资源服务器使用userInfoTokenServices远程调用认证中心接口，通过认证中心的OAuth2AuthenticationProcessingFilter完成验证工作，一般设置user-info-uri即可
+    #      user-info-uri: http://localhost:8766/user
+    #      prefer-token-info: false
+    ## 该资源服务器使用RemoteTokenServices远程调用认证中心接口，注意一点就是如果使用token-info-uri那么就必须设置上clientId和clientSecret，通过CheckTokenEndpoint完成验证工作
+    #token-info-uri: http://127.0.0.1:8001/oauth/check_token
+    #client:
+    #client-secret: client
+  #client-id: secret=======
+
+sign:
+  secret: KTLFJDAK@543&#23234FdfdsT
+
+logging:
+  file:
+    name: /home/ap/dataQuery/log/data_query_log.log
+
+orderExportFile:
+  localFilePath: D://file/
+  remoteFilePath: orderFile
+
+checkDetailFile:
+  localPath: D:/file
+  remotePath: checkDetailFile
+
+adjustFilePath: /home/ap/dataQuery/adjustFilePath
+accnoDailyFilePath: /home/ap/dataQuery/adjustFilePath

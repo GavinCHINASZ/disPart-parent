@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.DataMerchantMonthCountMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.modle.DataMerchantMonthCount">
+    <!--@mbg.generated-->
+    <!--@Table data_merchant_month_count-->
+    <id column="id" property="id" />
+    <result column="code" property="code" />
+    <result column="count_month" property="countMonth" />
+    <result column="trans_amount" property="transAmount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, code, count_month, trans_amount
+  </sql>
+  <select id="getTransInfo" parameterType="com.dispart.modle.vo.Disp20210347InVo" resultType="com.dispart.modle.DataMerchantMonthCount">
+    SELECT <include refid="Base_Column_List"></include> FROM data_merchant_month_count t
+    WHERE t.`code` = #{code}
+    AND t.count_month >= #{beginDateMonth}
+    AND #{queryDate} >= t.count_month
+  </select>
+
+  <select id="getTransTolAmt" parameterType="com.dispart.modle.vo.Disp20210347InVo" resultType="java.math.BigDecimal">
+    select SUM(t.trans_amount) FROM data_merchant_month_count t
+    WHERE t.`code` = #{code}
+    AND t.count_month >= #{beginDateMonth}
+    AND #{queryDate} >= t.count_month
+  </select>
+</mapper>

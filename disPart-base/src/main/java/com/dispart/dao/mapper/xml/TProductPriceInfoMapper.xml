@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TProductPriceInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.TProductPriceInfo">
+    <!--@mbg.generated-->
+    <!--@Table t_product_price_info-->
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="DATE" jdbcType="DATE" property="date" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="PRDCT_ID" jdbcType="CHAR" property="prdctId" />
+    <result column="MAX_PRICE" jdbcType="DECIMAL" property="maxPrice" />
+    <result column="MID_PRICE" jdbcType="DECIMAL" property="midPrice" />
+    <result column="MIN_PRICE" jdbcType="DECIMAL" property="minPrice" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    `DATE`, PRDCT_NM, PRDCT_ID, MAX_PRICE, MID_PRICE, MIN_PRICE, UNIT, UPDATE_DT
+  </sql>
+
+  <insert id="insertSelective" parameterType="com.dispart.dto.prdctPriceDto.DISP20210312InDto">
+    <!--@mbg.generated-->
+    insert into t_product_price_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="date != null">
+        `DATE`,
+      </if>
+      <if test="prdctNm != null">
+        PRDCT_NM,
+      </if>
+      <if test="prdctId != null">
+        PRDCT_ID,
+      </if>
+      <if test="maxPrice != null">
+        MAX_PRICE,
+      </if>
+      <if test="midPrice != null">
+        MID_PRICE,
+      </if>
+      <if test="minPrice != null">
+        MIN_PRICE,
+      </if>
+      <if test="unit != null">
+        UNIT,
+      </if>
+      <if test="operId != null and operId != ''">
+        OPER_ID,
+      </if>
+        UPDATE_DT,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="prdctNm != null">
+        #{prdctNm,jdbcType=VARCHAR},
+      </if>
+      <if test="prdctId != null">
+        #{prdctId,jdbcType=CHAR},
+      </if>
+      <if test="maxPrice != null">
+        #{maxPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="midPrice != null">
+        #{midPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="minPrice != null">
+        #{minPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null and operId != ''">
+        #{operId,jdbcType=VARCHAR},
+      </if>
+      DATE_FORMAT(NOW(),'%Y-%m-%d %H-%m-%s')
+    </trim>
+  </insert>
+
+  <update id="updateProductPrice" parameterType="com.dispart.dto.prdctPriceDto.DISP20210312InDto">
+    UPDATE t_product_price_info
+    set DATE = #{date},MAX_PRICE=#{maxPrice},MID_PRICE=#{midPrice},MIN_PRICE =#{minPrice},PRDCT_ID=#{prdctId},
+        PRDCT_NM=#{prdctNm},UNIT=#{unit},UPDATE_DT = DATE_FORMAT(NOW(),'%Y-%m-%d %H-%m-%s')
+  </update>
+
+  <delete id="deleteProductPrice" parameterType="com.dispart.dto.prdctPriceDto.DISP20210356InDto">
+    DELETE FROM t_product_price_info where ID = #{id} and OPER_ID = #{operId}
+  </delete>
+
+  <select id="productPriceQueryCount" parameterType="com.dispart.dto.prdctPriceDto.DISP20210311InDto" resultType="java.lang.Integer">
+    SELECT count(*) FROM t_product_price_info i
+    WHERE 1=1
+    <if test="date != null and date != ''">AND i.DATE = #{date}</if>
+    <if test="prdctNm != null and prdctNm != ''">AND i.PRDCT_NM like concat('%',#{prdctNm},'%')</if>
+    <if test="beginDate != null and beginDate != ''">AND i.DATE > #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{beginDate} > i.DATE</if>
+  </select>
+
+  <select id="productPriceQuery" parameterType="com.dispart.dto.prdctPriceDto.DISP20210311InDto" resultType="com.dispart.model.TProductPriceInfo">
+    SELECT i.*,e.EMP_NM operNm FROM t_product_price_info i
+    INNER JOIN t_employee_info e on i.OPER_ID = e.EMP_ID
+    WHERE 1=1
+    <if test="date != null and date != ''">AND i.DATE = #{date}</if>
+    <if test="prdctFullNm != null and prdctFullNm != ''">AND i.PRDCT_NM = #{prdctFullNm}</if>
+    <if test="prdctNm != null and prdctNm != ''">AND i.PRDCT_NM like concat('%',#{prdctNm},'%')</if>
+    <if test="beginDate != null and beginDate != ''">AND i.DATE > #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{beginDate} > i.DATE</if>
+    order by i.UPDATE_DT DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum},#{pageSize}</if>
+  </select>
+
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TPushNotesDao">
+    <resultMap id="TPushNotesMap" type="com.dispart.vo.busineCommon.TPushNotesVo">
+        <id property="pushNo" column="PUSH_NO" jdbcType="INTEGER"/>
+        <result property="busineNo" column="BUSINE_NO" jdbcType="VARCHAR"/>
+        <result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+        <result property="pushMsg" column="PUSH_MSG" jdbcType="VARCHAR"/>
+        <result property="chanlNo" column="CHANL_NO" jdbcType="CHAR"/>
+        <result property="isRead" column="IS_READ" jdbcType="CHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="readTime" column="READ_TIME" jdbcType="TIMESTAMP"/>
+        <result property="creatTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="upTime" column="UP_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="resultSql">
+        `PUSH_NO`, `BUSINE_NO`, `USER_ID`, `PUSH_MSG`, `CHANL_NO`, `IS_READ`, `CREATE_TIME`, `READ_TIME`, `REMARK`, UP_TIME
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="pushNo != null and pushNo > 0">
+                PUSH_NO = #{pushNo}
+            </if>
+            <if test="busineNo != null and busineNo != ''">
+                and BUSINE_NO = #{busineNo}
+            </if>
+            <if test="userId != null and userId != ''">
+                and USER_ID = #{userId}
+            </if>
+            <if test="pushMsg != null and pushMsg != ''">
+                and PUSH_MSG = #{pushMsg}
+            </if>
+            <if test="chanlNo != null and chanlNo != ''">
+                and CHANL_NO = #{chanlNo}
+            </if>
+            <if test="isRead != null and isRead != ''">
+                and IS_READ = #{isRead}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 新增 app推送消息通知 -->
+    <insert id="insertTPushNotes" parameterType="com.dispart.vo.busineCommon.TPushNotesVo">
+        INSERT INTO t_push_notes (`BUSINE_NO`, `USER_ID`, `PUSH_MSG`, `CHANL_NO`, `IS_READ`, `CREATE_TIME`, `REMARK`)
+        VALUES (#{busineNo}, #{userId}, #{pushMsg}, #{chanlNo}, '0', NOW(), #{remark});
+    </insert>
+
+    <!-- 查询消息list -->
+    <select id="findPushNotesList" parameterType="com.dispart.vo.busineCommon.TPushNotesVo" resultMap="TPushNotesMap">
+        SELECT <include refid="resultSql"/>
+        FROM t_push_notes
+        <include refid="whereSql"/>
+        ORDER BY UP_TIME DESC
+        <if test="pageSize > 0">
+            limit #{curPage},#{pageSize}
+        </if>
+    </select>
+
+    <!-- 查询消息数量 -->
+    <select id="findPushNotesCount" parameterType="com.dispart.vo.busineCommon.TPushNotesVo" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT PUSH_NO)
+        FROM t_push_notes
+        <include refid="whereSql"/>
+    </select>
+
+    <!-- 更新消息 -->
+    <update id="updatePushNotes" parameterType="com.dispart.vo.busineCommon.TPushNotesVo">
+        UPDATE t_push_notes
+        <set>
+            <if test="isRead != null">
+                IS_READ  = #{isRead},
+                READ_TIME = NOW(),
+            </if>
+            <if test="remark != null and remark != ''">
+                REMARK  = #{remark}
+            </if>
+        </set>
+        WHERE `PUSH_NO`= #{pushNo};
+    </update>
+</mapper>

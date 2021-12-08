@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.CarBlackListMapper">
+  <resultMap id="CarBlackList" type="com.dispart.model.base.CarBlackList">
+      <id property="vehicelNm" column="VEHICEL_NUM"></id>
+  </resultMap>
+    <insert id="inserCarBlackList" parameterType="com.dispart.model.base.CarBlackList">
+        insert into t_vehicle_blacklist(VEHICEL_NUM,TYPE,OPER_ID,MODIFY_ID,REMARK,SUB_ORG,DEP_ID,CREAT_TIME,UP_TIME)
+        values (#{carBlackList.vehicelNm},#{carBlackList.type},#{operId},
+        #{operId},#{carBlackList.remark},#{carBlackList.subOrg},#{carBlackList.depId},#{carBlackList.creatTime},#{carBlackList.upTime})
+    </insert>
+    <delete id="deteCarBlackList" parameterType="com.dispart.model.base.CarBlackList">
+        delete from t_vehicle_blacklist where VEHICEL_NUM=#{carBlackList.vehicelNm}
+    </delete>
+    <update id="updateCarBlackList" parameterType="com.dispart.model.base.CarBlackList">
+        update t_vehicle_blacklist set TYPE=#{carBlackList.type},
+        MODIFY_ID=#{operId},REMARK=#{carBlackList.remark},SUB_ORG=#{carBlackList.subOrg},DEP_ID=#{carBlackList.depId},
+        CREAT_TIME=#{carBlackList.creatTime},UP_TIME=#{carBlackList.upTime} where VEHICEL_NUM=#{carBlackList.vehicelNm}
+    </update>
+    <select id="selectCarBlackList" resultMap="CarBlackList">
+        select t.VEHICEL_NUM,t.TYPE,f.EMP_NM OPER_ID,m.EMP_NM MODIFY_ID,t.REMARK,t.SUB_ORG,DEP_ID,t.CREAT_TIME,t.UP_TIME from t_vehicle_blacklist t
+            left join  t_employee_info f on t.OPER_ID=f.EMP_ID
+            left join  t_employee_info m on t.MODIFY_ID=m.EMP_ID
+        where  1=1
+        <if test="carBlackList.vehicelNm != null and carBlackList.vehicelNm != ''">and t.VEHICEL_NUM like "%"#{carBlackList.vehicelNm}"%"</if>
+        <if test="param1.type != null and param1.type != ''">and t.TYPE=#{carBlackList.type}</if>
+        <if test="carBlackList.creatTime != null and carBlackList.upTime != null">and t.CREAT_TIME between #{carBlackList.creatTime} and #{carBlackList.upTime}</if>
+        <if test="carBlackList.creatTime != null and carBlackList.upTime != null">and t.UP_TIME between #{carBlackList.creatTime} and #{carBlackList.upTime}</if>
+        <if test="carBlackList.pageSize>0">limit #{carBlackList.pageNum,jdbcType=INTEGER},#{carBlackList.pageSize,jdbcType=INTEGER}</if>
+    </select>
+    <select id="countCarBlackList" resultType="java.lang.Integer">
+        select count(1) from t_vehicle_blacklist t
+        left join  t_employee_info f on t.OPER_ID=f.EMP_ID
+        left join  t_employee_info m on t.MODIFY_ID=m.EMP_ID
+        where  1=1
+        <if test="carBlackList.vehicelNm != null and carBlackList.vehicelNm != ''">and t.VEHICEL_NUM like "%"#{carBlackList.vehicelNm}"%"</if>
+        <if test="param1.type != null and param1.type != ''">and t.TYPE=#{carBlackList.type}</if>
+        <if test="carBlackList.creatTime != null and carBlackList.upTime != null">and t.CREAT_TIME between #{carBlackList.creatTime} and #{carBlackList.upTime}</if>
+        <if test="carBlackList.creatTime != null and carBlackList.upTime != null">and t.UP_TIME between #{carBlackList.creatTime} and #{carBlackList.upTime}</if>
+    </select>
+</mapper>

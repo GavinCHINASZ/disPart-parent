@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.ParmeterInfoMapper">
+    <resultMap id="BaseResultMap" type="com.dispart.model.ParmeterInfo">
+        <!--@mbg.generated-->
+        <!--@Table t_parmeter_info-->
+        <id column="PARAM_TYPE" jdbcType="VARCHAR" property="paramType"/>
+        <id column="PARAM_NM" jdbcType="VARCHAR" property="paramNm"/>
+        <result column="PARAM_VAL" jdbcType="VARCHAR" property="paramVal"/>
+        <result column="PARAM_DESC" jdbcType="VARCHAR" property="paramDesc"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="PERMISSION" jdbcType="VARCHAR" property="permission"/>
+        <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt"/>
+    </resultMap>
+
+    <select id="selectByPrimaryKey" resultType="String">
+        <!--@mbg.generated-->
+        select PARAM_VAL from t_parmeter_info
+        where PARAM_TYPE = #{paramType,jdbcType=VARCHAR}
+        and PARAM_NM = #{paramNm,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

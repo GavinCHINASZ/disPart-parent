@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.DataMerchantMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.modle.DataMerchant">
+    <!--@mbg.generated-->
+    <!--@Table data_merchant-->
+    <id column="id" property="id" />
+    <result column="code" property="code" />
+    <result column="cname" property="cname" />
+    <result column="legal_person" property="legalPerson" />
+    <result column="id_card" property="idCard" />
+    <result column="tax_no" property="taxNo" />
+    <result column="entry_date" property="entryDate" />
+    <result column="season_type" property="seasonType" />
+    <result column="variety_type" property="varietyType" />
+    <result column="risk_level" property="riskLevel" />
+    <result column="status" property="status" />
+    <result column="rent_expire_date" property="rentExpireDate" />
+    <result column="rent_start_date" property="rentStartDate" />
+    <result column="is_ccb" property="isCcb" />
+    <result column="is_trade" property="isTrade" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, code, cname, legal_person, id_card, tax_no, entry_date, season_type, variety_type, 
+    risk_level, `status`, rent_expire_date, rent_start_date, is_ccb, is_trade
+  </sql>
+
+  <select id="getBorrowerInfo" parameterType="com.dispart.modle.vo.Disp20210347InVo" resultType="com.dispart.modle.DataMerchant">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM data_merchant t
+    where t.legal_person = #{legalPerson}
+    AND (t.id_card = #{idCard} or t.id_card = #{idCardLowCase})
+    AND t.cname is not null AND t.cname != ''
+    AND t.`code` is not null AND t.`code` != ''
+    AND t.entry_date is not null AND t.entry_date != ''
+    AND t.id_card is not null AND t.id_card != ''
+    AND t.is_trade is not null AND t.is_trade != ''
+    AND t.legal_person is not null AND t.legal_person != ''
+    AND t.rent_expire_date is not null AND t.rent_expire_date != ''
+    AND t.risk_level is not null AND t.risk_level != ''
+    AND t.season_type is not null AND t.season_type != ''
+    AND t.`status` is not null AND t.`status` != ''
+    AND t.variety_type is not null AND t.variety_type != ''
+  </select>
+</mapper>

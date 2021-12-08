@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.GnydMerchantsInfoMapper">
+
+  <select id="queryByPK" parameterType="com.dispart.dto.GnydMerchantsInfoDto"
+          resultType="com.dispart.dto.GnydMerchantsInfoDto">
+    select
+      PROV_ID as provId,
+      PROV_NM as provNm,
+      ENTRY_DATE as entryDate,
+      CERT_NO as certNo,
+      WORK_YEARS as workYears,
+      CENSUS_REGIST as censusRegist,
+      INSIDE_HOUSE as insideHouse,
+      OUTSIDE_HOUSE as outsideHouse,
+      EDUCATION as education,
+      MARRIAGE as marriage,
+      CHILDREN as children,
+      FAMILY as family,
+      GUARANTEE as guarantee,
+      BUSINESS as business,
+      PARTNER as partner,
+      BOOTH as booth,
+      STATUS as status,
+      REMARK as remark,
+      CREAT_TIME as creatTIme,
+      UP_TIME as upTime
+    from t_gnyd_merchants_info
+    <where>
+        <if test="provId != null and provId != ''">
+          PROV_ID = #{provId}
+        </if>
+    </where>
+
+  </select>
+
+  <update id="updateLoanInfo" parameterType="com.dispart.dto.GnydMerchantsInfoDto">
+    update t_gnyd_merchants_info
+    <set>
+      <if test="provNm != null and provNm != ''">
+        PROV_NM = #{provNm},
+      </if>
+      <if test="entryDate != null and entryDate != ''">
+        ENTRY_DATE = #{entryDate},
+      </if>
+      <if test="certNo != null and certNo != ''">
+        CERT_NO = #{certNo},
+      </if>
+      <if test="workYears != null and workYears != ''">
+        WORK_YEARS = #{workYears},
+      </if>
+      <if test="censusRegist != null and censusRegist != ''">
+        CENSUS_REGIST = #{censusRegist},
+      </if>
+      <if test="insideHouse != null and insideHouse != ''">
+        INSIDE_HOUSE = #{insideHouse},
+      </if>
+      <if test="outsideHouse != null and outsideHouse != ''">
+        OUTSIDE_HOUSE = #{outsideHouse},
+      </if>
+      <if test="education != null and education != ''">
+        EDUCATION = #{education},
+      </if>
+      <if test="marriage != null and marriage != ''">
+        MARRIAGE = #{marriage},
+      </if>
+      <if test="children != null and children != ''">
+        CHILDREN = #{children},
+      </if>
+      <if test="family != null and family != ''">
+        FAMILY = #{family},
+      </if>
+      <if test="guarantee != null and guarantee != null">
+        GUARANTEE = #{guarantee},
+      </if>
+      <if test="business != null and business != ''">
+        BUSINESS = #{business},
+      </if>
+      <if test="partner != null and partner != ''">
+        PARTNER = #{partner},
+      </if>
+      <if test="booth != null and booth != ''">
+        BOOTH = #{booth},
+      </if>
+      <if test="remark != null and remark != ''">
+        REMARK = #{remark}
+      </if>
+    </set>
+    where PROV_ID = #{provId}
+  </update>
+
+  <insert id="addloanInfo" parameterType="com.dispart.dto.GnydMerchantsInfoDto">
+    insert into t_gnyd_merchants_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="provId != null and provId != ''">
+        PROV_ID,
+      </if>
+      <if test="provNm != null and provNm != ''">
+        PROV_NM,
+      </if>
+      <if test="entryDate != null and entryDate != ''">
+        ENTRY_DATE,
+      </if>
+      <if test="certNo != null and certNo != ''">
+        CERT_NO,
+      </if>
+      <if test="workYears != null and workYears != ''">
+        WORK_YEARS,
+      </if>
+      <if test="censusRegist != null and censusRegist != ''">
+        CENSUS_REGIST,
+      </if>
+      <if test="insideHouse != null and insideHouse != ''">
+        INSIDE_HOUSE,
+      </if>
+      <if test="outsideHouse != null and outsideHouse != ''">
+        OUTSIDE_HOUSE,
+      </if>
+      <if test="education != null and education != ''">
+        EDUCATION,
+      </if>
+      <if test="marriage != null and marriage != ''">
+        MARRIAGE,
+      </if>
+      <if test="children != null and children != ''">
+        CHILDREN,
+      </if>
+      <if test="family != null and family != ''">
+        FAMILY,
+      </if>
+      <if test="guarantee != null and guarantee != null">
+        GUARANTEE,
+      </if>
+      <if test="business != null and business != ''">
+        BUSINESS,
+      </if>
+      <if test="partner != null and partner != ''">
+        PARTNER,
+      </if>
+      <if test="booth != null and booth != ''">
+        BOOTH,
+      </if>
+      <if test="remark != null and remark != ''">
+        REMARK
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="provId != null and provId != ''">
+        provId,
+      </if>
+      <if test="provNm != null and provNm != ''">
+        provNm,
+      </if>
+      <if test="entryDate != null and entryDate != ''">
+        entryDate,
+      </if>
+      <if test="certNo != null and certNo != ''">
+        certNo,
+      </if>
+      <if test="workYears != null and workYears != ''">
+        workYears,
+      </if>
+      <if test="censusRegist != null and censusRegist != ''">
+        censusRegist,
+      </if>
+      <if test="insideHouse != null and insideHouse != ''">
+        insideHouse,
+      </if>
+      <if test="outsideHouse != null and outsideHouse != ''">
+        outsideHouse,
+      </if>
+      <if test="education != null and education != ''">
+        education,
+      </if>
+      <if test="marriage != null and marriage != ''">
+        marriage,
+      </if>
+      <if test="children != null and children != ''">
+        children,
+      </if>
+      <if test="family != null and family != ''">
+        family,
+      </if>
+      <if test="guarantee != null and guarantee != null">
+        guarantee,
+      </if>
+      <if test="business != null and business != ''">
+        business,
+      </if>
+      <if test="partner != null and partner != ''">
+        partner,
+      </if>
+      <if test="booth != null and booth != ''">
+        booth,
+      </if>
+      <if test="remark != null and remark != ''">
+        remark
+      </if>
+    </trim>
+  </insert>
+
+
+</mapper>

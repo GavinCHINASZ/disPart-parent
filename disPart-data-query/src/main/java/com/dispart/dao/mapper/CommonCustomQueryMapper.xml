@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.CommonCustomQueryMapper">
+
+    <select id="queryCustomInfo" parameterType="com.dispart.dto.dataquery.Disp20210209InDto" resultType="com.dispart.dto.dataquery.Disp20210209OutDto">
+        SELECT DISTINCT
+	    cus.PROV_ID provId,
+        cus.PROV_NM provNm,
+        cus.PHONE phone,
+        cus.MNMN_CODE mnmnCode,
+        cus.CUSTOM_TP customTp,
+        mem.CARD_NO cardNo
+
+        from t_custom_info_manager cus
+        LEFT JOIN t_membership_info mem on cus.PROV_ID = mem.PROV_ID
+        WHERE cus.MNMN_CODE like concat('%',#{customKey},'%')
+        or cus.PHONE like concat ('%',#{customKey},'%')
+        or mem.CARD_NO LIKE concat ('%',#{customKey},'%')
+    </select>
+
+</mapper>

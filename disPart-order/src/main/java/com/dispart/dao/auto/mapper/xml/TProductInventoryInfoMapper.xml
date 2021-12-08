@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TProductInventoryInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TProductInventoryInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_product_inventory_info-->
+    <id column="PRDCT_ID" jdbcType="CHAR" property="prdctId" />
+    <id column="PROV_ID" jdbcType="CHAR" property="provId" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="STOCK" jdbcType="INTEGER" property="stock" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PRDCT_ID, PROV_ID, PRDCT_NM, STOCK, UNIT, REMARK, UPDATE_DT
+  </sql>
+
+  <select id="queryResult" resultMap="BaseResultMap">
+    SELECT b.PRDCT_ID,b.PRDCT_TYPE,b.PRDCT_TYPE_ID,b.UPDATE_DT,b.UNIT,b.STOCK,b.PROV_ID,b.PRDCT_NM FROM(
+		SELECT PRDCT_ID,PRDCT_TYPE,PRDCT_TYPE_ID,UPDATE_DT,UNIT,STOCK,PROV_ID,group_concat(DISTINCT PRDCT_NM) as PRDCT_NM
+		FROM t_product_inventory_info
+		WHERE PROV_ID = #{provId} AND STOCK > 0
+		GROUP BY PRDCT_NM
+		ORDER BY PRDCT_ID
+	) as b
+	LIMIT 0,15
+
+
+  </select>
+
+</mapper>

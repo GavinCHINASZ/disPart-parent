@@ -1,0 +1,41 @@
+
+spring:
+  application:
+    name: disPart-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  freemarker:
+    suffix: .ftl
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: ENC(I+SKlwB8/29bMr0ppi8aEw==)
+    password: ENC(0Wxa4tHXWbUvhps7A1rEJw==)
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: DatebookHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+      jdbc-url: jdbc:mysql://localhost:3306/oauth?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/oauth?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+server:
+  port: 8766
+logging.level.org.springframework.security: DEBUG
+
+

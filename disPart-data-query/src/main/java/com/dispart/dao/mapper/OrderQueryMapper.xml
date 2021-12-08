@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.OrderQueryMapper">
+
+    <select id="quryOrderInfo" parameterType="com.dispart.dto.dataquery.Disp20210069InDto" resultType="com.dispart.dto.dataquery.Disp20210069OutMx">
+         SELECT
+            tod.ORDER_ID orderId,
+            tod.PURCH_ID purchId,
+            tod.PROV_ID provId,
+            tod.ORDER_TP orderTp,
+            tod.PROV_NM provNm,
+            tod.PREFER_PRICE preferPrice,
+            tod.ADDIT_AMT additAmt,
+            tod.PART_AMT partAmt,
+            tod.SERV_CHRG servChrg,
+            tod.ORDER_ST orderSt,
+            tod.ORDER_TM orderTm,
+            tod.UPDATE_DT updateDt,
+            tod.ORDER_MODEL orderModel,
+            tod.TXN_AMT txnAmt,
+            tod.PRDCT_AMT prdctAmt,
+            tod.TXN_DT txnDt,
+            toi.MAIN_ORDER_ID mainOrderId,
+            toi.PAYMENT_MODE paymentMode,
+            tui.PROV_NM userNm,
+            tui.PHONE userPhone
+        FROM
+            t_order_detail_info tod
+        left join t_order_relevancy_info tor on tod.ORDER_ID = tor.ORDER_ID
+        left join t_order_info toi on tor.MAIN_ORDER_ID = toi.MAIN_ORDER_ID
+        left join t_custom_info_manager tui on tui.PROV_ID = tod.PURCH_ID
+        where
+            tor.TYPE = '0'
+            <if test="provId != null and provId != ''">
+                AND tod.PROV_ID like concat('%',#{provId},'%')
+            </if>
+            <if test="provNm != null and provNm != ''">
+                AND tod.PROV_NM like concat('%',#{provNm},'%')
+            </if>
+            <if test="orderId != null and orderId != ''">
+                AND tod.ORDER_ID like concat('%',#{orderId},'%')
+            </if>
+            <if test="prdctType != null and prdctType != ''">
+                AND tod.PRDCT_TYPE = #{prdctType}
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                AND tui.PHONE like concat('%',#{userPhone},'%')
+            </if>
+            <if test="orderSt != null and orderSt != ''">
+                AND tod.ORDER_ST = #{orderSt}
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                AND tod.ORDER_TM &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND tod.ORDER_TM &lt;= #{endDate}
+            </if>
+            <if test="mainOrderId != null and mainOrderId != ''">
+                AND toi.MAIN_ORDER_ID like concat('%',#{mainOrderId},'%')
+            </if>
+            <if test="paymentMode != null and paymentMode != ''">
+                AND toi.PAYMENT_MODE = #{paymentMode}
+            </if>
+            ORDER BY tod.UPDATE_DT DESC
+            <if test="startIndex != null and pageSize != null">
+            LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+            </if>
+    </select>
+
+    <select id="quryOrderInfo_count" parameterType="com.dispart.dto.dataquery.Disp20210069InDto" resultType="com.dispart.entity.DatabaseCount">
+        SELECT
+	    	count(1) as countRec
+        FROM
+            t_order_detail_info tod
+        left join t_order_relevancy_info tor on tod.ORDER_ID = tor.ORDER_ID
+        left join t_order_info toi on tor.MAIN_ORDER_ID = toi.MAIN_ORDER_ID
+        left join t_custom_info_manager tui on tui.PROV_ID = tod.PURCH_ID
+        where
+            tor.TYPE = '0'
+            <if test="provId != null and provId != ''">
+                AND tod.PROV_ID like concat('%',#{provId},'%')
+            </if>
+            <if test="provNm != null and provNm != ''">
+                AND tod.PROV_NM like concat('%',#{provNm},'%')
+            </if>
+            <if test="orderId != null and orderId != ''">
+                AND tod.ORDER_ID like concat('%',#{orderId},'%')
+            </if>
+            <if test="prdctType != null and prdctType != ''">
+                AND tod.PRDCT_TYPE = #{prdctType}
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                AND tui.PHONE like concat('%',#{userPhone},'%')
+            </if>
+            <if test="orderSt != null and orderSt != ''">
+                AND tod.ORDER_ST = #{orderSt}
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                AND tod.ORDER_TM &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND tod.ORDER_TM &lt;= #{endDate}
+            </if>
+            <if test="mainOrderId != null and mainOrderId != ''">
+                AND toi.MAIN_ORDER_ID like concat('%',#{mainOrderId},'%')
+            </if>
+            <if test="paymentMode != null and paymentMode != ''">
+                AND toi.PAYMENT_MODE = #{paymentMode}
+            </if>
+    </select>
+
+    <select id="queryDownLevelPrdctType" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT t.VARIETY_NO FROM t_product_type_info t WHERE t.PARENT_PRDT_ID = #{varietyNo}
+    </select>
+
+    <select id="getOrderGoods" parameterType="com.dispart.dto.dataquery.Disp20210335InDto" resultType="com.dispart.dto.dataquery.Disp20210335OutDto">
+      SELECT ogi.CREAT_TIME creatTime, ogi.ORDER_ID orderId, ogi.PRDCT_AMT prdctAmt, ogi.PRDCT_ID prdctId,
+			 ogi.PRDCT_NM prdctNm, ogi.PRDCT_NUM prdctNum, ogi.PRDCT_PRICE prdctPrice, ogi.PRDCT_TYPE prdctType,
+			 ogi.PRDCT_UNIT prdctUnit, ogi.PRDCT_WEIGHT prdctWeight, ogi.REMARK remark, ogi.UP_TIME upTime
+      FROM t_order_goods_info ogi
+      WHERE ogi.ORDER_ID = #{orderId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getOrderGoodsCount" parameterType="com.dispart.dto.dataquery.Disp20210335InDto" resultType="java.lang.Integer">
+      SELECT count(*)
+      FROM t_order_goods_info ogi
+      WHERE ogi.ORDER_ID = #{orderId,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

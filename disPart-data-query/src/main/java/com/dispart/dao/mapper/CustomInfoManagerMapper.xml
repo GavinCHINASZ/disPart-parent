@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.CustomInfoManagerMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.CustomInfoManager">
+    <!--@mbg.generated-->
+    <!--@Table t_custom_info_manager-->
+    <id column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="TAX_NUM" jdbcType="VARCHAR" property="taxNum" />
+    <result column="CUSTOM_TP" jdbcType="VARCHAR" property="customTp" />
+    <result column="PVTY_TP" jdbcType="VARCHAR" property="pvtyTp" />
+    <result column="PROV_NM" jdbcType="VARCHAR" property="provNm" />
+    <result column="SHRT_NM" jdbcType="VARCHAR" property="shrtNm" />
+    <result column="CERT_TYPE" jdbcType="VARCHAR" property="certType" />
+    <result column="CERT_NUM" jdbcType="VARCHAR" property="certNum" />
+    <result column="CERT_ADDR" jdbcType="VARCHAR" property="certAddr" />
+    <result column="CERT_PRD" jdbcType="DATE" property="certPrd" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName" />
+    <result column="LEGAL_PHONE" jdbcType="VARCHAR" property="legalPhone" />
+    <result column="LEGAL_CERT_TP" jdbcType="VARCHAR" property="legalCertTp" />
+    <result column="LEGAL_CERT_NUM" jdbcType="VARCHAR" property="legalCertNum" />
+    <result column="AGENT_NAME" jdbcType="VARCHAR" property="agentName" />
+    <result column="AGENT_PHONE" jdbcType="VARCHAR" property="agentPhone" />
+    <result column="AGENT_CERT_NO" jdbcType="VARCHAR" property="agentCertNo" />
+    <result column="AGENT_ADDR" jdbcType="VARCHAR" property="agentAddr" />
+    <result column="TERM_PRCTN" jdbcType="CHAR" property="termPrctn" />
+    <result column="TERM_DUE_DT" jdbcType="DATE" property="termDueDt" />
+    <result column="FRONT_URL" jdbcType="VARCHAR" property="frontUrl" />
+    <result column="REVERSER_URL" jdbcType="VARCHAR" property="reverserUrl" />
+    <result column="BUSINESS_URL" jdbcType="VARCHAR" property="businessUrl" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="IS_REAL" jdbcType="CHAR" property="isReal" />
+    <result column="MNMN_CODE" jdbcType="VARCHAR" property="mnmnCode" />
+    <result column="QRCODE_URL" jdbcType="VARCHAR" property="qrcodeUrl" />
+    <result column="AUDITOR" jdbcType="VARCHAR" property="auditor" />
+    <result column="AUDITOR_TM" jdbcType="TIMESTAMP" property="auditorTm" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    cus.PROV_ID, cus.TAX_NUM, cus.CUSTOM_TP, cus.PVTY_TP, cus.PROV_NM, cus.SHRT_NM, cus.CERT_TYPE, cus.CERT_NUM, cus.CERT_ADDR,
+    cus.CERT_PRD, cus.PHONE, cus.LEGAL_NAME, cus.LEGAL_PHONE, cus.LEGAL_CERT_TP, cus.LEGAL_CERT_NUM, cus.AGENT_NAME,
+    cus.AGENT_PHONE, cus.AGENT_CERT_NO, cus.AGENT_ADDR, cus.TERM_PRCTN, cus.TERM_DUE_DT, cus.FRONT_URL, cus.REVERSER_URL,
+    cus.BUSINESS_URL, cus.`STATUS`, cus.IS_REAL, cus.MNMN_CODE, cus.QRCODE_URL, cus.AUDITOR, cus.AUDITOR_TM, cus.REMARK,
+    cus.OPER_ID, cus.CREAT_TIME, cus.UP_TIME
+  </sql>
+
+  <select id="queryCustomInfoWithAccountAndCard" parameterType="com.dispart.dto.dataquery.Disp20210209InDto" resultType="com.dispart.dto.dataquery.Disp20210209OutDto">
+        SELECT DISTINCT
+	    <include refid="Base_Column_List"></include>
+        from t_custom_info_manager cus
+        LEFT JOIN t_membership_info mem on cus.PROV_ID = mem.PROV_ID
+        WHERE mem.`STATUS` = '0' AND
+        (
+        cus.MNMN_CODE like concat('%',#{customKey},'%')
+        or cus.PROV_ID = #{customKey}
+        or cus.PROV_NM like concat ('%',#{customKey},'%')
+        or cus.PHONE like concat ('%',#{customKey},'%')
+        or mem.CARD_NO  like concat('%',#{customKey},'%')
+        or cus.CERT_NUM like concat ('%',#{customKey},'%')
+        or cus.LEGAL_PHONE like concat ('%',#{customKey},'%')
+        )
+        limit #{pageNum},#{pageSize}
+  </select>
+
+  <select id="queryCustomInfoWithAccount" parameterType="com.dispart.dto.dataquery.Disp20210209InDto" resultType="com.dispart.dto.dataquery.Disp20210209OutDto">
+        SELECT DISTINCT
+	    <include refid="Base_Column_List"></include>
+        from t_custom_info_manager cus
+        LEFT JOIN t_membership_info mem on cus.PROV_ID = mem.PROV_ID
+        WHERE cus.MNMN_CODE like concat('%',#{customKey},'%')
+        or cus.PROV_NM like concat ('%',#{customKey},'%')
+        or cus.PHONE like concat ('%',#{customKey},'%')
+        or mem.CARD_NO LIKE concat ('%',#{customKey},'%')
+        or cus.CERT_NUM like concat ('%',#{customKey},'%')
+        or cus.LEGAL_PHONE like concat ('%',#{customKey},'%')
+        limit #{pageNum},#{pageSize}
+  </select>
+
+  <select id="queryCustomInfo" parameterType="com.dispart.dto.dataquery.Disp20210209InDto" resultType="com.dispart.dto.dataquery.Disp20210209OutDto">
+        SELECT DISTINCT
+	    <include refid="Base_Column_List"></include>
+        from t_custom_info_manager cus
+        LEFT JOIN t_membership_info mem on cus.PROV_ID = mem.PROV_ID
+        WHERE cus.MNMN_CODE like concat('%',#{customKey},'%')
+        or cus.PROV_NM like concat ('%',#{customKey},'%')
+        or cus.PHONE like concat ('%',#{customKey},'%')
+        or mem.CARD_NO LIKE concat ('%',#{customKey},'%')
+        or cus.CERT_NUM like concat ('%',#{customKey},'%')
+        or cus.LEGAL_PHONE like concat ('%',#{customKey},'%')
+        limit #{pageNum},#{pageSize}
+  </select>
+
+  <!-- 通过卡号全匹配查询客户信息，包括账户以及卡号 -->
+  <select id="queryCustomInfoByCardNo" parameterType="com.dispart.dto.dataquery.Disp20210209InDto" resultType="com.dispart.dto.dataquery.Disp20210209OutDto">
+    SELECT DISTINCT
+        mem.CARD_NO cardNo, mem.ACCOUNT account,
+	    <include refid="Base_Column_List"></include>
+        from t_custom_info_manager cus
+        LEFT JOIN t_membership_info mem on cus.PROV_ID = mem.PROV_ID
+        WHERE mem.CARD_NO = #{customKey}
+  </select>
+
+  <select id="queryCustomInfoWithCard" parameterType="com.dispart.dto.dataquery.Disp20210209InDto" resultType="com.dispart.dto.dataquery.Disp20210209OutDto">
+        SELECT DISTINCT
+        mem.CARD_NO cardNo,
+	    <include refid="Base_Column_List"></include>
+        from t_custom_info_manager cus
+        LEFT JOIN t_membership_info mem on cus.PROV_ID = mem.PROV_ID
+        WHERE mem.`STATUS` = '0' AND
+        (
+        cus.MNMN_CODE like concat('%',#{customKey},'%')
+        or cus.PROV_ID = #{customKey}
+        or cus.PROV_NM like concat ('%',#{customKey},'%')
+        or cus.PHONE like concat ('%',#{customKey},'%')
+        or mem.CARD_NO  like concat('%',#{customKey},'%')
+        or cus.CERT_NUM like concat ('%',#{customKey},'%')
+        or cus.LEGAL_PHONE like concat ('%',#{customKey},'%')
+        )
+        limit #{pageNum},#{pageSize}
+  </select>
+
+</mapper>

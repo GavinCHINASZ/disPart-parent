@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TCargoInfoReportDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.entrance.TCargoInfoReportDetails">
+    <!--@mbg.generated-->
+    <!--@Table t_cargo_info_report_details-->
+    <id column="REPORT_ID" jdbcType="VARCHAR" property="reportId" />
+    <id column="VARIETY_ID" jdbcType="VARCHAR" property="varietyId" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+    <result column="CATEGORY_NM" jdbcType="VARCHAR" property="categoryNm" />
+    <result column="NUM" jdbcType="DECIMAL" property="num" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="PROD_PLACE" jdbcType="VARCHAR" property="prodPlace" />
+    <result column="MANUFACT_ENTER" jdbcType="VARCHAR" property="manufactEnter" />
+    <result column="UNIT_PRICE" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="AMT" jdbcType="DECIMAL" property="amt" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+    <result column="PLACE_URL" jdbcType="VARCHAR" property="placeUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    REPORT_ID, VARIETY_ID, PRDCT_NM, CATEGORY_ID, CATEGORY_NM, NUM, UNIT, PROD_PLACE, 
+    MANUFACT_ENTER, UNIT_PRICE, AMT, REMARK, OPER_ID, CREAT_TIME, UP_TIME,RATE,PLACE_URL,STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_cargo_info_report_details
+    where REPORT_ID = #{reportId,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="insert" parameterType="com.dispart.vo.entrance.TCargoInfoReportDetails">
+    <!--@mbg.generated-->
+    insert into t_cargo_info_report_details (REPORT_ID, VARIETY_ID, PRDCT_NM, 
+      CATEGORY_ID, CATEGORY_NM, NUM, 
+      UNIT, PROD_PLACE, MANUFACT_ENTER, 
+      UNIT_PRICE, AMT, REMARK, 
+      OPER_ID, CREAT_TIME, UP_TIME
+      )
+    values (#{reportId,jdbcType=VARCHAR}, #{varietyId,jdbcType=VARCHAR}, #{prdctNm,jdbcType=VARCHAR}, 
+      #{categoryId,jdbcType=VARCHAR}, #{categoryNm,jdbcType=VARCHAR}, #{num,jdbcType=DECIMAL}, 
+      #{unit,jdbcType=VARCHAR}, #{prodPlace,jdbcType=VARCHAR}, #{manufactEnter,jdbcType=VARCHAR}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{amt,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{operId,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{upTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dispart.vo.entrance.TCargoInfoReportDetails">
+    <!--@mbg.generated-->
+    update t_cargo_info_report_details
+    set PRDCT_NM = #{prdctNm,jdbcType=VARCHAR},
+      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      CATEGORY_NM = #{categoryNm,jdbcType=VARCHAR},
+      NUM = #{num,jdbcType=DECIMAL},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      PROD_PLACE = #{prodPlace,jdbcType=VARCHAR},
+      MANUFACT_ENTER = #{manufactEnter,jdbcType=VARCHAR},
+      UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      AMT = #{amt,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+      UP_TIME = #{upTime,jdbcType=TIMESTAMP}
+    where REPORT_ID = #{reportId,jdbcType=VARCHAR}
+      and VARIETY_ID = #{varietyId,jdbcType=VARCHAR}
+  </update>
+
+
+
+  <insert id="insertList" parameterType="com.dispart.vo.entrance.TCargoInfoReportDetails">
+    insert  into t_cargo_info_report_details (REPORT_ID,VARIETY_ID,PRDCT_NM,PROD_PLACE,MANUFACT_ENTER,CATEGORY_NM,CATEGORY_ID,RATE,NUM,UNIT,AMT,UNIT_PRICE,PLACE_URL,STATUS)
+    values
+    <foreach collection="list" item="tCargoInfoReportDetails" separator=",">
+      (#{tCargoInfoReportDetails.reportId},#{tCargoInfoReportDetails.varietyId},#{tCargoInfoReportDetails.prdctNm},#{tCargoInfoReportDetails.prodPlace},#{tCargoInfoReportDetails.manufactEnter},
+      #{tCargoInfoReportDetails.categoryNm},#{tCargoInfoReportDetails.categoryId},#{tCargoInfoReportDetails.rate},#{tCargoInfoReportDetails.num},
+      #{tCargoInfoReportDetails.unit},#{tCargoInfoReportDetails.amt},#{tCargoInfoReportDetails.unitPrice},#{tCargoInfoReportDetails.placeUrl},#{tCargoInfoReportDetails.status,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <delete id="deleteByReportId" >
+    delete from t_cargo_info_report_details
+    where
+       REPORT_ID = #{reportId}
+  </delete>
+</mapper>

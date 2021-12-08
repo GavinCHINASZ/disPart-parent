@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.PayItemManageMapper">
+  <insert id="insertPayItem" parameterType="com.dispart.model.base.PayItemManage">
+    insert into t_pay_prj_manager(PAY_ID,PAY_ITEM,DEP_ID,DEP_NM,REMARK,OPER_ID,CREAT_TIME,UP_TIME)
+    values(#{payItemManage.payId},#{payItemManage.payItem},#{payItemManage.depId},#{payItemManage.depNm},
+    #{payItemManage.remark},#{payItemManage.operId},#{payItemManage.creatTime},#{payItemManage.upTime})
+  </insert>
+  <update id="updatePayItem" parameterType="com.dispart.model.base.PayItemManage">
+    update t_pay_prj_manager set PAY_ID=#{payItemManage.payId},PAY_ITEM=#{payItemManage.payItem},
+    DEP_ID=#{payItemManage.depId},DEP_NM=#{payItemManage.depNm},REMARK=#{payItemManage.remark},OPER_ID=#{payItemManage.operId}
+    where PAY_ID=#{payItemManage.payId}
+  </update>
+  <select id="findPayItemByPayIdOrPayNm" resultType="com.dispart.model.base.PayItemManage">
+    select * from t_pay_prj_manager where 1=1
+    <if test="payItemManage.payId!=null and payItemManage.payId!=''"> AND PAY_ID like "%"#{payItemManage.payId}"%" </if>
+    <if test="payItemManage.payItem != null and payItemManage.payItem != ''"> AND PAY_ITEM like "%"#{payItemManage.payItem}"%"</if>
+    order by UP_TIME desc
+    <if test="payItemManage.pageSize>0">limit #{payItemManage.pageNum,jdbcType=INTEGER},#{payItemManage.pageSize,jdbcType=INTEGER}</if>
+  </select>
+  <delete id="deletePayItemByPayId">
+    delete from t_pay_prj_manager where PAY_ID=#{payId}
+  </delete>
+    <select id="selectPayItemCount" resultType="int">
+      select * from t_pay_prj_manager
+    </select>
+  <select id="selectPayItemCountByByPayIdOrPayNm" resultType="int">
+    select count(1) from  t_pay_prj_manager where 1=1
+    <if test="payId != null and payId != ''"> AND PAY_ID like "%"#{payId}"%"</if>
+    <if test="payItem != null and payItem != ''">AND PAY_ITEM like "%"#{payItem}"%"</if>
+  </select>
+  <select id="selectDepInfo" resultType="com.dispart.dto.departmentdto.DISP20210019DepFindByParamInDto">
+    select DEP_ID,DEP_NM from t_department_info where DEP_ID=#{depId}
+  </select>
+  <select id="selectPayItemSub" resultType="com.dispart.model.base.PayItemSub">
+    select PAY_ID,PAY_ITEM from t_pay_item
+  </select>
+  <select id="selectIfExitByPayId" resultType="com.dispart.model.base.PayItemManage">
+    select * from t_pay_prj_manager where PAY_ID=#{payId}
+  </select>
+  <select id="selectPayItemSub1" resultType="com.dispart.model.base.PayItemSub">
+    select PAY_ITEM  from t_pay_item where PAY_ID=#{payId}
+  </select>
+</mapper>

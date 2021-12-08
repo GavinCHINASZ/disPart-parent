@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.VechicleMonthPayDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.VechicleMonthPayDetails">
+    <!--@mbg.generated-->
+    <!--@Table t_vechicle_month_pay_details-->
+    <id column="PAY_ORDER" jdbcType="VARCHAR" property="payOrder" />
+    <result column="MCARD_NUM" jdbcType="VARCHAR" property="mcardNum" />
+    <result column="PAY_AMT" jdbcType="DECIMAL" property="payAmt" />
+    <result column="PREFER_PRICE" jdbcType="DECIMAL" property="preferPrice" />
+    <result column="RECV_AMT" jdbcType="DECIMAL" property="recvAmt" />
+    <result column="PAY_ST_DT" jdbcType="DATE" property="payStDt" />
+    <result column="PAY_DEADLINE" jdbcType="DATE" property="payDeadline" />
+    <result column="PAYMENT_MODE" jdbcType="VARCHAR" property="paymentMode" />
+    <result column="PAYMENT_ST" jdbcType="VARCHAR" property="paymentSt" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="PAYMENT_TIME" jdbcType="TIMESTAMP" property="paymentTime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+<!--    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />-->
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PAY_ORDER, MCARD_NUM, PAY_AMT, PREFER_PRICE, RECV_AMT, PAY_ST_DT, PAY_DEADLINE, PAYMENT_MODE, 
+    PAYMENT_ST, `STATUS`, PAYMENT_TIME, REMARK, OPER_ID, CREAT_TIME, UP_TIME
+  </sql>
+
+  <insert id="insertSelective" parameterType="com.dispart.dto.MCardInfoDto.McardPayDetailUpdateInDto">
+    <!--@mbg.generated-->
+    insert into t_vechicle_month_pay_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="payOrder != null ">
+        PAY_ORDER,
+      </if>
+      <if test="provId != null and provId != ''">
+        PROV_ID,
+      </if>
+      <if test="mcardNum != null">
+        MCARD_NUM,
+      </if>
+      <if test="payAmt != null">
+        PAY_AMT,
+      </if>
+      <if test="preferPrice != null">
+        PREFER_PRICE,
+      </if>
+      <if test="recvAmt != null">
+        RECV_AMT,
+      </if>
+      <if test="payStDt != null">
+        PAY_ST_DT,
+      </if>
+      <if test="payDeadline != null">
+        PAY_DEADLINE,
+      </if>
+      <if test="paymentMode != null">
+        PAYMENT_MODE,
+      </if>
+      <if test="paymentSt != null">
+        PAYMENT_ST,
+      </if>
+      <if test="status != null">
+        `STATUS`,
+      </if>
+      <if test="paymentTime != null">
+        PAYMENT_TIME,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="operId != null">
+        OPER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="payOrder != null">
+        #{payOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="provId != null and provId != ''">
+        #{provId,jdbcType=VARCHAR},
+      </if>
+      <if test="mcardNum != null">
+        #{mcardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmt != null">
+        #{payAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="preferPrice != null">
+        #{preferPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="recvAmt != null">
+        #{recvAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="payStDt != null">
+        #{payStDt,jdbcType=DATE},
+      </if>
+      <if test="payDeadline != null">
+        #{payDeadline,jdbcType=DATE},
+      </if>
+      <if test="paymentMode != null">
+        #{paymentMode,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentSt != null">
+        #{paymentSt,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTime != null">
+        #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null">
+        #{operId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.dispart.dto.MCardInfoDto.McardPayDetailUpdateInDto">
+    <!--@mbg.generated-->
+    update t_vechicle_month_pay_details
+    <set>
+      <if test="mcardNum != null and mcardNum != ''">
+        MCARD_NUM = #{mcardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmt != null">
+        PAY_AMT = #{payAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="preferPrice != null">
+        PREFER_PRICE = #{preferPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="recvAmt != null">
+        RECV_AMT = #{recvAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="payStDt != null and payStDt != ''">
+        PAY_ST_DT = #{payStDt,jdbcType=DATE},
+      </if>
+      <if test="payDeadline != null and payDeadline != ''">
+        PAY_DEADLINE = #{payDeadline,jdbcType=DATE},
+      </if>
+      <if test="paymentMode != null and paymentMode != ''">
+        PAYMENT_MODE = #{paymentMode,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentSt != null and paymentSt != ''">
+        PAYMENT_ST = #{paymentSt,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and status != ''">
+        `STATUS` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTime != null and paymentTime != ''">
+        PAYMENT_TIME = #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null and remark != ''">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null and operId != ''">
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+        UP_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T'),
+    </set>
+    where PAY_ORDER = #{payOrder,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getMonthPayOrder" resultType="java.lang.Integer">
+    SELECT nextval('payOrder')
+  </select>
+
+  <select id="getMonthPayDetailsCount" parameterType="com.dispart.dto.MCardInfoDto.MCardInfoSelectionInDto" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM t_vechicle_month_pay_details d
+    INNER JOIN t_vehicle_month m on d.MCARD_NUM = m.MCARD_NUM
+    LEFT JOIN t_employee_info e on d.OPER_ID = e.EMP_ID
+    WHERE 1=1
+    <if test="operNm != null and operNm != ''">AND e.EMP_NM like concat('%',#{operNm},'%')</if>
+    <if test="provId != null and provId != ''">and d.PROV_ID = #{provId}</if>
+    <if test="mcardNum != null and mcardNum != ''">and d.MCARD_NUM = #{mcardNum}</if>
+    <if test="payOrder != null and payOrder != ''">and d.PAY_ORDER = #{payOrder}</if>
+    <if test="mcardTp != null and mcardTp != ''">and m.MCARD_TP = #{mcardTp}</if>
+    <if test="provNm != null and provNm != ''">and m.PROV_NM like concat('%',#{provNm},'%')</if>
+    <if test="vehicleNum != null and vehicleNum != ''">and m.VEHICLE_NUM like concat('%',#{vehicleNum},'%')</if>
+    <if test="cardNo != null and cardNo != ''">and m.CARD_NO like concat('%',#{cardNo},'%')</if>
+    <if test="paymentMode != null and paymentMode != ''">and d.PAYMENT_MODE = #{paymentMode}</if>
+    <if test="paymentSt != null and paymentSt != ''">and d.PAYMENT_ST = #{paymentSt,jdbcType=VARCHAR}</if>
+    <if test="payStatus != null and payStatus != ''">
+      <choose>
+        <when test="payStatus.equals('9'.toString() )">and (d.PAYMENT_ST = '9' or d.PAYMENT_ST = '1')</when>
+        <otherwise>and d.PAYMENT_ST != '1' and d.PAYMENT_ST != '9'</otherwise>
+      </choose>
+    </if>
+    <if test="beginDate != null and beginDate != ''">and d.CREAT_TIME &gt; #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">and #{endDate} &gt; d.CREAT_TIME</if>
+
+  </select>
+
+  <select id="getMonthPayDetails" parameterType="com.dispart.dto.MCardInfoDto.MCardInfoSelectionInDto" resultType="com.dispart.dto.MCardInfoDto.DISP20210307OutDto">
+    SELECT
+    m.MCARD_NUM mcardNum, m.PROV_ID provId, m.PROV_NM provNm, m.VEHICLE_NUM vehicleNum,
+    m.CARD_NO cardNo, m.MCARD_TP mcardTp,
+    d.PAY_ORDER, d.MCARD_NUM, d.PAY_AMT, d.PREFER_PRICE, d.RECV_AMT, d.PAY_ST_DT, d.PAY_DEADLINE,
+    d.PAYMENT_MODE, d.PAYMENT_ST, d.`STATUS`, d.PAYMENT_TIME, d.REMARK, d.CREAT_TIME, d.UP_TIME,
+    e.EMP_NM operId
+    FROM t_vechicle_month_pay_details d
+    INNER JOIN t_vehicle_month m on d.MCARD_NUM = m.MCARD_NUM
+    LEFT JOIN t_employee_info e on d.OPER_ID = e.EMP_ID
+    WHERE 1=1
+    <if test="operNm != null and operNm != ''">AND e.EMP_NM like concat('%',#{operNm},'%')</if>
+    <if test="provId != null and provId != ''">and d.PROV_ID = #{provId}</if>
+    <if test="mcardNum != null and mcardNum != ''">and d.MCARD_NUM = #{mcardNum}</if>
+    <if test="payOrder != null and payOrder != ''">and d.PAY_ORDER = #{payOrder}</if>
+    <if test="mcardTp != null and mcardTp != ''">and m.MCARD_TP = #{mcardTp}</if>
+    <if test="provNm != null and provNm != ''">and m.PROV_NM like concat('%',#{provNm},'%')</if>
+    <if test="vehicleNum != null and vehicleNum != ''">and m.VEHICLE_NUM like concat('%',#{vehicleNum},'%')</if>
+    <if test="cardNo != null and cardNo != ''">and m.CARD_NO like concat('%',#{cardNo},'%')</if>
+    <if test="paymentMode != null and paymentMode != ''">and d.PAYMENT_MODE = #{paymentMode}</if>
+    <if test="paymentSt != null and paymentSt != ''">and d.PAYMENT_ST = #{paymentSt,jdbcType=VARCHAR}</if>
+    <if test="payStatus != null and payStatus != ''">
+      <choose>
+        <when test="payStatus.equals('9'.toString() )">and (d.PAYMENT_ST = '9' or d.PAYMENT_ST = '1')</when>
+        <otherwise>and d.PAYMENT_ST != '1' and d.PAYMENT_ST != '9'</otherwise>
+      </choose>
+    </if>
+    <if test="beginDate != null and beginDate != ''">and d.CREAT_TIME &gt; #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">and #{endDate} &gt; d.CREAT_TIME</if>
+    ORDER BY d.CREAT_TIME DESC
+    <if test="pageSize != null and pageNum != null">limit #{pageNum},#{pageSize}</if>
+  </select>
+
+  <!-- 查询最新一条缴费成功的月卡缴费记录 -->
+  <select id="getNewMonthDetail" parameterType="java.lang.String" resultType="com.dispart.model.VechicleMonthPayDetails">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM t_vechicle_month_pay_details d
+    where d.MCARD_NUM = #{mcardNum} and d.PAYMENT_ST = "2"
+    ORDER BY d.CREAT_TIME DESC LIMIT 0,1
+  </select>
+
+  <update id="updateMCardPayDetailStatus" parameterType="com.dispart.dto.MCardInfoDto.DISP20210331InDto">
+    update t_vechicle_month_pay_details set PAYMENT_ST = #{paymentSt,jdbcType=VARCHAR}
+    where PAY_ORDER = #{payOrder,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

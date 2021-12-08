@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.ITaskLockDao">
+    <select id="findByPk" parameterType="java.lang.String" resultType="com.dispart.model.businessCommon.TaskLock">
+        select LOCK_NAME as lockName,
+               LOCK_STATUS as lockStatus,
+               TASK_DATE as taskDate,
+               START_TIME as startTime,
+               END_TIME as endTime,
+               REAMRK as remark
+        from t_task_lock where LOCK_NAME = #{lockName};
+    </select>
+
+    <update id="updateByPk" parameterType="com.dispart.model.businessCommon.TaskLock">
+        update t_task_lock
+        <trim prefix="set" suffixOverrides=",">
+            <if test="lockStatus != null and lockStatus != ''">
+                LOCK_STATUS = #{lockStatus},
+            </if>
+            <if test="taskDate != null and taskDate != ''">
+                TASK_DATE = #{taskDate},
+            </if>
+        </trim>
+        where LOCK_NAME = #{lockName} and LOCK_STATUS = #{lockStatusTmp}
+
+    </update>
+</mapper>

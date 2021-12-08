@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.ITCustomBankcardDao">
+    <resultMap id="BaseResultMap" type="com.dispart.vo.user.TCustomBankcardVo">
+        <!--@mbg.generated-->
+        <!--@Table t_custom_bankcard-->
+        <id column="PROV_ID" jdbcType="VARCHAR" property="provId"/>
+        <id column="BANK_NO" jdbcType="VARCHAR" property="bankNo"/>
+        <result column="PROV_ACCT" jdbcType="VARCHAR" property="provAcct"/>
+        <result column="BANK_PAY_NO" jdbcType="VARCHAR" property="bankPayNo"/>
+        <result column="PROV_NM" jdbcType="VARCHAR" property="provNm"/>
+        <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName"/>
+        <result column="IS_CCB" jdbcType="CHAR" property="isCcb"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="OPER_ID" jdbcType="VARCHAR" property="operId"/>
+        <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo"/>
+        <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime"/>
+        <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        PROV_ID, BANK_NO, PROV_ACCT, BANK_PAY_NO, PROV_NM, BANK_NAME, IS_CCB, REMARK, OPER_ID, CARD_NO, CREAT_TIME, UP_TIME
+    </sql>
+
+    <sql id="whereSql">
+        where 1 = 1
+        <if test="provId != null and provId != ''">
+            and PROV_ID = #{provId}
+        </if>
+        <if test="bankNo != null and bankNo != ''">
+            and BANK_NO = #{bankNo}
+        </if>
+        <if test="provAcct != null and provAcct != ''">
+            and PROV_ACCT = #{provAcct}
+        </if>
+        <if test="bankPayNo != null and bankPayNo != ''">
+            and BANK_PAY_NO = #{bankPayNo}
+        </if>
+        <if test="isCcb != null and isCcb != ''">
+            and IS_CCB = #{isCcb}
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            and CARD_NO = #{cardNo}
+        </if>
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_custom_bankcard
+        where PROV_ID = #{provId,jdbcType=VARCHAR}
+        and BANK_NO = #{bankNo,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByPrimaryKeyProvId" parameterType="String" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_custom_bankcard
+        where PROV_ID = #{provId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByPrimaryKeyBankNo" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_custom_bankcard
+        where BANK_NO = #{bankNo,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        <!--@mbg.generated-->
+        delete from t_custom_bankcard
+        where PROV_ID = #{provId,jdbcType=VARCHAR}
+        and BANK_NO = #{bankNo,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.dispart.vo.user.TCustomBankcardVo">
+        <!--@mbg.generated-->
+        insert into t_custom_bankcard (PROV_ID, BANK_NO, PROV_ACCT,
+            PROV_NM, BANK_NAME, IS_CCB,
+            REMARK, OPER_ID, CREAT_TIME,
+            UP_TIME)
+        values (#{provId,jdbcType=VARCHAR}, #{bankNo,jdbcType=VARCHAR}, #{provAcct,jdbcType=VARCHAR},
+            #{provNm,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{isCcb,jdbcType=CHAR},
+            #{remark,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP},
+            #{upTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.dispart.vo.user.TCustomBankcardVo">
+        <!--@mbg.generated-->
+        insert into t_custom_bankcard
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="provId != null">
+                PROV_ID,
+            </if>
+            <if test="bankNo != null">
+                BANK_NO,
+            </if>
+            <if test="provAcct != null">
+                PROV_ACCT,
+            </if>
+            <if test="provNm != null">
+                PROV_NM,
+            </if>
+            <if test="bankName != null">
+                BANK_NAME,
+            </if>
+            <if test="isCcb != null">
+                IS_CCB,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="operId != null">
+                OPER_ID,
+            </if>
+            <if test="creatTime != null">
+                CREAT_TIME,
+            </if>
+            <if test="upTime != null">
+                UP_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="provId != null">
+                #{provId,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null">
+                #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="provAcct != null">
+                #{provAcct,jdbcType=VARCHAR},
+            </if>
+            <if test="provNm != null">
+                #{provNm,jdbcType=VARCHAR},
+            </if>
+            <if test="bankName != null">
+                #{bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="isCcb != null">
+                #{isCcb,jdbcType=CHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="operId != null">
+                #{operId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="upTime != null">
+                #{upTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.dispart.vo.user.TCustomBankcardVo">
+        <!--@mbg.generated-->
+        update t_custom_bankcard
+        <set>
+            <if test="provAcct != null">
+                PROV_ACCT = #{provAcct,jdbcType=VARCHAR},
+            </if>
+            <if test="provNm != null">
+                PROV_NM = #{provNm,jdbcType=VARCHAR},
+            </if>
+            <if test="bankName != null">
+                BANK_NAME = #{bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="isCcb != null">
+                IS_CCB = #{isCcb,jdbcType=CHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="operId != null">
+                OPER_ID = #{operId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="upTime != null">
+                UP_TIME = #{upTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where PROV_ID = #{provId,jdbcType=VARCHAR}
+        and BANK_NO = #{bankNo,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.dispart.vo.user.TCustomBankcardVo">
+        <!--@mbg.generated-->
+        update t_custom_bankcard
+        set PROV_ACCT = #{provAcct,jdbcType=VARCHAR},
+        PROV_NM = #{provNm,jdbcType=VARCHAR},
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+        IS_CCB = #{isCcb,jdbcType=CHAR},
+        REMARK = #{remark,jdbcType=VARCHAR},
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+        CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+        UP_TIME = #{upTime,jdbcType=TIMESTAMP}
+        where PROV_ID = #{provId,jdbcType=VARCHAR}
+        and BANK_NO = #{bankNo,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 客户卡片绑定银行卡 -->
+    <insert id="addCustomBankcard" parameterType="com.dispart.vo.user.TCustomBankcardVo">
+        <!--@mbg.generated-->
+        INSERT INTO t_custom_bankcard (
+            `PROV_ID`, `PROV_ACCT`, `BANK_NO`, `CARD_NO`,
+            `PROV_NM`, `BANK_NAME`, `IS_CCB`, `BANK_PAY_NO`,
+            `REMARK`, `OPER_ID`, `CREAT_TIME`)
+        VALUES (#{provId,jdbcType=VARCHAR}, #{provAcct,jdbcType=VARCHAR}, #{bankNo,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR},
+            #{provNm,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{isCcb,jdbcType=CHAR}, #{bankPayNo,jdbcType=VARCHAR},
+            #{remark,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, NOW());
+    </insert>
+
+    <!-- 客户卡片解绑银行卡 -->
+    <delete id="deleteCustomBankcard" parameterType="com.dispart.vo.user.TCustomBankcardVo">
+        <!--@mbg.generated-->
+        DELETE FROM t_custom_bankcard
+        <include refid="whereSql"/>
+    </delete>
+
+    <!-- 客户已绑定银行卡查询 -->
+    <select id="findCustomBankcardList" parameterType="com.dispart.vo.user.TCustomBankcardVo" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_custom_bankcard
+        <include refid="whereSql"/>
+        ORDER BY UP_TIME DESC
+        <if test="pageSize > 0">
+            limit #{curPage},#{pageSize}
+        </if>
+    </select>
+
+    <!-- 客户已绑定银行卡查询数量 -->
+    <select id="findCustomBankcardCount" parameterType="com.dispart.vo.user.TCustomBankcardVo" resultType="java.lang.Integer">
+        SELECT COUNT(PROV_ID)
+        FROM t_custom_bankcard
+        <include refid="whereSql"/>
+    </select>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TMembershipInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.businessCommon.TMembershipInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_membership_info-->
+    <id column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+    <result column="PASSWD" jdbcType="VARCHAR" property="passwd" />
+    <result column="ACCOUNT" jdbcType="VARCHAR" property="account" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="CARD_TP" jdbcType="CHAR" property="cardTp" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="CASH_INDENT" jdbcType="CHAR" property="cashIndent" />
+    <result column="CASH_PLEDGE" jdbcType="DECIMAL" property="cashPledge" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    CARD_NO, PASSWD, ACCOUNT, PROV_ID, CARD_TP, PHONE, `STATUS`, CASH_INDENT, CASH_PLEDGE, 
+    REMARK, OPER_ID, CREAT_TIME, UP_TIME
+  </sql>
+</mapper>

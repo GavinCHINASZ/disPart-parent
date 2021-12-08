@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TVehicleCustomInfoMapper">
+   <insert id="insert"  parameterType="com.dispart.dto.entrance.TVehicleCustomInfoInDto">
+       insert into t_vehicle_custom_info(IN_ID,PROV_ID,PROV_NM,CARD_NO,NEW_PROV_ID,NEW_PROV_NM,NEW_CARD_NO,REMARK,OPER_ID,SUB_ORG,DEP_ID)
+       values(#{inId,jdbcType=VARCHAR},
+       #{provId,jdbcType=VARCHAR},
+       #{provNm,jdbcType=VARCHAR},
+       #{cardNo,jdbcType=VARCHAR},
+       #{newProvId,jdbcType=VARCHAR},
+       #{newProvNm,jdbcType=VARCHAR},
+       #{newCardNo,jdbcType=VARCHAR},
+       #{remark,jdbcType=VARCHAR},
+       #{operId,jdbcType=VARCHAR},
+       #{subOrg,jdbcType=VARCHAR},
+       #{depId,jdbcType=VARCHAR})
+   </insert>
+
+</mapper>

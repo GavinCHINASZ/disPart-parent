@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.BaseMenuMapper">
+  <resultMap id="DISP20210031SeMenuOutDto" type="com.dispart.dto.menudto.DISP20210031SeMenuOutDto">
+    <!--@mbg.generated-->
+    <!--@Table t_menu_info-->
+    <id column="MENU_ID" jdbcType="CHAR" property="menuId" />
+    <result column="PARENT_MENU_ID" jdbcType="CHAR" property="parentMenuId" />
+    <result column="MENU_NM" jdbcType="VARCHAR" property="title" />
+    <result column="MENU_TYPE" jdbcType="CHAR" property="menuType" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="MENU_URL" jdbcType="VARCHAR" property="path" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    MENU_ID, PARENT_MENU_ID, ICON_ID, MENU_NM, MENU_TYPE, REMARK, UPDATE_DT
+  </sql>
+
+<!--  查询全部菜单（无条件时查全部，有条件时查询指定条件的菜单）-->
+  <select id="findAllMenu"  resultMap="DISP20210031SeMenuOutDto">
+    select  MENU_ID, PARENT_MENU_ID,  MENU_NM , MENU_TYPE, REMARK,  MENU_URL  from t_menu_info where 1=1
+    <if test="title != null and title != ''"> and MENU_NM =#{title} </if>
+    <if test="menuId != null and menuId != ''"> and MENU_ID =#{menuId} </if>
+  </select>
+
+
+<!--  查询机构或部门拥有的权限 -->
+  <select id="findHaveMenuVoList" resultType="com.dispart.dto.menudto.DISP20210022DepFindMenuOutDto">
+    <if test="id != null">
+      select  MENU_ID, PARENT_MENU_ID,  MENU_NM AS title, MENU_TYPE, REMARK
+      from t_menu_info
+      where MENU_ID in (select MENU_ID from t_dep_org_menu_info where ID =#{id})
+    </if>
+  </select>
+  <!--  查询机构或部门未拥有的权限 -->
+  <select id="findNoHaveMenuVoList" resultType="com.dispart.dto.menudto.DISP20210022DepFindMenuOutDto">
+    <if test="id != null">
+      select  MENU_ID, PARENT_MENU_ID,  MENU_NM AS title, MENU_TYPE, REMARK
+      from t_menu_info
+      where MENU_ID not in (select MENU_ID from t_dep_org_menu_info where ID =#{id})
+    </if>
+  </select>
+<!--  查询角色对应权限-->
+  <select id="findRoleMenuVoList" resultType="com.dispart.dto.menudto.DISP20210037RoleFindMenuPOutDto">
+      select  b.MENU_ID, b.PARENT_MENU_ID, b.MENU_NM AS title, b.MENU_TYPE, b.REMARK, c.ROLE_ID,c.DATA_PARM,b.CHNAL_NO_TYPE
+      from
+      (select a.MENU_ID,a.REMARK,a.PARENT_MENU_ID,a.MENU_NM,a.MENU_TYPE,a.CHNAL_NO_TYPE
+      from  t_menu_info a
+      join t_dep_org_menu_info b on a.MENU_ID=b.MENU_ID and b.ID=#{orgId} and a.CHNAL_NO_TYPE=#{chnalNoType}
+      ) b
+      left join
+      (select e.*,d.ROLE_ID,d.DATA_PARM from t_role_menu_info d
+        join t_menu_info e on d.MENU_ID=e.MENU_ID and d.ROLE_ID=#{roleId}) c
+      on  c.MENU_ID = b.MENU_ID
+  </select>
+
+  <select id="findRoleMenuList" resultType="com.dispart.vo.basevo.RoleMenu">
+    select  MENU_ID, DATA_PARM
+    from  t_role_menu_info
+    where ROLE_ID =#{roleID}
+  </select>
+
+  <delete id="deRoleMenu" >
+    delete from t_role_menu_info where ROLE_ID =#{roleID}
+  </delete>
+
+  <insert id="inRoleMenu" parameterType="com.dispart.vo.basevo.RoleMenu">
+    insert  into t_role_menu_info (ROLE_ID,MENU_ID,REMARK,DATA_PARM)
+    values
+    <foreach collection="list" item="roleMenu" separator=",">
+      (#{roleMenu.roleId},#{roleMenu.menuId},#{roleMenu.remark},#{roleMenu.dataParm})
+    </foreach>
+  </insert>
+
+
+  <!--单表查询机构或部门的权限-->
+  <select id="seDepOrgMenuList" resultType="com.dispart.vo.basevo.DepOrgMenuVo">
+    select  MENU_ID
+    from  t_dep_org_menu_info
+    where id =#{id}
+  </select>
+
+  <!-- 删除部门或者机构权限 -->
+  <delete id="deDepOrgMenu" parameterType="com.dispart.dto.menudto.DISP20210022DepFindMenuPOutDto">
+    delete from t_dep_org_menu_info where id =#{id}
+  </delete>
+
+  <!-- 添加部门或者机构权限 -->
+  <insert id="inOrgDepMenu" parameterType="com.dispart.vo.basevo.DepOrgMenuVo">
+    insert  into t_dep_org_menu_info (ID,MENU_ID,REMARK)
+    values
+    <foreach collection="list" item="depOrgMenuVos" separator=",">
+      (#{depOrgMenuVos.id},#{depOrgMenuVos.menuId},#{depOrgMenuVos.remark})
+    </foreach>
+  </insert>
+<!--  查询1级机构以下的部门或机构的菜单-->
+  <select id="find2DepOrgMenuList" resultType="com.dispart.dto.menudto.DISP20210022DepFindMenuPOutDto">
+    select c.MENU_ID, c.PARENT_MENU_ID, c.MENU_NM AS title, c.REMARK, c.MENU_TYPE,c.CHNAL_NO_TYPE,d.ID
+        from (select a.MENU_ID,a.REMARK,a.PARENT_MENU_ID,a.MENU_NM,a.MENU_TYPE,a.CHNAL_NO_TYPE
+            from  t_menu_info a
+	        join t_dep_org_menu_info b on a.MENU_ID=b.MENU_ID and b.id=#{pid}) c
+	left join t_dep_org_menu_info d on c.MENU_ID=d.MENU_ID and d.id=#{did}
+  </select>
+  <!--  查询1级机构的菜单-->
+  <select id="find1OrgMenuList" resultType="com.dispart.dto.menudto.DISP20210022DepFindMenuPOutDto">
+    select a.MENU_ID, a.PARENT_MENU_ID, a.MENU_NM AS title, a.REMARK, a.MENU_TYPE,a.CHNAL_NO_TYPE,b.ID
+    from t_menu_info a
+    left join t_dep_org_menu_info b on a.MENU_ID=b.MENU_ID and b.id=#{id}
+  </select>
+
+</mapper>

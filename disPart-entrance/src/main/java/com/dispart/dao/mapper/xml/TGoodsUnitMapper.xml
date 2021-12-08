@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TGoodsUnitMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.dto.entrance.TGoodsUnitParamOutDto">
+    <!--@mbg.generated-->
+    <!--@Table t_goods_unit-->
+    <id column="UNIT_ID" jdbcType="INTEGER" property="unitId" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="PRDCT_ID" jdbcType="VARCHAR" property="prdctId" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+    <collection property="childList" column="UNIT_ID" ofType="com.dispart.dto.entrance.TGoodsUnitRelevanceDto"
+    select="com.dispart.dao.mapper.TGoodsUnitRelevanceMapper.selectByUnitId">
+    </collection>
+   </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    UNIT_ID, PROV_ID, PRDCT_ID, UNIT, REMARK, CREAT_TIME, UP_TIME
+  </sql>
+  <select id="selectByProvIdPrDctIdOrAndUnit" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_goods_unit
+    where PROV_ID = #{provId,jdbcType=VARCHAR}
+    and PRDCT_ID = #{prdctId,jdbcType=VARCHAR}
+    <if test="unit != null and unit != ''">
+        and UNIT = PRDCT_ID = #{unit,jdbcType=VARCHAR}
+    </if>
+    order by UNIT_ID asc
+  </select>
+
+  <select id="selectByProvIdPrDctIdUnit" resultType="com.dispart.dto.entrance.TGoodsUnitParamOutDto">
+    <!--@mbg.generated-->
+    select
+    *
+    from t_goods_unit
+    where PROV_ID = #{provId,jdbcType=VARCHAR}
+    and PRDCT_ID = #{prdctId,jdbcType=VARCHAR}
+    and UNIT = #{unit,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from t_goods_unit
+    where UNIT_ID = #{unitId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="UNIT_ID" keyProperty="unitId" parameterType="com.dispart.vo.entrance.TGoodsUnit" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_goods_unit (PROV_ID, PRDCT_ID, UNIT, 
+      REMARK, CREAT_TIME, UP_TIME
+      )
+    values (#{provId,jdbcType=VARCHAR}, #{prdctId,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{upTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="UNIT_ID" keyProperty="unitId" parameterType="com.dispart.vo.entrance.TGoodsUnit" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_goods_unit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="provId != null">
+        PROV_ID,
+      </if>
+      <if test="prdctId != null">
+        PRDCT_ID,
+      </if>
+      <if test="unit != null">
+        UNIT,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="creatTime != null">
+        CREAT_TIME,
+      </if>
+      <if test="upTime != null">
+        UP_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="provId != null">
+        #{provId,jdbcType=VARCHAR},
+      </if>
+      <if test="prdctId != null">
+        #{prdctId,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTime != null">
+        #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dispart.vo.entrance.TGoodsUnit">
+    <!--@mbg.generated-->
+    update t_goods_unit
+    <set>
+      <if test="provId != null">
+        PROV_ID = #{provId,jdbcType=VARCHAR},
+      </if>
+      <if test="prdctId != null">
+        PRDCT_ID = #{prdctId,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTime != null">
+        UP_TIME = #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UNIT_ID = #{unitId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dispart.vo.entrance.TGoodsUnit">
+    <!--@mbg.generated-->
+    update t_goods_unit
+    set PROV_ID = #{provId,jdbcType=VARCHAR},
+      PRDCT_ID = #{prdctId,jdbcType=VARCHAR},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+      UP_TIME = #{upTime,jdbcType=TIMESTAMP}
+    where UNIT_ID = #{unitId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultType="com.dispart.dto.entrance.TGoodsUnitParamOutDto">
+    select * from t_goods_unit where
+    UNIT_ID = #{unitId,jdbcType=VARCHAR}
+  </select>
+</mapper>

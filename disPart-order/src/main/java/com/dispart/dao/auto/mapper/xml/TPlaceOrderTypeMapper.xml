@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TPlaceOrderTypeMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TPlaceOrderType">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_place_order_type-->
+    <id column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <id column="PLACE_ORDER_MD" jdbcType="VARCHAR" property="placeOrderMd" />
+    <result column="PLACE_ORDER_NM" jdbcType="VARCHAR" property="placeOrderNm" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PROV_ID, PLACE_ORDER_MD, PLACE_ORDER_NM, `STATUS`, REMARK, UPDATE_DT
+  </sql>
+</mapper>

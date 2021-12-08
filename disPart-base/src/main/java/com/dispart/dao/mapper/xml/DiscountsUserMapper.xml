@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.DiscountsUserMapper">
+    <resultMap id="discountsDetailVoMap" type="com.dispart.vo.base.DiscountsUserVo">
+        <id property="actId" column="ACT_ID" jdbcType="INTEGER"/>
+        <result property="provId" column="PROV_ID" jdbcType="VARCHAR"/>
+        <result property="discntDt" column="DISCNT_DT" jdbcType="INTEGER"/>
+        <result property="discntAmt" column="DISCNT_AMT" jdbcType="INTEGER"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="creatTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="upTime" column="UP_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="resultSql">
+        `ACT_ID`, `PROV_ID`, `DISCNT_DT`, DISCNT_AMT, `REMARK`, `CREAT_TIME`, `UP_TIME`
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="actId != null and actId > 0">
+                ACT_ID = #{actId}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK like concat('%',#{remark},'%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 客户优惠活动记录 新增 -->
+    <insert id="insertDiscountsUser" parameterType="com.dispart.vo.base.DiscountsUserVo">
+        INSERT INTO t_discounts_user (`ACT_ID`, `PROV_ID`, `DISCNT_DT`, `REMARK`, `CREAT_TIME`, DISCNT_AMT)
+        VALUES (#{actId}, #{provId}, #{discntDt}, #{remark}, NOW(), #{discntAmt});
+    </insert>
+
+    <!-- 查找该用户在当天使用过 -->
+    <select id="findDiscountsUserNow" resultType="java.lang.Integer">
+        SELECT COUNT(ACT_ID)
+        FROM t_discounts_user
+        WHERE PROV_ID = #{provId} AND TO_DAYS(DISCNT_DT) = TO_DAYS(now());
+    </select>
+
+    <!-- 查找该用户在周期内是否使用满次数 -->
+    <select id="selectUseNum" parameterType="com.dispart.vo.base.DiscountsUserVo" resultType="java.lang.Integer">
+        SELECT COUNT(du.ACT_ID)
+        FROM t_discounts_user du
+        WHERE du.PROV_ID = #{provId}
+        AND du.DISCNT_DT >= (
+            SELECT DATE_FORMAT(DATE_SUB(NOW(),
+            INTERVAL (
+                SELECT DISCNT_PRD
+                FROM t_discounts_activity
+                WHERE ACT_ID = #{actId}
+            ) DAY), '%Y-%m-%d')
+        )
+    </select>
+
+    <!-- 查询优惠金额 -->
+    <select id="findDiscntAmt" parameterType="java.lang.Integer" resultType="java.math.BigDecimal">
+        SELECT SUM(DISCNT_AMT)
+        FROM t_discounts_user
+        <where>
+            <if test="actId != null and actId > 0">
+                ACT_ID = #{actId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

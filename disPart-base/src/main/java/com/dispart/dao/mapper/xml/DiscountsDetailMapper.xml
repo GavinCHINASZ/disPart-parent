@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.DiscountsDetailMapper">
+    <resultMap id="discountsDetailVoMap" type="com.dispart.vo.base.DiscountsDetailVo">
+        <id property="detailId" column="DETAIL_ID" jdbcType="INTEGER"/>
+        <result property="actId" column="ACT_ID" jdbcType="INTEGER"/>
+        <result property="condAmt" column="COND_AMT" jdbcType="DECIMAL"/>
+        <result property="preferPrice" column="PREFER_PRICE" jdbcType="DECIMAL"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="creatTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="upTime" column="UP_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="resultSql">
+        `DETAIL_ID`, `ACT_ID`, `COND_AMT`, `PREFER_PRICE`, `REMARK`, `CREAT_TIME`, `UP_TIME`
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="detailId != null and detailId > 0">
+                DETAIL_ID = #{detailId}
+            </if>
+            <if test="actId != null and actId > 0">
+                and ACT_ID = #{actId}
+            </if>
+            <if test="condAmt != null and condAmt > 0">
+                and COND_AMT = #{condAmt}
+            </if>
+            <if test="preferPrice != null and preferPrice > 0">
+                and PREFER_PRICE = #{preferPrice}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK like concat('%',#{remark},'%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 优惠活动详情 新增 -->
+    <insert id="insertDiscountsDetail" parameterType="com.dispart.vo.base.DiscountsDetailVo">
+        INSERT INTO t_discounts_detail (`ACT_ID`, `COND_AMT`, `PREFER_PRICE`, `REMARK`, `CREAT_TIME`)
+        VALUES (#{actId}, #{condAmt}, #{preferPrice}, #{remark}, NOW());
+    </insert>
+
+    <!-- 优惠活动详情 删除 -->
+    <delete id="deleteDiscountsDetail">
+        DELETE FROM t_discounts_detail
+        <include refid="whereSql"/>
+    </delete>
+
+    <!-- 根据 优惠活动 查询 优惠活动详情 -->
+    <select id="findByDiscountsActivityList" resultMap="discountsDetailVoMap">
+        select <include refid="resultSql"/>
+        from t_discounts_detail
+        where ACT_ID in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item.actId}
+        </foreach>
+        ORDER BY COND_AMT, PREFER_PRICE
+    </select>
+
+    <!-- 查询优惠金额 DECIMAL-->
+    <select id="selectDiscountsDetailPrice" parameterType="com.dispart.vo.base.DiscountsDetailVo"
+            resultType="java.math.BigDecimal">
+        SELECT PREFER_PRICE
+        FROM t_discounts_detail
+        WHERE ACT_ID = #{actId} and COND_AMT &lt;= #{condAmt}
+        ORDER BY COND_AMT desc
+        LIMIT 1;
+    </select>
+</mapper>

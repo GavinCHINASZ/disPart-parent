@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.ProductTypeChargeManageMapper">
+   <insert id="insertProductTypeCharge" parameterType="com.dispart.model.base.ProductTypeChargeManage">
+      insert into t_product_type_info(VARIETY_NO,PRDCT_NM,PARENT_PRDT_ID,PARENT_PRDT,PRDCT_ST,LEVEL,PRDCT_ABBR,RATE,PRICE,REMARK,OPER_ID,CREAT_TIME,UP_TIME,DEP_ID,SUB_ORG)
+      values (#{varietyNo},#{prdctNm},#{parentPrdtId},#{parentPrdt},#{prdctSt},#{level},#{prdctAbbr},#{rate},#{price},#{remark},#{operId},#{creatTime},#{upTime},#{depId},#{subOrg})
+   </insert>
+   <update id="updateProductTypeChargeByVarietyNo" parameterType="com.dispart.model.base.ProductTypeChargeManage">
+    update  t_product_type_info set VARIETY_NO=#{proTypeChgeManage.varietyNo},PRDCT_NM=#{proTypeChgeManage.prdctNm},PRDCT_ST=#{proTypeChgeManage.prdctSt},
+    LEVEL=#{proTypeChgeManage.level},PRDCT_ABBR=#{proTypeChgeManage.prdctAbbr},RATE=#{proTypeChgeManage.rate},PRICE=#{proTypeChgeManage.price},
+    REMARK=#{proTypeChgeManage.remark},OPER_ID=#{proTypeChgeManage.operId},DEP_ID=#{proTypeChgeManage.depId},SUB_ORG=#{proTypeChgeManage.subOrg} where VARIETY_NO=#{varietyNo}
+   </update>
+<!--    <resultMap id="findProductTypeCharge" type="com.dispart.model.base.ProductTypeChargeManage">
+        <id column="VARIETY_NO" property="varietyNo"></id>
+        <result column="PRDCT_NM" property="productNm"></result>
+        <result column="PARENT_PRDT_ID" property="parentProId"></result>
+        <result column="PARENT_PRDT" property="parentProNm"></result>
+        <result column="PRDCT_ST" property="proSt"></result>
+        <result column="LEVEL" property="level"></result>
+        <result column="PRDCT_ABBR" property="proCut"></result>
+        <result column="RATE" property="rate"></result>
+        <result column="PRICE" property="price"></result>
+        <result column="REMARK" property="remark"></result>
+        <result column="OPER_ID" property="operator"></result>
+    </resultMap>-->
+    <select id="findProductTypeChargeByVarietyNoOrProductNm" resultType="com.dispart.model.base.ProductTypeChargeManage">
+        select * from t_product_type_info where PARENT_PRDT_ID=#{varietyNo} OR PARENT_PRDT=#{productNm}
+    </select>
+
+    <delete id="deleteProductTypeChargeByVarietyNo">
+        delete  from t_product_type_info where VARIETY_NO=#{varietyNo}
+    </delete>
+    <select id="findProductTypeChargeByProductNm" resultType="com.dispart.model.base.ProductTypeChargeManage">
+        select * from t_product_type_info where VARIETY_NO=#{varietyNo} OR PRDCT_NM=#{prdctNm}
+    </select>
+    <resultMap id="selectAll" type="com.dispart.model.base.ProductTypeChargeManage">
+        <id column="VARIETY_NO" property="varietyNo"></id>
+        <result column="PRDCT_NM" property="prdctNm"></result>
+        <result column="PARENT_PRDT_ID" property="parentPrdtId"></result>
+        <result column="PARENT_PRDT" property="parentPrdt"></result>
+        <result column="PRDCT_ST" property="prdctSt"></result>
+        <result column="LEVEL" property="level"></result>
+        <result column="PRDCT_ABBR" property="prdctAbbr"></result>
+        <result column="RATE" property="rate"></result>
+        <result column="PRICE" property="price"></result>
+        <result column="REMARK" property="remark"></result>
+        <result column="OPER_ID" property="operId"></result>
+        <result column="DEP_ID" property="depId"></result>
+        <result column="SUB_ORG" property="subOrg"></result>
+        <collection property="productTypeChargeManageList" ofType="com.dispart.model.base.ProductTypeChargeManage">
+            <id column="vno" property="varietyNo"/>
+            <result column="pn" property="prdctNm"></result>
+            <result column="pd" property="parentPrdtId"></result>
+            <result column="pt" property="parentPrdt"></result>
+            <result column="pst" property="prdctSt"></result>
+            <result column="lev" property="level"></result>
+            <result column="abbr" property="prdctAbbr"></result>
+            <result column="ra" property="rate"></result>
+            <result column="pri" property="price"></result>
+            <result column="remk" property="remark"></result>
+            <result column="opd" property="operId"></result>
+            <result column="DEP_ID" property="depId"></result>
+            <result column="SUB_ORG" property="subOrg"></result>
+        </collection>
+    </resultMap>
+    <select id="selectAll" resultMap="selectAll">
+        select a.VARIETY_NO,a.PRDCT_NM,a.PARENT_PRDT_ID,a.PARENT_PRDT,a.PRDCT_ST,
+        a.LEVEL,a.PRDCT_ABBR,a.RATE,a.PRICE,a.REMARK,a.OPER_ID,a.DEP_ID,a.SUB_ORG,
+        b.VARIETY_NO as vno,b.PRDCT_NM as pn,b.PARENT_PRDT_ID as pd,b.PARENT_PRDT as pt,b.PRDCT_ST as pst,
+        b.LEVEL as lev,b.PRDCT_ABBR as abbr,b.RATE as ra,b.PRICE as pri,b.REMARK as remk,b.OPER_ID as opd
+        from t_product_type_info a left join t_product_type_info b on b.PARENT_PRDT=a.PRDCT_NM
+        where 1=1
+        <if test="proTypeChgeManage.prdctNm != null and proTypeChgeManage.prdctNm != ''"> AND a.PRDCT_NM like "%"#{proTypeChgeManage.prdctNm}"%"</if>
+    </select>
+    <select id="selectAllTest"  resultType="com.dispart.model.base.ProductTypeChargeManage">
+        select * from t_product_type_info
+        where 1=1
+        <if test="proTypeChgeManage.prdctNm != null and proTypeChgeManage.prdctNm != ''"> and PRDCT_NM like "%"#{proTypeChgeManage.prdctNm}"%"</if>
+        <if test="proTypeChgeManage.varietyNo != null and proTypeChgeManage.varietyNo != ''">and VARIETY_NO=#{proTypeChgeManage.varietyNo}</if>
+    </select>
+    <select id="selectParentId" resultType="com.dispart.model.base.ProductTypeChargeManage">
+        select * from t_product_type_info where
+        PRDCT_NM=#{proTypeChgeManage.parentPrdt}
+    </select>
+    <select id="selectAllTestByLevel" resultMap="selectAll">
+        select * from t_product_type_info
+       <!-- where 1=1
+        <if test="proTypeChgeManage.prdctNm != null and proTypeChgeManage.prdctNm != ''"> and PRDCT_NM like "%"#{proTypeChgeManage.prdctNm}"%"</if>
+        <if test="proTypeChgeManage.varietyNo != null and proTypeChgeManage.varietyNo != ''">and VARIETY_NO=#{proTypeChgeManage.varietyNo}</if>-->
+    </select>
+    <select id="selectPreVno" resultType="com.dispart.model.base.ProductTypeChargeManage">
+        select * from t_product_type_info where 1=1
+        <if test="varietyNo != null and varietyNo != ''">and VARIETY_NO=#{varietyNo}</if>
+        <!-- where 1=1
+         <if test="proTypeChgeManage.prdctNm != null and proTypeChgeManage.prdctNm != ''"> and PRDCT_NM like "%"#{proTypeChgeManage.prdctNm}"%"</if>
+         <if test="proTypeChgeManage.varietyNo != null and proTypeChgeManage.varietyNo != ''">and VARIETY_NO=#{proTypeChgeManage.varietyNo}</if>-->
+    </select>
+    <select id="selectVnoByNm" resultType="com.dispart.model.base.ProductTypeChargeManage">
+        select VARIETY_NO from t_product_type_info where
+        PRDCT_NM=#{prdctNm}
+    </select>
+    <select id="selectbynm" resultMap="selectAll">
+        select * from t_product_type_info where 1=1
+        <if test="param1.prdctNm != null and param1.prdctNm != ''">and PRDCT_NM like "%"#{proTypeChgeManage.prdctNm,jdbcType=VARCHAR}"%"</if>
+        and LEVEL="3"
+    </select>
+<!--    <select id="selectDep" resultType="com.dispart.dto.departmentdto.DISP20210019DepFindByParamInDto">
+        select DEP_ID,DEP_NM from t_department_info where 1=1
+        <if test="depId != null and depId != ''">DEP_ID=#{depId}</if>
+    </select>-->
+<!--    <select id="selectOrgId" resultType="com.dispart.vo.basevo.OrganizationVo">
+        select ORG_ID,ORG_NM from t_organization_info where 1=1
+        <if test="orgId != null and orgId != ''">ORG_ID=#{orgId}</if>
+    </select>-->
+    <select id="selectPreOrgIdAndDepId" resultType="com.dispart.model.base.OrgIdAndDepId">
+        select DEP_ID,SUB_ORG from t_product_type_info where PARENT_PRDT_ID=#{preproductNmNo}
+    </select>
+    <update id="updateSubDepIdAndOrgId">
+        update t_product_type_info set DEP_ID=#{proTypeChgeManage.depId},SUB_ORG=#{proTypeChgeManage.subOrg} where VARIETY_NO=#{varietyNo}
+    </update>
+    <select id="selectVnoByPId" resultType="com.dispart.model.base.ProductTypeChargeManage">
+        select * from t_product_type_info where PARENT_PRDT_ID=#{varietyNo}
+    </select>
+</mapper>

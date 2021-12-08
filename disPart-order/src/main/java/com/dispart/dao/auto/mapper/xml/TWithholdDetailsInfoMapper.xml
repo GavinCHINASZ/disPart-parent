@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TWithholdDetailsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TWithholdDetailsInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_withhold_details_info-->
+    <id column="MARKET_ID" jdbcType="CHAR" property="marketId" />
+    <result column="ORDER_NUM" jdbcType="CHAR" property="orderNum" />
+    <result column="DEDU_AMT" jdbcType="DECIMAL" property="deduAmt" />
+    <result column="DEDU_ACCT" jdbcType="VARCHAR" property="deduAcct" />
+    <result column="ITEM_NO" jdbcType="CHAR" property="itemNo" />
+    <result column="ITEM_NM" jdbcType="VARCHAR" property="itemNm" />
+    <result column="DEDU_ST" jdbcType="VARCHAR" property="deduSt" />
+    <result column="DEDU_DT" jdbcType="DATE" property="deduDt" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    MARKET_ID, ORDER_NUM, DEDU_AMT, DEDU_ACCT, ITEM_NO, ITEM_NM, DEDU_ST, DEDU_DT, UPDATE_DT
+  </sql>
+</mapper>

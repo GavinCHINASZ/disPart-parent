@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.IEmployeeRoleDao">
+
+    <resultMap id="resultAllMenuMap" type="com.dispart.dto.userdto.EmpRoleFindMenuOutDto">
+        <!--@mbg.generated-->
+        <!--@Table t_menu_info-->
+        <id column="MENU_ID" jdbcType="CHAR" property="menuId" />
+        <result column="PARENT_MENU_ID" jdbcType="CHAR" property="parentMenuId" />
+        <result column="MENU_NM" jdbcType="VARCHAR" property="title" />
+        <result column="MENU_TYPE" jdbcType="CHAR" property="menuType" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="MENU_URL" jdbcType="VARCHAR" property="path" />
+        <result column="CHNAL_NO_TYPE" jdbcType="VARCHAR" property="chnalNoType" />
+    </resultMap>
+    <!--绑定角色查询sql-->
+    <sql id="selectEmpRoleInfoSql">
+        (select * from ((select '1' as stat, a.role_id as role_id, a.update_dt as update_dt, org_id,role_nm,chanl_no from (select * from  t_employee_role_info  where emp_id=#{empId}) a LEFT JOIN  t_role_info b on a.role_id=b.role_id)
+        union all (select '0' as stat, role_id,null as update_dt,org_id,role_nm,chanl_no from t_role_info where org_id=#{orgId}
+        and  role_id not in (select role_id from  t_employee_role_info  where emp_id=#{empId}))) c ) d
+        <where>
+            <if test="chnalNo != null and chnalNo != ''"> chanl_no = #{chnalNo}</if>
+        </where>
+    </sql>
+
+    <!--查询员工角色绑定和未绑定信息-->
+    <select id="quryEmpRoleInfoList" resultType="com.dispart.vo.user.RoleStatVo">
+       select *  from <include refid="selectEmpRoleInfoSql"></include> order by stat desc,update_dt asc,stat desc,role_id asc
+    </select>
+    <!--查询所有员工角色绑定和可以绑定（未绑定）总条数-->
+    <select id="quryEmpRoleInfoCount" resultType="Integer">
+       select count(*) from <include refid="selectEmpRoleInfoSql"></include>
+    </select>
+
+    <!--插入员工角色绑定表-->
+    <insert id="insertEmpRoleList" parameterType="java.util.List">
+        insert into t_employee_role_info values
+        <foreach collection="voList" item="item" separator=",">
+            (#{item.empId},#{item.roleId},
+            #{item.remark},#{item.updateDt})
+        </foreach>
+    </insert>
+
+    <!--删除员工角色绑定信息-->
+    <delete id="deleteEmpRoleList">
+        delete from t_employee_role_info where
+        <foreach collection="voList" item="item" separator=" or " index="index">
+            (emp_id = #{empId} and role_id=#{item.roleId})
+        </foreach>
+    </delete>
+
+    <!--查询员工角色绑定信息-->
+    <select id="quryEmpRoleInfo" resultType="Integer">
+          select  count(*) from t_employee_role_info where emp_id=#{empId} and role_id=#{roleId}
+    </select>
+
+    <!--关联查询单个员工权限菜单-->
+    <select id="selectAllEmpMenuList" parameterType="String" resultType="com.dispart.vo.user.RoleMenuVo">
+        select * from (select * from  (select  menu_id as dep_menu_id from t_dep_org_menu_info where id=#{depId})  a left JOIN (select * from t_role_menu_info where role_id=#{roleId}) b ON a.dep_menu_id = b.menu_id) c where menu_id is not null;
+    </select>
+
+    <!--查询所有权限菜单-->
+    <select id="findAllMenu"  resultMap="resultAllMenuMap">
+        select  MENU_ID, PARENT_MENU_ID,  MENU_NM , MENU_TYPE, REMARK,  MENU_URL,CHNAL_NO_TYPE  from t_menu_info where 1=1
+        <if test="chnalNoType != null and chnalNoType !=''">
+            and CHNAL_NO_TYPE = #{chnalNoType}
+        </if>
+    </select>
+
+    <!--查询员工角色信息-->
+    <select id="selectRoleInfo" resultType="com.dispart.vo.user.RoleVo">
+        select * from t_role_info where role_id = #{roleId} and org_id=#{orgId}
+    </select>
+
+</mapper>

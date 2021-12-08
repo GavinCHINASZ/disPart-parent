@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TUserInfoDao">
+    <resultMap type="com.dispart.vo.commons.TUserInfo" id="TUserInfoMap">
+        <result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+        <result property="provId" column="PROV_ID" jdbcType="VARCHAR"/>
+        <result property="userNm" column="USER_NM" jdbcType="VARCHAR"/>
+        <result property="userNickNm" column="USER_NICK_NM" jdbcType="VARCHAR"/>
+        <result property="userIcon" column="USER_ICON" jdbcType="VARCHAR"/>
+        <result property="userPasswd" column="USER_PASSWD" jdbcType="VARCHAR"/>
+        <result property="userPhone" column="USER_PHONE" jdbcType="VARCHAR"/>
+        <result property="regDt" column="REG_DT" jdbcType="TIMESTAMP"/>
+        <result property="userSt" column="USER_ST" jdbcType="VARCHAR"/>
+        <result property="isFirstLand" column="IS_FIRST_LAND" jdbcType="VARCHAR"/>
+        <result property="loginSt" column="LOGIN_ST" jdbcType="VARCHAR"/>
+        <result property="wxpayId" column="WXPAY_ID" jdbcType="VARCHAR"/>
+        <result property="clientId" column="CLIENT_ID" jdbcType="VARCHAR"/>
+        <result property="alipayId" column="ALIPAY_ID" jdbcType="VARCHAR"/>
+        <result property="updateDt" column="UPDATE_DT" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+      <resultMap type="com.dispart.vo.commons.TUserInfo" id="TUserInfoAndCustomMap">
+        <result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+        <result property="provId" column="PROV_ID" jdbcType="VARCHAR"/>
+        <result property="userNm" column="USER_NM" jdbcType="VARCHAR"/>
+        <result property="userNickNm" column="USER_NICK_NM" jdbcType="VARCHAR"/>
+        <result property="userIcon" column="USER_ICON" jdbcType="VARCHAR"/>
+<!--        <result property="userPasswd" column="USER_PASSWD" jdbcType="VARCHAR"/>-->
+        <result property="userPhone" column="USER_PHONE" jdbcType="VARCHAR"/>
+        <result property="regDt" column="REG_DT" jdbcType="TIMESTAMP"/>
+        <result property="userSt" column="USER_ST" jdbcType="VARCHAR"/>
+        <result property="isFirstLand" column="IS_FIRST_LAND" jdbcType="VARCHAR"/>
+        <result property="loginSt" column="LOGIN_ST" jdbcType="VARCHAR"/>
+        <result property="wxpayId" column="WXPAY_ID" jdbcType="VARCHAR"/>
+        <result property="alipayId" column="ALIPAY_ID" jdbcType="VARCHAR"/>
+        <result property="clientId" column="CLIENT_ID" jdbcType="VARCHAR"/>
+        <result property="updateDt" column="UPDATE_DT" jdbcType="TIMESTAMP"/>
+        <association property="customInfo" column="PROV_ID" select="com.dispart.dao.TCustomInfoManagerDao.selectCustomInfoByProvId">
+</association>
+    </resultMap>
+
+    <sql id="columnSql">
+        USER_ID, USER_NM, USER_NICK_NM, USER_ICON, USER_PHONE, REG_DT, USER_ST, IS_FIRST_LAND, LOGIN_ST, WXPAY_ID,
+        ALIPAY_ID, UPDATE_DT, PROV_ID, CLIENT_ID
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="userId != null and userId != ''">
+                USER_ID = #{userId}
+            </if>
+            <if test="clientId != null and clientId != ''">
+                and CLIENT_ID = #{clientId}
+            </if>
+            <if test="provId != null and provId != ''">
+                and PROV_ID = #{provId}
+            </if>
+            <if test="userNm != null and userNm != ''">
+                and USER_NM = #{userNm}
+            </if>
+            <if test="userNickNm != null and userNickNm != ''">
+                and USER_NICK_NM = #{userNickNm}
+            </if>
+            <if test="userIcon != null and userIcon != ''">
+                and USER_ICON = #{userIcon}
+            </if>
+            <if test="userPasswd != null and userPasswd != ''">
+                and USER_PASSWD = #{userPasswd}
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                and USER_PHONE = #{userPhone}
+            </if>
+            <if test="regDt != null">
+                and REG_DT = #{regDt}
+            </if>
+            <if test="userSt != null and userSt != ''">
+                and USER_ST = #{userSt}
+            </if>
+            <if test="isFirstLand != null and isFirstLand != ''">
+                and IS_FIRST_LAND = #{isFirstLand}
+            </if>
+            <if test="loginSt != null and loginSt != ''">
+                and LOGIN_ST = #{loginSt}
+            </if>
+            <if test="wxpayId != null and wxpayId != ''">
+                and WXPAY_ID = #{wxpayId}
+            </if>
+            <if test="alipayId != null and alipayId != ''">
+                and ALIPAY_ID = #{alipayId}
+            </if>
+            <if test="updateDt != null">
+                and UPDATE_DT = #{updateDt}
+            </if>
+            <if test="chanlNo != null">
+                and CHANL_NO = #{chanlNo}
+            </if>
+        </where>
+    </sql>
+
+    <select id="queryBywxId" resultMap="TUserInfoMap" parameterType="java.lang.String">
+        select <include refid="columnSql"/>
+        from logistics.t_user_info
+        where WXPAY_ID = #{wxpayId}
+    </select>
+
+    <select id="queryByZfbId" resultMap="TUserInfoMap" parameterType="java.lang.String">
+        select <include refid="columnSql"/>
+        from logistics.t_user_info
+        where ALIPAY_ID = #{alipayId}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TUserInfoAndCustomMap">
+        select <include refid="columnSql"/>
+        from logistics.t_user_info
+        where USER_ID = #{userId}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TUserInfoMap">
+        select <include refid="columnSql"/>
+        from logistics.t_user_info
+        <include refid="whereSql"/>
+    </select>
+
+    <!-- 通过实体作为筛选条件查询 -->
+    <select id="queryTUserInfo" parameterType="com.dispart.vo.commons.TUserInfo" resultMap="TUserInfoMap">
+        select <include refid="columnSql"/>
+        from logistics.t_user_info
+        <include refid="whereSql"/>
+        and CLIENT_ID is not null and CLIENT_ID != ''
+        LIMIT 1;
+    </select>
+
+    <!--插入设备id-->
+    <update id="updateClientId" >
+         update t_user_info set CLIENT_ID = #{clientId} where USER_ID = #{userId}
+    </update>
+    <!--插入设备id-->
+    <update id="updateProvId" >
+         update t_user_info set PROV_ID = #{provId} where USER_ID = #{userId}
+    </update>
+</mapper>

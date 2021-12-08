@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.IQuryEmployeeMapper">
+    <sql id="selectEmpInfoSql">
+        <!-- where emp_st != #{deleteSt}-->
+        where 1=1
+        <if test="inDto.empNm != null and inDto.empNm !=''">
+            and emp_nm = #{inDto.empNm}
+        </if>
+        <if test="inDto.empId != null and inDto.empId !=''">
+            and emp_id = #{inDto.empId}
+        </if>
+        <if test="inDto.empSt != null and inDto.empSt !=''">
+            and emp_st = #{inDto.empSt}
+        </if>
+    </sql>
+
+    <select id="selectEmpInfos" parameterType="com.dispart.dto.empdto.QuryEmpInDto"
+            resultType="com.dispart.vo.user.EmployeeInfoVo">
+        select * from t_employee_info <include refid="selectEmpInfoSql"></include> order by  emp_id asc limit #{curPage},#{pageSize}
+    </select>
+
+    <select id="selectCount" parameterType="com.dispart.dto.empdto.QuryEmpInDto" resultType="Integer">
+        select count(*) from t_employee_info <include refid="selectEmpInfoSql"></include>
+    </select>
+
+
+    <select id="selectOrgNameByOrgId" resultType="String">
+        select ORG_NM from t_organization_info where ORG_ID=#{orgId}
+    </select>
+
+    <select id="selectDepNameDepId" resultType="String">
+        select DEP_NM from t_department_info where DEP_ID=#{depId}
+    </select>
+</mapper>

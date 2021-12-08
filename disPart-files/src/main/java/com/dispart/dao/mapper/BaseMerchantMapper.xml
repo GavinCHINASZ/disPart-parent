@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.BaseMerchantMapper">
+  <select id="findAll" resultType="com.dispart.vo.basevo.BaseMerchantVo">
+    select
+          a.PROV_ID merchantcode , a.qrcode_url
+        from logistics.t_custom_info_manager a
+        join t_custom_sign_info b
+        on a.qrcode_url is null  and a.PROV_ID=b.MERCHANT_CODE
+</select>
+<update id="updateUrlByKey" parameterType="com.dispart.vo.basevo.BaseMerchantVo">
+    <!--@mbg.generated-->
+    update t_custom_info_manager
+    set qrcode_url = #{qrcodeUrl,jdbcType=CHAR}
+    where PROV_ID = #{merchantcode,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TLoudspeakerInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.dto.deviceManagerDto.TLoudspeakerInfo">
+    <!--@mbg.generated-->
+    <!--@Table t_loudspeaker_info-->
+    <id column="REQUEST_ID" jdbcType="VARCHAR" property="requestId" />
+    <result column="DEVICE_ID" jdbcType="VARCHAR" property="deviceId" />
+    <result column="REQUEST_TIME" jdbcType="CHAR" property="requestTime" />
+    <result column="ACTION" jdbcType="VARCHAR" property="action" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="TIMEOUT" jdbcType="INTEGER" property="timeout" />
+    <result column="ERR_CODE" jdbcType="CHAR" property="errCode" />
+    <result column="ERR_MSG" jdbcType="VARCHAR" property="errMsg" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    REQUEST_ID, DEVICE_ID, REQUEST_TIME, `ACTION`, AMOUNT, TIMEOUT, ERR_CODE, ERR_MSG, 
+    REMARK, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_loudspeaker_info
+    where REQUEST_ID = #{requestId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.dispart.dto.deviceManagerDto.TLoudspeakerInfo">
+    <!--@mbg.generated-->
+    insert into t_loudspeaker_info (REQUEST_ID, DEVICE_ID, REQUEST_TIME, 
+      `ACTION`, AMOUNT, TIMEOUT, 
+      ERR_CODE, ERR_MSG, REMARK)
+    values (#{requestId,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, #{requestTime,jdbcType=CHAR}, 
+      #{action,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, #{timeout,jdbcType=INTEGER}, 
+      #{errCode,jdbcType=CHAR}, #{errMsg,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dispart.dto.deviceManagerDto.TLoudspeakerInfo">
+    <!--@mbg.generated-->
+    update t_loudspeaker_info
+    set
+      ERR_CODE = #{errCode,jdbcType=CHAR},
+      ERR_MSG = #{errMsg,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where REQUEST_ID = #{requestId,jdbcType=VARCHAR}
+  </update>
+</mapper>

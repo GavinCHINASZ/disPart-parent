@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.TCustomInfoManagerMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.entrance.TCustomInfoManager">
+    <!--@mbg.generated-->
+    <!--@Table t_custom_info_manager-->
+    <id column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="TAX_NUM" jdbcType="VARCHAR" property="taxNum" />
+    <result column="CUSTOM_TP" jdbcType="VARCHAR" property="customTp" />
+    <result column="PVTY_TP" jdbcType="VARCHAR" property="pvtyTp" />
+    <result column="PROV_NM" jdbcType="VARCHAR" property="provNm" />
+    <result column="SHRT_NM" jdbcType="VARCHAR" property="shrtNm" />
+    <result column="CERT_TYPE" jdbcType="VARCHAR" property="certType" />
+    <result column="CERT_NUM" jdbcType="VARCHAR" property="certNum" />
+    <result column="CERT_ADDR" jdbcType="VARCHAR" property="certAddr" />
+    <result column="CERT_PRD" jdbcType="DATE" property="certPrd" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName" />
+    <result column="LEGAL_PHONE" jdbcType="VARCHAR" property="legalPhone" />
+    <result column="LEGAL_CERT_TP" jdbcType="VARCHAR" property="legalCertTp" />
+    <result column="LEGAL_CERT_NUM" jdbcType="VARCHAR" property="legalCertNum" />
+    <result column="AGENT_NAME" jdbcType="VARCHAR" property="agentName" />
+    <result column="AGENT_PHONE" jdbcType="VARCHAR" property="agentPhone" />
+    <result column="AGENT_CERT_NO" jdbcType="VARCHAR" property="agentCertNo" />
+    <result column="AGENT_ADDR" jdbcType="VARCHAR" property="agentAddr" />
+    <result column="TERM_PRCTN" jdbcType="CHAR" property="termPrctn" />
+    <result column="TERM_DUE_DT" jdbcType="DATE" property="termDueDt" />
+    <result column="FRONT_URL" jdbcType="VARCHAR" property="frontUrl" />
+    <result column="REVERSER_URL" jdbcType="VARCHAR" property="reverserUrl" />
+    <result column="BUSINESS_URL" jdbcType="VARCHAR" property="businessUrl" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="IS_REAL" jdbcType="CHAR" property="isReal" />
+    <result column="MNMN_CODE" jdbcType="VARCHAR" property="mnmnCode" />
+    <result column="QRCODE_URL" jdbcType="VARCHAR" property="qrcodeUrl" />
+    <result column="AUDITOR" jdbcType="VARCHAR" property="auditor" />
+    <result column="AUDITOR_TM" jdbcType="TIMESTAMP" property="auditorTm" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="BUSINESS_SCOPE" jdbcType="VARCHAR" property="businessScope" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PROV_ID, TAX_NUM, CUSTOM_TP, PVTY_TP, PROV_NM, SHRT_NM, CERT_TYPE, CERT_NUM, CERT_ADDR, 
+    CERT_PRD, PHONE, LEGAL_NAME, LEGAL_PHONE, LEGAL_CERT_TP, LEGAL_CERT_NUM, AGENT_NAME, 
+    AGENT_PHONE, AGENT_CERT_NO, AGENT_ADDR, TERM_PRCTN, TERM_DUE_DT, FRONT_URL, REVERSER_URL, 
+    BUSINESS_URL, `STATUS`, IS_REAL, MNMN_CODE, QRCODE_URL, AUDITOR, AUDITOR_TM, REMARK, 
+    OPER_ID, CREAT_TIME, UP_TIME,BUSINESS_SCOPE
+  </sql>
+  <select id="selectByCertNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_custom_info_manager
+    where CERT_NUM = #{certNum,jdbcType=VARCHAR} or LEGAL_CERT_NUM = #{certNum,jdbcType=VARCHAR}
+  </select>
+
+
+</mapper>

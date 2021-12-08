@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TVehicleManagerMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.entrance.TVehicleManager">
+    <!--@mbg.generated-->
+    <!--@Table t_vehicle_manager-->
+    <id column="NUM" jdbcType="INTEGER" property="num" />
+    <result column="VEHICEL_TP_ID" jdbcType="VARCHAR" property="vehicleTpId" />
+    <result column="VEHICLE_TP" jdbcType="VARCHAR" property="vehicleTp" />
+    <result column="VEHICLE_ID" jdbcType="VARCHAR" property="vehicleId" />
+    <result column="VEHICLE" jdbcType="VARCHAR" property="vehicle" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    NUM, VEHICEL_TP_ID, VEHICLE_TP, VEHICLE_ID, VEHICLE, REMARK, OPER_ID, CREAT_TIME, 
+    UP_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_vehicle_manager
+    where NUM = #{num,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.dispart.vo.entrance.TVehicleManager">
+    <!--@mbg.generated-->
+    insert into t_vehicle_manager (NUM, VEHICEL_TP_ID, VEHICLE_TP, 
+      VEHICLE_ID, VEHICLE, REMARK, 
+      OPER_ID, CREAT_TIME, UP_TIME
+      )
+    values (#{num,jdbcType=INTEGER}, #{vehicleTpId,jdbcType=VARCHAR}, #{vehicleTp,jdbcType=VARCHAR},
+      #{vehicleId,jdbcType=VARCHAR}, #{vehicle,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{operId,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{upTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dispart.vo.entrance.TVehicleManager">
+    <!--@mbg.generated-->
+    update t_vehicle_manager
+    set VEHICEL_TP_ID = #{vehicleTpId,jdbcType=VARCHAR},
+      VEHICLE_TP = #{vehicleTp,jdbcType=VARCHAR},
+      VEHICLE_ID = #{vehicleId,jdbcType=VARCHAR},
+      VEHICLE = #{vehicle,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+      UP_TIME = #{upTime,jdbcType=TIMESTAMP}
+    where NUM = #{num,jdbcType=INTEGER}
+  </update>
+  <select id="selectByVehicleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    VEHICLE_TP_ID, VEHICLE_TP, VEHICLE_ID, VEHICLE, REMARK, OPER_ID, CREAT_TIME,
+    UP_TIME
+    from t_vehicle_manager
+    where VEHICLE_ID = #{vehicleId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByVeIdVeTpId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select *
+    from t_vehicle_manager
+    where VEHICLE_ID = #{vehicleId,jdbcType=VARCHAR}
+    and VEHICLE_TP_ID = #{vehicleTpId,jdbcType=VARCHAR}
+  </select>
+</mapper>

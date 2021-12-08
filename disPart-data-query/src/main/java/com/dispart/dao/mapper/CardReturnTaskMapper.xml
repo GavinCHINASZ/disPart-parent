@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.CardReturnTaskMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.CardReturnTask">
+    <!--@mbg.generated-->
+    <!--@Table t_card_return_task-->
+    <id column="TASK_ID" property="taskId" />
+    <result column="TASK_DT" property="taskDt" />
+    <result column="PROV_ID" property="provId" />
+    <result column="CARD_NO" property="cardNo" />
+    <result column="ACCOUNT" property="account" />
+    <result column="AMOUNT" property="amount" />
+    <result column="USE_OF" property="useOf" />
+    <result column="JRNL_NUM" property="jrnlNum" />
+    <result column="STATUS" property="status" />
+    <result column="REQUEST_SN" property="requestSn" />
+    <result column="REMARK" property="remark" />
+    <result column="CREAT_TIME" property="creatTime" />
+    <result column="UP_TIME" property="upTime" />
+    <result column="OPER_ID" property="operId" />
+    <result column="OUT_TIME" property="outTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    TASK_ID, TASK_DT, PROV_ID, CARD_NO, ACCOUNT, AMOUNT, USE_OF, JRNL_NUM, `STATUS`, 
+    REQUEST_SN, REMARK, CREAT_TIME, UP_TIME
+  </sql>
+
+  <select id="selectCardReturnTask" parameterType="com.dispart.dto.dataquery.Disp20210349InDto" resultType="com.dispart.dto.dataquery.Disp20210349OutDto">
+    SELECT t1.PROV_NM, t2.*,t3.EMP_NM operNm, t5.VEHICLE_NUM vehicleNum
+    FROM t_custom_info_manager t1
+    INNER JOIN t_card_return_task t2 ON t1.PROV_ID = t2.PROV_ID
+    LEFT JOIN t_employee_info t3 ON t3.EMP_ID = t2.OPER_ID
+    LEFT JOIN t_pay_jrn t4 on t4.JRNL_NUM = t2.JRNL_NUM
+    LEFT JOIN t_vechicle_procurer t5 on t5.IN_ID = t4.BUSINESS_NO
+    where 1=1
+    <if test="vehicleNum != null and vehicleNum != ''">AND t5.VEHICLE_NUM like concat('%',#{vehicleNum},'%')</if>
+    <if test="provNm != null and provNm != ''">AND t1.PROV_NM like concat('%',#{provNm},'%')</if>
+    <if test="cardNo != null and cardNo != ''">AND t2.CARD_NO = #{cardNo}</if>
+    <if test="status != null and status != ''">AND t2.`STATUS` = #{status}</if>
+    <if test="outStTime != null and outStTime != ''">AND t2.OUT_TIME >= #{outStTime}</if>
+    <if test="outEndTime != null and outEndTime != ''">AND #{outEndTime} >= t2.OUT_TIME</if>
+    <if test="operNm != null and operNm != ''">AND t3.EMP_NM LIKE concat('%',#{operNm},'%')</if>
+    ORDER BY t2.CREAT_TIME DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum},#{pageSize}</if>
+  </select>
+
+  <select id="selectCardReturnTaskCount" parameterType="com.dispart.dto.dataquery.Disp20210349InDto" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM t_custom_info_manager t1
+    INNER JOIN t_card_return_task t2 ON t1.PROV_ID = t2.PROV_ID
+    LEFT JOIN t_employee_info t3 ON t3.EMP_ID = t2.OPER_ID
+    LEFT JOIN t_pay_jrn t4 on t4.JRNL_NUM = t2.JRNL_NUM
+    LEFT JOIN t_vechicle_procurer t5 on t5.IN_ID = t4.BUSINESS_NO
+    where 1=1
+    <if test="vehicleNum != null and vehicleNum != ''">AND t5.VEHICLE_NUM like concat('%',#{vehicleNum},'%')</if>
+    <if test="provNm != null and provNm != ''">AND t1.PROV_NM like concat('%',#{provNm},'%')</if>
+    <if test="cardNo != null and cardNo != ''">AND t2.CARD_NO = #{cardNo}</if>
+    <if test="status != null and status != ''">AND t2.`STATUS` = #{status}</if>
+    <if test="outStTime != null and outStTime != ''">AND t2.OUT_TIME >= #{outStTime}</if>
+    <if test="outEndTime != null and outEndTime != ''">AND #{outEndTime} >= t2.OUT_TIME</if>
+    <if test="operNm != null and operNm != ''">AND t3.EMP_NM LIKE concat('%',#{operNm},'%')</if>
+  </select>
+</mapper>

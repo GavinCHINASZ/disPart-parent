@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.BaseOrganizationMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.basevo.OrganizationVo">
+    <!--@mbg.generated-->
+    <!--@Table t_organization_info-->
+    <id column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="ORG_TYPE" jdbcType="VARCHAR" property="orgType" />
+    <result column="ORG_NM" jdbcType="VARCHAR" property="orgNm" />
+    <result column="ORG_SHRT_NM" jdbcType="VARCHAR" property="orgShrtNm" />
+    <result column="TAX_NUM" jdbcType="VARCHAR" property="taxNum" />
+    <result column="ACCOUNT" jdbcType="VARCHAR" property="account" />
+    <result column="AREA_CD" jdbcType="CHAR" property="areaCd" />
+    <result column="ORG_ADDR" jdbcType="VARCHAR" property="orgAddr" />
+    <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
+    <result column="FAX_NO" jdbcType="VARCHAR" property="faxNo" />
+    <result column="POSTCODE" jdbcType="CHAR" property="postcode" />
+    <result column="LEGAL_PERSON" jdbcType="VARCHAR" property="legalPerson" />
+    <result column="CONTACTS" jdbcType="VARCHAR" property="contacts" />
+    <result column="ORG_ST" jdbcType="CHAR" property="orgSt" />
+    <result column="OPEN_DT" jdbcType="DATE" property="openDt" />
+    <result column="CREAT_DT" jdbcType="DATE" property="creatDt" />
+    <result column="OPER_ID" jdbcType="CHAR" property="operId" />
+    <result column="AUDITOR" jdbcType="CHAR" property="auditor" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="ORG_LEVEL" jdbcType="CHAR" property="orgLevel" />
+    <result column="PARENT_ORG_ID" jdbcType="VARCHAR" property="parentOrgId" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ORG_ID, ORG_TYPE, ORG_NM, ORG_SHRT_NM, TAX_NUM, ACCOUNT, AREA_CD, ORG_ADDR, TELEPHONE, 
+    FAX_NO, POSTCODE, LEGAL_PERSON, CONTACTS, ORG_ST, OPEN_DT, CREAT_DT, OPER_ID, AUDITOR, 
+    REMARK, ORG_LEVEL, PARENT_ORG_ID, UPDATE_DT
+  </sql>
+    <insert id="addOrg" parameterType="com.dispart.vo.basevo.OrganizationVo">
+      insert into t_organization_info (ORG_ID, ORG_TYPE, ORG_NM, ORG_SHRT_NM, TAX_NUM, ACCOUNT, AREA_CD, ORG_ADDR, TELEPHONE,
+      FAX_NO, POSTCODE, LEGAL_PERSON, CONTACTS, ORG_ST, OPEN_DT, CREAT_DT, OPER_ID, AUDITOR,REMARK, ORG_LEVEL, PARENT_ORG_ID, UPDATE_DT)
+      values (#{orgId},#{orgType},#{orgNm},#{orgShrtNm},#{taxNum},#{account},#{areaCd},#{orgAddr},#{telephone},#{faxNo},#{postcode},#{legalPerson},
+      #{contacts},#{orgSt},#{openDt},#{creatDt},#{operId},#{auditor},#{remark},#{orgLevel},#{parentOrgId},#{updateDt})
+    </insert>
+  <select id="seMaxOrgId" resultType="java.lang.String">
+    select  max(ORG_ID)
+    from t_organization_info
+    where ORG_ID<![CDATA[>=]]>#{minId} and ORG_ID<![CDATA[<]]>#{maxId}
+  </select>
+  <update id="upOrgSt" parameterType="com.dispart.vo.basevo.OrganizationVo">
+    update t_organization_info
+    set ORG_ST=1
+    where ORG_ID=#{orgId}
+  </update>
+  <select id="seOrgList" resultType="com.dispart.dto.orgdto.DISP20210025OrgFindByParamPOutDto">
+    select d.* from (select a.*,b.ORG_NM AS parentOrgNm
+    from
+    (select * from t_organization_info
+        where ORG_ST='0'
+    <if test="orgId != null and orgId != ''">and ORG_ID=#{orgId}</if>
+    <if test="orgNm != null and orgNm != ''">and ORG_NM like "%"#{orgNm}"%"</if>
+    <if test="parentOrgId != null and parentOrgId != ''">and PARENT_ORG_ID=#{parentOrgId}</if>
+    ) a
+    left join t_organization_info b
+    on a.PARENT_ORG_ID=b.ORG_ID and b.ORG_ST='0' ) d  where  d.PARENT_ORG_ID='00000000' or d.parentOrgNm is not null
+    <if test="pageSize>0"> limit #{pageNum},#{pageSize}</if>
+  </select>
+    <select id="findPOrgIDByOrgId" resultType="com.dispart.vo.basevo.OrganizationVo">
+      select PARENT_ORG_ID
+      from t_organization_info
+      where ORG_ID=#{orgId}
+    </select>
+  <select id="orgNum" resultType="java.lang.Integer">
+    select count(1)
+    from (select a.*,b.ORG_NM AS parentOrgNm
+    from
+    (select * from t_organization_info
+    where ORG_ST='0'
+    <if test="orgId != null and orgId != ''">and ORG_ID=#{orgId}</if>
+    <if test="orgNm != null and orgNm != ''">and ORG_NM like "%"#{orgNm}"%"</if>
+    <if test="parentOrgId != null and parentOrgId != ''">and PARENT_ORG_ID=#{parentOrgId}</if>
+    ) a
+    left join t_organization_info b
+    on a.PARENT_ORG_ID=b.ORG_ID and b.ORG_ST='0' ) d  where  d.PARENT_ORG_ID='00000000' or d.parentOrgNm is not null
+  </select>
+  <select id="findNextval" resultType="java.lang.Integer">
+    select nextval(#{seqName})
+  </select>
+
+  <select id="findNextOrgId" resultType="com.dispart.vo.basevo.OrganizationVo">
+    select *
+    from t_organization_info
+    where 1=1
+    <if test="orgId != null and orgId != ''">and ORG_ID=#{orgId}</if>
+    <if test="orgNm != null and orgNm != ''">and ORG_NM like "%"#{orgNm}"%"</if>
+    <if test="parentOrgId != null and parentOrgId != ''">and PARENT_ORG_ID=#{parentOrgId}</if>
+    <if test="orgSt != null and orgSt != ''">and ORG_ST=#{orgSt}</if>
+  </select>
+
+
+</mapper>

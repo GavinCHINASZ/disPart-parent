@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: disPart-task
+
+  cloud:
+    nacos:
+
+      config:
+        server-addr: 128.11.132.1:8848
+        file-extension: yaml

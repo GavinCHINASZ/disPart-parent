@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.MCardInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.MCardInfo">
+    <!--@mbg.generated-->
+    <!--@Table t_vehicle_month-->
+    <id column="MCARD_NUM" jdbcType="VARCHAR" property="mcardNum" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="PROV_NM" jdbcType="VARCHAR" property="provNm" />
+    <result column="VEHICLE_NUM" jdbcType="VARCHAR" property="vehicleNum" />
+    <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+    <result column="MCARD_TP" jdbcType="CHAR" property="mcardTp" />
+    <result column="OPEN_CARD_DT" jdbcType="DATE" property="openCardDt" />
+    <result column="START_DT" jdbcType="DATE" property="startDt" />
+    <result column="DUE_DT" jdbcType="DATE" property="dueDt" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="IN_NUM" jdbcType="VARCHAR" property="inNum" />
+    <result column="OUT_NUM" jdbcType="VARCHAR" property="outNum" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="OPER_NM" jdbcType="VARCHAR" property="operNm" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    MCARD_NUM, PROV_ID, PROV_NM, VEHICLE_NUM, CARD_NO, MCARD_TP, OPEN_CARD_DT, START_DT, 
+    DUE_DT, `STATUS`, IN_NUM, OUT_NUM, REMARK, OPER_ID, OPER_NM, CREAT_TIME, UP_TIME
+  </sql>
+
+  <select id="selectMcardInfoCount" parameterType="com.dispart.dto.MCardInfoDto.MCardInfoSelectionInDto" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM t_vehicle_month WHERE 1=1
+    <if test="mcardTp != null and mcardTp != ''">and MCARD_TP = #{mcardTp}</if>
+    <if test="provNm != null and provNm != ''">and PROV_NM like concat('%',#{provNm},'%')</if>
+    <if test="vehicleNum != null and vehicleNum != ''">and VEHICLE_NUM like concat('%',#{vehicleNum},'%')</if>
+    <if test="cardNo != null and cardNo != ''">and CARD_NO like concat('%',#{cardNo},'%')</if>
+    <if test="mcardNum != null and mcardNum != ''">and MCARD_NUM = #{mcardNum}</if>
+    <if test="beginDate != null and beginDate != ''">and OPEN_CARD_DT >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">and #{endDate} >= OPEN_CARD_DT</if>
+    <if test="appSelectKey != null and appSelectKey != ''">
+      and (
+      VEHICLE_NUM like concat('%',#{appSelectKey},'%')
+      or PROV_NM like concat('%',#{appSelectKey},'%')
+      )
+    </if>
+  </select>
+
+  <select id="selectMcardInfo" parameterType="com.dispart.dto.MCardInfoDto.MCardInfoSelectionInDto" resultType="com.dispart.model.MCardInfo">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM t_vehicle_month WHERE 1=1
+    <if test="mcardTp != null and mcardTp != ''">and MCARD_TP = #{mcardTp}</if>
+    <if test="provNm != null and provNm != ''">and PROV_NM like concat('%',#{provNm},'%')</if>
+    <if test="vehicleNum != null and vehicleNum != ''">and VEHICLE_NUM like concat('%',#{vehicleNum},'%')</if>
+    <if test="cardNo != null and cardNo != ''">and CARD_NO like concat('%',#{cardNo},'%')</if>
+    <if test="mcardNum != null and mcardNum != ''">and MCARD_NUM = #{mcardNum}</if>
+    <if test="beginDate != null and beginDate != ''">and OPEN_CARD_DT >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">and #{endDate} >= OPEN_CARD_DT</if>
+    <if test="appSelectKey != null and appSelectKey != ''">
+      and (
+            VEHICLE_NUM like concat('%',#{appSelectKey},'%')
+            or PROV_NM like concat('%',#{appSelectKey},'%')
+      )
+    </if>
+    ORDER BY UP_TIME DESC
+    <if test="pageSize != null and pageNum != null">limit #{pageNum},#{pageSize}</if>
+  </select>
+
+  <insert id="insertSelective" parameterType="com.dispart.dto.MCardInfoDto.MCardInfoInsertDto">
+    <!--@mbg.generated-->
+    insert into t_vehicle_month
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mcardNum != null">
+        MCARD_NUM,
+      </if>
+      <if test="provId != null">
+        PROV_ID,
+      </if>
+      <if test="provNm != null">
+        PROV_NM,
+      </if>
+      <if test="vehicleNum != null">
+        VEHICLE_NUM,
+      </if>
+      <if test="cardNo != null">
+        CARD_NO,
+      </if>
+      <if test="mcardTp != null">
+        MCARD_TP,
+      </if>
+        OPEN_CARD_DT,
+      <if test="startDt != null">
+        START_DT,
+      </if>
+      <if test="dueDt != null">
+        DUE_DT,
+      </if>
+      <if test="status != null">
+        `STATUS`,
+      </if>
+      <if test="inNum != null">
+        IN_NUM,
+      </if>
+      <if test="outNum != null">
+        OUT_NUM,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="operId != null">
+        OPER_ID,
+      </if>
+      <if test="operNm != null">
+        OPER_NM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mcardNum != null">
+        #{mcardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="provId != null">
+        #{provId,jdbcType=VARCHAR},
+      </if>
+      <if test="provNm != null">
+        #{provNm,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleNum != null">
+        #{vehicleNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mcardTp != null">
+        #{mcardTp,jdbcType=CHAR},
+      </if>
+      DATE_FORMAT(NOW(),'%Y-%m-%d %T'),
+      <if test="startDt != null">
+        #{startDt,jdbcType=DATE},
+      </if>
+      <if test="dueDt != null">
+        #{dueDt,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="inNum != null">
+        #{inNum,jdbcType=VARCHAR},
+      </if>
+      <if test="outNum != null">
+        #{outNum,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null">
+        #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operNm != null">
+        #{operNm,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.dispart.dto.MCardInfoDto.MCardInfoInsertDto">
+    <!--@mbg.generated-->
+    update t_vehicle_month
+    <set>
+      <if test="provId != null">
+        PROV_ID = #{provId,jdbcType=VARCHAR},
+      </if>
+      <if test="provNm != null">
+        PROV_NM = #{provNm,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleNum != null">
+        VEHICLE_NUM = #{vehicleNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        CARD_NO = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mcardTp != null">
+        MCARD_TP = #{mcardTp,jdbcType=CHAR},
+      </if>
+      <if test="openCardDt != null and openCardDt != ''">
+        OPEN_CARD_DT = #{openCardDt,jdbcType=DATE},
+      </if>
+      <if test="startDt != null and startDt != ''">
+        START_DT = #{startDt,jdbcType=DATE},
+      </if>
+      <if test="dueDt != null and dueDt != ''">
+        DUE_DT = #{dueDt,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        `STATUS` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="inNum != null">
+        IN_NUM = #{inNum,jdbcType=VARCHAR},
+      </if>
+      <if test="outNum != null">
+        OUT_NUM = #{outNum,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null">
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operNm != null">
+        OPER_NM = #{operNm,jdbcType=VARCHAR},
+      </if>
+        UP_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T'),
+    </set>
+    where MCARD_NUM = #{mcardNum,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteMcardInfo" parameterType="java.lang.String">
+    DELETE FROM t_vehicle_month WHERE MCARD_NUM = #{mcardNum}
+  </delete>
+
+  <select id="getMcardNum" resultType="java.lang.Integer">
+    select nextVal('mcardNum')
+  </select>
+
+  <!-- 查询进出场设备编号对应的出入口名称 -->
+  <select id="getInOutNm" parameterType="java.lang.String" resultType="java.lang.String">
+    SELECT IN_OUT FROM t_device_relevance where DEVICE_NO = #{deviceNo}
+  </select>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.TProductInventoryInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TProductInventoryInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_product_inventory_info-->
+    <id column="PRDCT_ID" jdbcType="CHAR" property="prdctId" />
+    <id column="PROV_ID" jdbcType="CHAR" property="provId" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="STOCK" jdbcType="INTEGER" property="stock" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+    <result column="PRDCT_TYPE" jdbcType="VARCHAR" property="prdctType" />
+    <result column="PRDCT_TYPE_ID" jdbcType="INTEGER" property="prdctTypeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PRDCT_ID, PROV_ID, PRDCT_NM, STOCK, UNIT, REMARK, UPDATE_DT, PRDCT_TYPE, PRDCT_TYPE_ID
+  </sql>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.CustomWithdrawTmpDao">
+    <resultMap id="BaseResultMap" type="com.dispart.vo.user.CustomWithdrawTmpVo">
+        <id column="PROV_ID" jdbcType="VARCHAR" property="provId"/>
+        <result column="ACCRU_AMT" jdbcType="DECIMAL" property="accruAmt"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime"/>
+        <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime"/>
+    </resultMap>
+
+    <sql id="baseSql">
+        `PROV_ID`, `ACCRU_AMT`, `REMARK`, `CREAT_TIME`, `UP_TIME`
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="provId != null and provId != ''">
+                PROV_ID = #{provId}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 根据客户编号查询 -->
+    <select id="findByProvId" resultMap="BaseResultMap">
+        SELECT <include refid="baseSql"/>
+        from t_custom_withdraw_tmp
+        WHERE PROV_ID = #{provId};
+    </select>
+
+</mapper>

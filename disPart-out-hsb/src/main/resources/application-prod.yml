@@ -1,0 +1,40 @@
+#服务端口
+server:
+  port: 8082
+
+spring:
+  application:
+    name: disPart-out-hsb  #服务名
+
+# 服务url
+service:
+  url:
+    DISP20210093: http://10.250.16.35:8082/online/direct/enquireMkMrchOrder #签约客户信息查询
+    DISP20210096: http://10.250.16.35:8082/online/direct/gatherPlaceorder   #惠市宝支付下单
+    DISP20210098: http://10.250.16.35:8082/online/direct/gatherEnquireOrder #惠市宝支付结果查询
+    DISP20210044: http://10.250.16.35:8084/securityCenter/DISP20210044      #物流园参数查询
+    DISP20210064: http://10.250.16.35:8087/securityCenter/DISP20210064     #对账文件推送
+    DISP20210065: http://10.250.16.35:8087/securityCenter/DISP20210065     #惠市宝支付结果通知
+    DISP20210077: http://10.250.16.35:8085/securityCenter/DISP20210077     #惠市宝签约客户信息变更通知
+    #二期新增服务
+    DISP20210278: http://10.250.16.35:8082/online/direct/updateOrderSt      #更新线下支付订单状态
+    DISP20210279: http://10.250.16.35:8082/online/direct/createOffLineOrderRefundJrnNo   #生成线下退款流水
+    DISP20210280: http://10.250.16.35:8082/online/direct/offLineOrderRefundNotice   #客户方通知线下退款结果
+
+    DISP20210292: http://10.250.16.35:8082/online/direct/refundOrder #订单退款
+    DISP20210294: http://10.250.16.35:8082/online/direct/enquireRefundOrder #退款结果查询
+    DISP20210264: http://10.250.16.35:8087/securityCenter/DISP20210264  #退款结果通知
+
+# 文件存储位置
+local:
+  file:
+    path: /home/ap/outHsb/file/
+
+# 日志参数 日志位置  日志名称
+logging:
+  file:
+    name: /home/ap/outHsb/log/hsb_log.log
+
+# HSA秘钥串
+sign:
+  secret: KTLFJDAK@543&#23234FdfdsT

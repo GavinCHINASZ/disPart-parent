@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TCardInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.basevo.TCardInfoVo">
+    <!--@mbg.generated-->
+    <!--@Table t_card_info-->
+    <id column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+    <result column="DOCUMENT_NUM" jdbcType="VARCHAR" property="documentNum" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    CARD_NO, DOCUMENT_NUM, `STATUS`, REMARK, OPER_ID, CREAT_TIME, UP_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_card_info
+    where CARD_NO = #{cardNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from t_card_info
+    where CARD_NO = #{cardNo,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteDocumentNum" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from t_card_info
+    where DOCUMENT_NUM = #{documentNum,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.dispart.vo.basevo.TCardInfoVo">
+    <!--@mbg.generated-->
+    insert into t_card_info (CARD_NO,CARD_TP, DOCUMENT_NUM, `STATUS`,
+      REMARK, OPER_ID, CREAT_TIME, 
+      UP_TIME)
+    values (#{cardNo,jdbcType=VARCHAR},#{cardTp,jdbcType=VARCHAR}, #{documentNum,jdbcType=VARCHAR}, #{status,jdbcType=CHAR},
+      #{remark,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{upTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dispart.vo.basevo.TCardInfoVo">
+    <!--@mbg.generated-->
+    insert into t_card_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cardNo != null">
+        CARD_NO,
+      </if>
+      <if test="cardTp != null">
+        CARD_TP,
+      </if>
+      <if test="documentNum != null">
+        DOCUMENT_NUM,
+      </if>
+      <if test="status != null">
+        `STATUS`,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="operId != null">
+        OPER_ID,
+      </if>
+      <if test="creatTime != null">
+        CREAT_TIME,
+      </if>
+      <if test="upTime != null">
+        UP_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardTp != null">
+        #{cardTp,jdbcType=VARCHAR},
+      </if>
+      <if test="documentNum != null">
+        #{documentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null">
+        #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTime != null">
+        #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dispart.vo.basevo.TCardInfoVo">
+    <!--@mbg.generated-->
+    update t_card_info
+    <set>
+      <if test="documentNum != null">
+        DOCUMENT_NUM = #{documentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `STATUS` = #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null">
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTime != null">
+        UP_TIME = #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CARD_NO = #{cardNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dispart.vo.basevo.TCardInfoVo">
+    <!--@mbg.generated-->
+    update t_card_info
+    set DOCUMENT_NUM = #{documentNum,jdbcType=VARCHAR},
+      `STATUS` = #{status,jdbcType=CHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+      UP_TIME = #{upTime,jdbcType=TIMESTAMP}
+    where CARD_NO = #{cardNo,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByDocumentNumSelective" parameterType="com.dispart.vo.basevo.TCardInfoVo">
+    <!--@mbg.generated-->
+    update t_card_info
+    <set>
+      <if test="documentNum != null">
+        DOCUMENT_NUM = #{documentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null">
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTime != null">
+        UP_TIME = #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DOCUMENT_NUM = #{documentNum,jdbcType=VARCHAR}
+  </update>
+
+
+
+
+
+</mapper>

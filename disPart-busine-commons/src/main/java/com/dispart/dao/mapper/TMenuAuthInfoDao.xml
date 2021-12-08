@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TMenuAuthInfoDao">
+    <resultMap type="com.dispart.vo.commons.TMenuAuthInfo" id="TMenuAuthInfoMap">
+        <result property="authId" column="AUTH_ID" jdbcType="INTEGER"/>
+        <result property="menuId" column="MENU_ID" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="updateDt" column="UPDATE_DT" jdbcType="OTHER"/>
+        <result property="url" column="URL" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TMenuAuthInfoMap">
+        select
+          AUTH_ID, MENU_ID, REMARK, UPDATE_DT, URL
+        from logistics.t_menu_auth_info
+        <where>
+            <if test="authId != null">
+                and AUTH_ID = #{authId}
+            </if>
+            <if test="menuId != null and menuId != ''">
+                and MENU_ID = #{menuId}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK = #{remark}
+            </if>
+            <if test="updateDt != null">
+                and UPDATE_DT = #{updateDt}
+            </if>
+            <if test="url != null and url != ''">
+                and URL = #{url}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

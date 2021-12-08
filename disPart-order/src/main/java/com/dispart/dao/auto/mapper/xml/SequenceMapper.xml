@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.SequenceMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.Sequence">
+    <!--@mbg.generated-->
+    <!--@Table logistics.`sequence`-->
+    <id column="SEQ_NAME" jdbcType="VARCHAR" property="seqName" />
+    <result column="CURR_VAL" jdbcType="BIGINT" property="currVal" />
+    <result column="INCREMENT_VAL" jdbcType="BIGINT" property="incrementVal" />
+    <result column="REMAKR" jdbcType="VARCHAR" property="remakr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    SEQ_NAME, CURR_VAL, INCREMENT_VAL, REMAKR
+  </sql>
+
+</mapper>

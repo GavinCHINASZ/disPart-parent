@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TVechicleRecordMapper">
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    VEHICLE_NUM, EMPTY_WGHT, DRIVER_NM, `STATUS`, REMARK, OPER_ID, CREAT_TIME, UP_TIME,VEHICLE_TP_ID,
+    VEHICLE_TP,
+    VEHICLE_ID,
+    VEHICLE,
+    DRIVER_PHONE,
+    PROV_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.dispart.vo.entrance.TVechicleRecord">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_vechicle_record
+    where VEHICLE_NUM = #{vehicleNum,jdbcType=VARCHAR}
+    limit 1
+  </select>
+  <insert id="insert" parameterType="com.dispart.vo.entrance.TVechicleRecord">
+    <!--@mbg.generated-->
+    insert into t_vechicle_record (
+    PROV_ID,
+    VEHICLE_NUM,
+    EMPTY_WGHT,
+    DRIVER_NM,
+    `STATUS`,
+    REMARK,
+    OPER_ID,
+    VEHICLE_TP_ID,
+    VEHICLE_TP,
+    VEHICLE_ID,
+    VEHICLE,
+    DRIVER_PHONE)
+    values (#{provId,jdbcType=VARCHAR},#{vehicleNum,jdbcType=VARCHAR}, #{emptyWght,jdbcType=DECIMAL}, #{driverNm,jdbcType=VARCHAR},
+      #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR},
+      #{vehicleTpId},#{vehicleTp},#{vehicleId},#{vehicle},#{driverPhone})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dispart.vo.entrance.TVechicleRecord">
+    <!--@mbg.generated-->
+    update t_vechicle_record
+    <set>
+      <if test="emptyWght != null">
+        EMPTY_WGHT = #{emptyWght,jdbcType=DECIMAL},
+      </if>
+      <if test="driverNm != null and driverNm != ''">
+        DRIVER_NM = #{driverNm,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and status != ''">
+        `STATUS` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null and remark != ''">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null and operId != ''">
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleTpId != null and vehicleTpId != ''">
+        VEHICLE_TP_ID = #{vehicleTpId},
+      </if>
+      <if test="vehicleTp != null and vehicleTp != ''">
+        VEHICLE_TP = #{vehicleTp},
+      </if>
+      <if test="vehicleId != null and vehicleId != ''">
+        VEHICLE_ID = #{vehicleId},
+      </if>
+      <if test="vehicle != null and vehicle != ''">
+        VEHICLE = #{vehicle},
+      </if>
+      <if test="driverPhone != null and driverPhone != ''">
+        DRIVER_PHONE = #{driverPhone},
+      </if>
+      <if test="provId != null and provId != ''">
+        PROV_ID = #{provId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where VEHICLE_NUM = #{vehicleNum,jdbcType=VARCHAR}
+  </update>
+</mapper>

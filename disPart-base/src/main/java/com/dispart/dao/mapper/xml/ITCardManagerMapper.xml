@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TCardManagerMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.basevo.TCardManagerVo">
+    <!--@mbg.generated-->
+    <!--@Table t_card_manager-->
+    <result column="DOCUMENT_NUM" jdbcType="VARCHAR" property="documentNum" />
+    <result column="CARD_TP" jdbcType="CHAR" property="cardTp" />
+    <result column="DEPUTY" jdbcType="CHAR" property="deputy" />
+    <result column="START_CARD" jdbcType="VARCHAR" property="startCard" />
+    <result column="END_CARD" jdbcType="VARCHAR" property="endCard" />
+    <result column="NUM" jdbcType="INTEGER" property="num" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="SEND_TM" jdbcType="TIMESTAMP" property="sendTm" />
+    <result column="SEND_NO" jdbcType="VARCHAR" property="sendNo" />
+    <result column="ENTRY_TM" jdbcType="TIMESTAMP" property="entryTm" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    DOCUMENT_NUM, CARD_TP, DEPUTY, START_CARD, END_CARD, NUM, `STATUS`, SEND_TM, SEND_NO, 
+    ENTRY_TM, REMARK, OPER_ID, CREAT_TIME, UP_TIME
+  </sql>
+
+  <select id="selectByDocumentNum" resultType="com.dispart.vo.basevo.TCardManagerVo">
+     select * from t_card_manager where  DOCUMENT_NUM = #{docementNum}
+  </select>
+
+  <select id="selectAll" resultType="com.dispart.dto.makeCard.QuryMakeCardInfoOutParamDto">
+    select * from t_card_manager
+  <where>
+    <if test="documentNum != null and documentNum != ''">
+      and DOCUMENT_NUM = #{documentNum}
+    </if>
+    <if test="status != null and status != ''">
+      and STATUS = #{status}
+    </if>
+  </where>
+    order by DOCUMENT_NUM desc,status asc  limit #{strNum},#{pageSize}
+  </select>
+
+
+
+
+  <select id="queryCount" resultType="Integer">
+    select count(*) from t_card_manager
+    <where>
+    <if test="documentNum != null and documentNum != ''">
+      and DOCUMENT_NUM = #{documentNum}
+    </if>
+    <if test="status != null and status != ''">
+      and STATUS = #{status}
+    </if>
+    </where>
+  </select>
+
+
+  <select id="queryCountByWarehousingStatus" resultType="Integer">
+    select count(*) from t_card_manager where 1=1
+    <if test="documentNum != null and documentNum != ''">
+      and DOCUMENT_NUM = #{documentNum}
+    </if>
+    <if test="status != null and status != ''">
+      and STATUS = #{status}
+    </if>
+    <if test="status == null or status == ''">
+      <!--寄送中-->
+      and STATUS in ('3')
+    </if>
+  </select>
+
+
+  <select id="queryCountByStatus" resultType="Integer">
+    select count(*) from t_card_manager where 1=1
+    <if test="documentNum != null and documentNum != ''">
+      and DOCUMENT_NUM = #{documentNum}
+    </if>
+    <if test="status != null and status != ''">
+      and STATUS = #{status}
+    </if>
+    <if test="status == null or status == ''">
+    <!--正常或注销-->
+    and STATUS in ('5','6')
+    </if>
+  </select>
+
+
+  <select id="queryAllByWarehousing" resultType="com.dispart.dto.makeCard.QuryWarehousingParamOutDto">
+    select * from t_card_manager
+    <where>
+      and STATUS ='3'
+    </where>
+      order by  DOCUMENT_NUM desc limit #{strNum},#{pageSize}
+  </select>
+
+  <select id="selectAllByStatus" resultType="com.dispart.dto.makeCard.QuryWarehousingParamOutDto">
+    select * from t_card_manager
+    <where>
+      <if test="documentNum != null and documentNum != ''">
+        and DOCUMENT_NUM = #{documentNum}
+      </if>
+      <if test="status != null and status != ''">
+        and STATUS = #{status}
+      </if>
+      <if test="status == null or status == ''">
+        <!--正常或注销-->
+        and STATUS in ('5','6')
+      </if>
+    </where>
+    order by  DOCUMENT_NUM desc limit #{strNum},#{pageSize}
+  </select>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.dispart.vo.basevo.TCardManagerVo">
+    <!--@mbg.generated-->
+    update t_card_manager
+    <set>
+      <if test="cardTp != null">
+        CARD_TP = #{cardTp,jdbcType=CHAR},
+      </if>
+      <if test="deputy != null">
+        DEPUTY = #{deputy,jdbcType=CHAR},
+      </if>
+      <if test="startCard != null">
+        START_CARD = #{startCard,jdbcType=VARCHAR},
+      </if>
+      <if test="endCard != null">
+        END_CARD = #{endCard,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        NUM = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `STATUS` = #{status,jdbcType=CHAR},
+      </if>
+      <if test="sendTm != null">
+        SEND_TM = #{sendTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendNo != null">
+        SEND_NO = #{sendNo,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTm != null">
+        ENTRY_TM = #{entryTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null">
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTime != null">
+        UP_TIME = #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DOCUMENT_NUM = #{documentNum,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyForSatus">
+    <!--@mbg.generated-->
+    update t_card_manager
+    <set>
+      <if test="vo.cardTp != null">
+        CARD_TP = #{vo.cardTp,jdbcType=CHAR},
+      </if>
+      <if test="vo.deputy != null">
+        DEPUTY = #{vo.deputy,jdbcType=CHAR},
+      </if>
+      <if test="vo.startCard != null">
+        START_CARD = #{vo.startCard,jdbcType=VARCHAR},
+      </if>
+      <if test="vo.endCard != null">
+        END_CARD = #{vo.endCard,jdbcType=VARCHAR},
+      </if>
+      <if test="vo.num != null">
+        NUM = #{vo.num,jdbcType=INTEGER},
+      </if>
+      <if test="vo.status != null">
+        `STATUS` = #{vo.status,jdbcType=CHAR},
+      </if>
+      <if test="vo.sendTm != null">
+        SEND_TM = #{vo.sendTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vo.sendNo != null">
+        SEND_NO = #{vo.sendNo,jdbcType=VARCHAR},
+      </if>
+      <if test="vo.entryTm != null">
+        ENTRY_TM = #{vo.entryTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vo.remark != null">
+        REMARK = #{vo.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="vo.operId != null">
+        OPER_ID = #{vo.operId,jdbcType=VARCHAR},
+      </if>
+      <if test="vo.creatTime != null">
+        CREAT_TIME = #{vo.creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vo.upTime != null">
+        UP_TIME = #{vo.upTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DOCUMENT_NUM = #{vo.documentNum,jdbcType=VARCHAR} and STATUS = #{status,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="insert" parameterType="com.dispart.vo.basevo.TCardManagerVo">
+    <!--@mbg.generated-->
+    insert into t_card_manager (DOCUMENT_NUM, CARD_TP, DEPUTY, 
+      START_CARD, END_CARD, NUM, 
+      `STATUS`, SEND_TM, SEND_NO, 
+      ENTRY_TM, REMARK, OPER_ID, 
+      CREAT_TIME, UP_TIME)
+    values (#{documentNum,jdbcType=VARCHAR}, #{cardTp,jdbcType=CHAR}, #{deputy,jdbcType=CHAR}, 
+      #{startCard,jdbcType=VARCHAR}, #{endCard,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
+      #{status,jdbcType=CHAR}, #{sendTm,jdbcType=TIMESTAMP}, #{sendNo,jdbcType=VARCHAR}, 
+      #{entryTm,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, 
+      #{creatTime,jdbcType=TIMESTAMP}, #{upTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dispart.vo.basevo.TCardManagerVo">
+    <!--@mbg.generated-->
+    insert into t_card_manager
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="documentNum != null">
+        DOCUMENT_NUM,
+      </if>
+      <if test="cardTp != null">
+        CARD_TP,
+      </if>
+      <if test="deputy != null">
+        DEPUTY,
+      </if>
+      <if test="startCard != null">
+        START_CARD,
+      </if>
+      <if test="endCard != null">
+        END_CARD,
+      </if>
+      <if test="num != null">
+        NUM,
+      </if>
+      <if test="status != null">
+        `STATUS`,
+      </if>
+      <if test="sendTm != null">
+        SEND_TM,
+      </if>
+      <if test="sendNo != null">
+        SEND_NO,
+      </if>
+      <if test="entryTm != null">
+        ENTRY_TM,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="operId != null">
+        OPER_ID,
+      </if>
+      <if test="creatTime != null">
+        CREAT_TIME,
+      </if>
+      <if test="upTime != null">
+        UP_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="documentNum != null">
+        #{documentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cardTp != null">
+        #{cardTp,jdbcType=CHAR},
+      </if>
+      <if test="deputy != null">
+        #{deputy,jdbcType=CHAR},
+      </if>
+      <if test="startCard != null">
+        #{startCard,jdbcType=VARCHAR},
+      </if>
+      <if test="endCard != null">
+        #{endCard,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="sendTm != null">
+        #{sendTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendNo != null">
+        #{sendNo,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTm != null">
+        #{entryTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null">
+        #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTime != null">
+        #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateStatusByDocumentNum" parameterType="com.dispart.vo.basevo.TCardManagerVo">
+    <!--@mbg.generated-->
+    update t_card_manager
+    <set>
+    <if test="tcardVo.operId != null">
+      OPER_ID = #{tcardVo.operId,jdbcType=VARCHAR},
+    </if>
+    <if test="tcardVo.status != null">
+      STATUS = #{tcardVo.status,jdbcType=VARCHAR},
+    </if>
+    <if test="tcardVo.upTime != null">
+      UP_TIME = #{tcardVo.upTime,jdbcType=TIMESTAMP},
+    </if>
+      <if test="tcardVo.remark != null">
+        REMARK = #{tcardVo.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="tcardVo.sendNo != null">
+        SEND_NO = #{tcardVo.sendNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DOCUMENT_NUM = #{tcardVo.documentNum,jdbcType=VARCHAR} and status = #{origStatus}
+  </update>
+</mapper>

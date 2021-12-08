@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TProductPriceInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TProductPriceInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_product_price_info-->
+    <id column="DATE" jdbcType="DATE" property="date" />
+    <id column="PRDCT_ID" jdbcType="CHAR" property="prdctId" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="MAX_PRICE" jdbcType="DECIMAL" property="maxPrice" />
+    <result column="MIN_PRICE" jdbcType="DECIMAL" property="minPrice" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    `DATE`, PRDCT_ID, PRDCT_NM, MAX_PRICE, MIN_PRICE, UNIT, UPDATE_DT
+  </sql>
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TDeviceRelevanceMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.TDeviceRelevance">
+    <!--@mbg.generated-->
+    <!--@Table t_device_relevance-->
+    <id column="DEVICE_NO" jdbcType="VARCHAR" property="deviceNo" />
+    <result column="IN_OUT_ID" jdbcType="VARCHAR" property="inOutId" />
+    <result column="IO_TYPE" jdbcType="VARCHAR" property="ioType" />
+    <result column="IN_OUT" jdbcType="VARCHAR" property="inOut" />
+    <result column="REAMRK" jdbcType="VARCHAR" property="reamrk" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    DEVICE_NO, IN_OUT_ID, IO_TYPE, IN_OUT, REAMRK, UP_TIME
+  </sql>
+  <insert id="insertSelective" parameterType="com.dispart.model.TDeviceRelevance">
+    <!--@mbg.generated-->
+    insert into t_device_relevance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deviceNo != null">
+        DEVICE_NO,
+      </if>
+      <if test="inOutId != null">
+        IN_OUT_ID,
+      </if>
+      <if test="ioType != null">
+        IO_TYPE,
+      </if>
+      <if test="inOut != null">
+        IN_OUT,
+      </if>
+      <if test="reamrk != null">
+        REAMRK,
+      </if>
+      <if test="upTime != null">
+        UP_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deviceNo != null">
+        #{deviceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutId != null">
+        #{inOutId,jdbcType=VARCHAR},
+      </if>
+      <if test="ioType != null">
+        #{ioType,jdbcType=VARCHAR},
+      </if>
+      <if test="inOut != null">
+        #{inOut,jdbcType=VARCHAR},
+      </if>
+      <if test="reamrk != null">
+        #{reamrk,jdbcType=VARCHAR},
+      </if>
+      <if test="upTime != null">
+        #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dispart.model.TDeviceRelevance">
+    <!--@mbg.generated-->
+    update t_device_relevance
+    <set>
+      <if test="inOutId != null">
+        IN_OUT_ID = #{inOutId,jdbcType=VARCHAR},
+      </if>
+      <if test="ioType != null">
+        IO_TYPE = #{ioType,jdbcType=VARCHAR},
+      </if>
+      <if test="inOut != null">
+        IN_OUT = #{inOut,jdbcType=VARCHAR},
+      </if>
+      <if test="reamrk != null">
+        REAMRK = #{reamrk,jdbcType=VARCHAR},
+      </if>
+      <if test="upTime != null">
+        UP_TIME = #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DEVICE_NO = #{deviceNo,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectIODevice" parameterType="java.lang.String" resultType="com.dispart.model.TDeviceRelevance">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM t_device_relevance d WHERE d.IO_TYPE = #{ioType}
+  </select>
+  <select id="selectIOByInOutId" parameterType="java.lang.String" resultType="com.dispart.model.TDeviceRelevance">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM t_device_relevance d WHERE
+        DEVICE_NO = #{deviceNo}
+  </select>
+</mapper>

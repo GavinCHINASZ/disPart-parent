@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.ITEmployeeInfoDao">
+
+    <select id="queryByUserId" parameterType="java.util.Map"  resultType="com.dispart.dto.auth.TEmployeeInfoDto">
+        select
+        a.EMP_ID empId, a.LOGIN_ACCT loginAcct,
+        a.EMP_NM empNm, a.SEX sex, a.CERT_TYPE certType,
+        a.CERT_NUM certNum, a.TELEPHONE telePhone,
+        a.EMAIL email, a.POSTCODE postCode,
+        a.SUB_DEP subDep, a.SUB_ORG subOrg,
+        a.REMARK remark, a.EFFE_DT effeDt,
+        a.EXP_DT expDt, a.PASSWD passWd,
+        a.UPDATE_PASSWD_DT_TM updatePasswdDtTm, a.EMP_ST empSt,
+        a.OPER_ID operId, a.UPDATE_DT updateDt
+        ,b.DEP_NM subDepName ,c.ORG_NM subOrgName
+        from logistics.t_employee_info a , t_organization_info c ,t_department_info b
+        where a.SUB_DEP=b.DEP_ID and a.SUB_ORG=c.ORG_ID and a.EMP_ID=#{userId}
+    </select>
+
+</mapper>

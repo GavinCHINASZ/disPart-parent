@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: disPart-order
+
+  cloud:
+    nacos:
+      config:
+        server-addr: 128.11.132.1:8848
+        file-extension: yaml

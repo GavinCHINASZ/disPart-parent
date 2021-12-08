@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.BaseDepartmentMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.basevo.DepartmentVo">
+    <!--@mbg.generated-->
+    <!--@Table t_department_info-->
+    <id column="DEP_ID" jdbcType="VARCHAR" property="depId" />
+    <result column="PARENT_DEP_ID" jdbcType="VARCHAR" property="parentDepId" />
+    <result column="DEP_NM" jdbcType="VARCHAR" property="depNm" />
+    <result column="DEP_SHRT_NM" jdbcType="VARCHAR" property="depShrtNm" />
+    <result column="DEP_ST" jdbcType="CHAR" property="depSt" />
+    <result column="SUB_ORG" jdbcType="VARCHAR" property="subOrg" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_DT" jdbcType="DATE" property="creatDt" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+
+  <select id="findDepByParam" resultType="com.dispart.dto.departmentdto.DISP20210019DepFindByParamPOutDto">
+    select c.DEP_SHRT_NM,c.DEP_ID,c.DEP_NM,c.PARENT_DEP_ID,c.parentDepNm,c.DEP_ST,c.SUB_ORG,d.ORG_NM AS subOrgNm,c.REMARK,c.CREAT_DT,c.UPDATE_DT
+    from (select a.DEP_ID,a.DEP_SHRT_NM,a.DEP_NM,a.PARENT_DEP_ID,b.DEP_NM AS parentDepNm,a.DEP_ST,a.SUB_ORG,a.REMARK,a.CREAT_DT,a.UPDATE_DT
+        from
+            (select * from t_department_info
+            where  DEP_ST='0'
+    <if test="depId != null and depId != ''">and DEP_ID=#{depId}</if>
+    <if test="depNm != null and depNm != ''">and DEP_NM like "%"#{depNm}"%"</if>
+    <if test="subOrg != null and subOrg != ''">and SUB_ORG=#{subOrg}</if>
+            ) a
+        left join t_department_info b
+        on a.PARENT_DEP_ID=b.DEP_ID
+        ) c
+    join t_organization_info d
+    on c.SUB_ORG=d.ORG_ID and (c.parentDepNm is not null and d.ORG_ST='0' or c.PARENT_DEP_ID='000000')
+    <if test="pageSize>0"> limit #{pageNum},#{pageSize}</if>
+  </select>
+  <insert id="insert" parameterType="com.dispart.vo.basevo.DepartmentVo">
+    insert into t_department_info
+    (DEP_ID,DEP_NM,DEP_SHRT_NM,DEP_ST,SUB_ORG,REMARK,OPER_ID,CREAT_DT,PARENT_DEP_ID)
+    values
+    (#{depId},#{depNm},#{depShrtNm},#{depSt},#{subOrg},#{remark},#{operId},#{creatDt},#{parentDepId})
+  </insert>
+  <select id="seMaxDepID" resultType="java.lang.String">
+    select max(DEP_ID)
+    from t_department_info
+    where DEP_ID<![CDATA[>=]]>#{minId} and DEP_ID<![CDATA[<]]>#{maxId}
+  </select>
+  <update id="upDepSt" parameterType="com.dispart.vo.basevo.DepartmentVo">
+    update t_department_info
+    set DEP_ST='1'
+    where DEP_ID=#{depId}
+  </update>
+  <select id="findDepNum" resultType="java.lang.Integer">
+    select count(1)
+    from (
+    select a.DEP_ID,a.DEP_SHRT_NM,a.DEP_NM,a.PARENT_DEP_ID,b.DEP_NM AS parentDepNm,a.DEP_ST,a.SUB_ORG,a.REMARK,a.CREAT_DT,a.UPDATE_DT
+    from
+    (select * from t_department_info
+    where  DEP_ST='0'
+    <if test="depId != null and depId != ''">and DEP_ID=#{depId}</if>
+    <if test="depNm != null and depNm != ''">and DEP_NM like "%"#{depNm}"%"</if>
+    <if test="subOrg != null and subOrg != ''">and SUB_ORG=#{subOrg}</if>
+    ) a
+    left join t_department_info b
+    on a.PARENT_DEP_ID=b.DEP_ID
+    ) c
+    join t_organization_info d
+    on c.SUB_ORG=d.ORG_ID and (c.parentDepNm is not null and d.ORG_ST='0' or c.PARENT_DEP_ID='000000')
+  </select>
+  <update id="upDep" parameterType="com.dispart.dto.departmentdto.DISP20210020UpDepInDto">
+    update t_department_info
+    set DEP_NM=#{depNm},DEP_SHRT_NM=#{depShrtNm},REMARK=#{remark}
+    where DEP_ID=#{depId}
+  </update>
+  <select id="findPDepIdByDepId" resultType="com.dispart.vo.basevo.DepartmentVo">
+    select PARENT_DEP_ID,SUB_ORG
+    from t_department_info
+    where DEP_ID=#{depId}
+  </select>
+  <select id="findDepData" resultType="com.dispart.vo.basevo.DepartmentVo">
+    select *
+    from t_department_info
+    where 1=1
+    <if test="depId != null and depId != ''"> and DEP_ID=#{depId}</if>
+    <if test="depNm != null and depNm != ''"> and DEP_NM like "%"#{depNm}"%"</if>
+    <if test="subOrg != null and subOrg != ''"> and SUB_ORG=#{subOrg}</if>
+    <if test="parentDepId != null and parentDepId != ''"> and PARENT_DEP_ID=#{parentDepId}</if>
+
+  </select>
+  <select id="findEmpByDepId" resultType="java.lang.String">
+    select EMP_ID
+    from t_employee_info
+    where SUB_DEP=#{depId} and EMP_ST='0';
+  </select>
+
+
+</mapper>

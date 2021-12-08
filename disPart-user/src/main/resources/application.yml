@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: disPart-user  #服务名
+  cloud:
+    nacos:
+      config:
+        server-addr: 128.11.132.1:8848
+        file-extension: yaml

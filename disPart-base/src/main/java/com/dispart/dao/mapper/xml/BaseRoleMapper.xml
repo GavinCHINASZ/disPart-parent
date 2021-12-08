@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.BaseRoleMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.basevo.RoleVo">
+    <!--@mbg.generated-->
+    <!--@Table t_role_info-->
+    <id column="ROLE_ID" jdbcType="CHAR" property="roleId" />
+    <result column="ROLE_NM" jdbcType="VARCHAR" property="roleNm" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ROLE_ID, ROLE_NM, REMARK, UPDATE_DT
+  </sql>
+    <select id="findRoleByParam" resultType="com.dispart.dto.roledto.DISP20210033FindRolePOutDto">
+      select d.* from (
+      select a.*,b.ORG_NM
+      from (select * from t_role_info
+      where 1=1
+      <if test="orgId != null and orgId != ''">and ORG_ID=#{orgId}</if>
+      <if test="roleNm != null and roleNm != ''">and ROLE_NM like "%"#{roleNm}"%"</if>
+      ) a
+      left join t_organization_info b
+      on a.ORG_ID=b.ORG_ID) d where d.ORG_NM is not null
+      <if test="pageSize>0"> limit #{pageNum},#{pageSize}</if>
+    </select>
+  <select id="roleCount" resultType="java.lang.Integer">
+    select count(1)
+    from (
+    select a.*,b.ORG_NM
+    from (select * from t_role_info
+    where 1=1
+    <if test="orgId != null and orgId != ''">and ORG_ID=#{orgId}</if>
+    <if test="roleNm != null and roleNm != ''">and ROLE_NM like "%"#{roleNm}"%"</if>
+    ) a
+    left join t_organization_info b
+    on a.ORG_ID=b.ORG_ID) d where d.ORG_NM is not null
+  </select>
+  <insert id="inRole" parameterType="com.dispart.vo.basevo.RoleVo">
+    insert into t_role_info (ROLE_ID,ROLE_NM,ORG_ID,REMARK,CHANL_NO,UPDATE_DT)
+    values (#{roleId},#{roleNm},#{orgId},#{remark},#{chanlNo},#{updateDt})
+  </insert>
+  <select id="findRoleData" resultType="com.dispart.vo.basevo.RoleVo">
+    select *
+    from t_role_info
+    where 1=1
+    <if test="orgId != null and orgId != ''">and ORG_ID=#{orgId}</if>
+    <if test="roleNm != null and roleNm != ''">and ROLE_NM like "%"#{roleNm}"%"</if>
+    <if test="roleId != null and roleId != ''">and ROLE_ID=#{roleId}</if>
+  </select>
+  <delete id="delRoleById" parameterType="java.lang.String">
+    delete from t_role_info where ROLE_ID=#{roleId}
+  </delete>
+  <select id="findEmpRoleByRoleId" resultType="java.lang.String">
+    select EMP_ID
+    from t_employee_role_info
+    where ROLE_ID=#{roleId}
+  </select>
+</mapper>

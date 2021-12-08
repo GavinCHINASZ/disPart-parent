@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.CustomQueryMapper">
+
+    <sql id="whereSql">
+        WHERE 1 = 1
+        <if test="userId != null and userId != '' ">
+            AND USER_ID like concat('%',#{userId},'%')
+        </if>
+        <if test="userNm != null and userNm != ''">
+            AND USER_NM like concat('%',#{userNm},'%')
+        </if>
+        <if test="userPhone != null and userPhone != ''">
+            AND USER_PHONE like concat('%',#{userPhone},'%')
+        </if>
+        <if test="userNickNm != null and userNickNm != ''">
+            AND USER_NICK_NM like concat('%',#{userNickNm},'%')
+        </if>
+        <if test="chanlNo != null and chanlNo != ''">
+            AND CHANL_NO = #{chanlNo}
+        </if>
+        <if test="regDt != null">
+            AND REG_DT = #{regDt}
+        </if>
+        <if test="txnStDate != null and txnEndDate != null">
+            AND REG_DT between #{txnStDate} and #{txnEndDate}
+        </if>
+    </sql>
+
+    <select id="quryCustomRegistInfo" parameterType="com.dispart.dto.dataquery.Disp20210073InDto"
+            resultType="com.dispart.dto.dataquery.Disp20210073OutMx">
+        SELECT
+        PROV_ID as provId,
+        USER_ID as userId,
+        USER_NM as userNm,
+        USER_NICK_NM as userNickNm,
+        USER_ICON as userIcon,
+        USER_PHONE as userPhone,
+        REG_DT as regDt,
+        USER_ST as userSt,
+        IS_FIRST_LAND as isFirstLand,
+        LOGIN_ST as loginSt,
+        UPDATE_DT as updateDt,
+        WXPAY_ID as wxpayId,
+        ALIPAY_ID as alipayId,
+        CHANL_NO as chanlNo
+        FROM t_user_info
+        <include refid="whereSql"/>
+        ORDER BY UPDATE_DT DESC
+        LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+    </select>
+
+    <select id="quryCustomRegistInfo_count" parameterType="com.dispart.dto.dataquery.Disp20210073InDto"
+            resultType="com.dispart.entity.DatabaseCount">
+        SELECT count(*) as countRec
+        FROM t_user_info
+        <include refid="whereSql"/>
+    </select>
+
+    <select id="quryCustomInfo" parameterType="com.dispart.dto.dataquery.Disp20210074InDto"
+            resultType="com.dispart.dto.dataquery.Disp20210074OutMx">
+        SELECT
+        CUSTOM_TP merchantType,
+        PROV_ID merchantCode,
+        PROV_NM cname,
+        CERT_TYPE certType,
+        CERT_NUM certNo,
+        LEGAL_PHONE legalTel,
+        PHONE telNo,
+        IS_REAL isRealName,
+        QRCODE_URL qrcodeUrl,
+        STATUS status
+        FROM t_custom_info_manager
+        WHERE
+        1 = 1
+        <if test="merchantType != null and merchantType != ''">
+            AND CUSTOM_TP = #{merchantType}
+        </if>
+        <if test="merchantCode != null and merchantCode != ''">
+            AND PROV_ID like concat('%',#{merchantCode},'%')
+        </if>
+        <if test="cname != null and cname != ''">
+            AND PROV_NM like concat('%',#{cname},'%')
+        </if>
+        <if test="certNo != null and certNo != ''">
+            AND CERT_NUM like concat('%',#{certNo},'%')
+        </if>
+        <if test="legalTel != null and legalTel != ''">
+            AND LEGAL_PHONE like concat('%',#{legalTel},'%')
+        </if>
+        <if test="telNo != null and telNo != ''">
+            AND PHONE like concat('%' #{telNo},'%')
+        </if>
+        <if test="isRealName != null and isRealName != ''">
+            AND IS_REAL = #{isRealName}
+        </if>
+        ORDER BY UP_TIME DESC
+        LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+    </select>
+
+    <select id="quryCustomInfo_count" parameterType="com.dispart.dto.dataquery.Disp20210074InDto"
+            resultType="com.dispart.entity.DatabaseCount">
+        SELECT count(*) as countRec
+        FROM base_merchant
+        WHERE
+        1 = 1
+        <if test="merchantType != null and merchantType != ''">
+            AND merchanttype = #{merchantType}
+        </if>
+        <if test="merchantCode != null and merchantCode != ''">
+            AND merchantcode like concat('%',#{merchantCode},'%')
+        </if>
+        <if test="cname != null and cname != ''">
+            AND cname like concat('%',#{cname},'%')
+        </if>
+        <if test="certNo != null and certNo != ''">
+            AND idcard = #{certNo}
+        </if>
+        <if test="legalTel != null and legalTel != ''">
+            AND legaltel like concat('%',#{legalTel},'%')
+        </if>
+        <if test="telNo != null and telNo != ''">
+            AND telno like concat('%',#{telNo},'%')
+        </if>
+        <if test="isRealName != null and isRealName != ''">
+            AND isrealname = #{isRealName}
+        </if>
+    </select>
+
+</mapper>

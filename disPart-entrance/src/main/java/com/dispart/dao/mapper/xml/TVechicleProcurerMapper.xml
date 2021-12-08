@@ -1,0 +1,1780 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TVechicleProcurerMapper">
+    <resultMap id="BaseResultMap" type="com.dispart.dto.entrance.QuryEntranceCheckParamOutDto">
+        <!--@mbg.generated-->
+        <!--@Table t_vechicle_procurer-->
+        <id column="IN_ID" jdbcType="VARCHAR" property="inId"/>
+        <result column="VEHICLE_NUM" jdbcType="VARCHAR" property="vehicleNum"/>
+        <result column="VEHICLE_ID" jdbcType="VARCHAR" property="vehicleId"/>
+        <result column="PROV_ID" jdbcType="VARCHAR" property="provId"/>
+        <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo"/>
+        <result column="PROV_NM" jdbcType="VARCHAR" property="provNm"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="IN_TTL_WGHT" jdbcType="DECIMAL" property="inTtlWght"/>
+        <result column="TARE_WGHT" jdbcType="DECIMAL" property="tareWght"/>
+        <result column="CARGO_WGHT" jdbcType="DECIMAL" property="cargoWght"/>
+        <result column="IN_DOOR" jdbcType="VARCHAR" property="inDoor"/>
+        <result column="IN_TIME" jdbcType="TIMESTAMP" property="inTime"/>
+        <result column="IN_OPER_ID" jdbcType="VARCHAR" property="inOperId"/>
+        <result column="IN_ACT_AMT" jdbcType="DECIMAL" property="inActAmt"/>
+        <result column="IS_CHECK" jdbcType="VARCHAR" property="isCheck"/>
+        <result column="ACT_RECEV_AMT" jdbcType="DECIMAL" property="actRecevAmt"/>
+        <result column="IN_AMT" jdbcType="DECIMAL" property="inAmt" />
+        <result column="IN_TTL_AMT" jdbcType="DECIMAL" property="inTtlAmt" />
+        <result column="CHECK_SUPPT_AMT" jdbcType="DECIMAL" property="checkSupptAmt" />
+        <result column="CHECK_RETURN_AMT" jdbcType="DECIMAL" property="checkReturnAmt" />
+        <result column="IS_RETURN" jdbcType="CHAR" property="isReturn" />
+        <result column="IS_DERATED" jdbcType="CHAR" property="isDerated" />
+        <result column="IS_FIXED" jdbcType="CHAR" property="isFixed" />
+        <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo"/>
+        <result column="PAYMENT_MODE" jdbcType="VARCHAR" property="paymentMode"/>
+        <collection property="datilsList" ofType="com.dispart.dto.entrance.EntranceVeCheckOutDatilsDto" column="IN_ID"
+                    select="com.dispart.dao.mapper.TVechicleProcurerDetailsMapper.selectByInId"></collection>
+    </resultMap>
+
+    <resultMap id="BaseResultListMap" type="com.dispart.dto.entrance.QuryEntranceCheckParamOutDto">
+        <!--@mbg.generated-->
+        <!--@Table t_vechicle_procurer-->
+        <id column="IN_ID" jdbcType="VARCHAR" property="inId"/>
+        <result column="VEHICLE_NUM" jdbcType="VARCHAR" property="vehicleNum"/>
+        <result column="VEHICLE_ID" jdbcType="VARCHAR" property="vehicleId"/>
+        <result column="PROV_ID" jdbcType="VARCHAR" property="provId"/>
+        <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo"/>
+        <result column="PROV_NM" jdbcType="VARCHAR" property="provNm"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="IN_TTL_WGHT" jdbcType="DECIMAL" property="inTtlWght"/>
+        <result column="TARE_WGHT" jdbcType="DECIMAL" property="tareWght"/>
+        <result column="CARGO_WGHT" jdbcType="DECIMAL" property="cargoWght"/>
+        <result column="IN_DOOR" jdbcType="VARCHAR" property="inDoor"/>
+        <result column="IN_TIME" jdbcType="TIMESTAMP" property="inTime"/>
+        <result column="IN_OPER_ID" jdbcType="VARCHAR" property="inOperId"/>
+        <result column="IN_ACT_AMT" jdbcType="DECIMAL" property="inActAmt"/>
+        <result column="IS_CHECK" jdbcType="VARCHAR" property="isCheck"/>
+        <result column="IN_TTL_AMT" jdbcType="DECIMAL" property="inTtlAmt" />
+        <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo"/>
+        <result column="PAYMENT_MODE" jdbcType="VARCHAR" property="paymentMode"/>
+    </resultMap>
+
+    <!--进出声交接返回数据-->
+    <resultMap id="BaseResultInOutListMap" type="com.dispart.dto.entrance.QuryEntranceCheckParamOutDto">
+        <id column="IN_ID" jdbcType="VARCHAR" property="inId"/>
+        <result column="VEHICLE_NUM" jdbcType="VARCHAR" property="vehicleNum"/>
+        <result column="PROV_NM" jdbcType="VARCHAR" property="provNm"/>
+        <result column="IN_TTL_WGHT" jdbcType="DECIMAL" property="inTtlWght"/>
+        <result column="IN_TIME" jdbcType="TIMESTAMP" property="inTime"/>
+        <result column="IN_ACT_AMT" jdbcType="DECIMAL" property="inActAmt"/>
+        <result column="ACT_RECEV_AMT" jdbcType="DECIMAL" property="actRecevAmt"/>
+        <result column="IN_OUT_TP" jdbcType="VARCHAR" property="inOutTp"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        IN_ID, VEHICLE_NUM, VEHICLE_ID, PROV_ID, CARD_NO, PROV_NM, PHONE, BOOTH_NUM, VEHICLE_URL,
+        IN_TTL_WGHT, TARE_WGHT, CARGO_WGHT, IN_DOOR, IN_TIME, IN_OPER_ID, IN_REMARK, IN_TTL_AMT,
+        IN_AMT, BOOTH_AMT, IN_ACT_AMT, IS_REPORT, OUT_DOOR, OUT_TIME, OUT_TTL_WGHT, OUT_OPER_ID,
+        IS_RETURN, REFUND_AMT, SUPPT_AMT, PREFER_PRICE, ACT_RECEV_AMT, PARK_TIME, PARK_AMT,
+        PARK_CPN, PARK_ACT_AMT, CHRG_TP, `STATUS`, WHITHER, PURCH_PRDT, REMARK, OPER_ID,IS_FIXED,
+        CREAT_TIME, UP_TIME,IS_CHECK,VEHICLE_NUM,ACT_RECEV_AMT,CHECK_RETURN_AMT,CHECK_SUPPT_AMT,IS_DERATED,PAYMENT_MODE
+    </sql>
+
+    <resultMap id="InOutResultMap" type="com.dispart.dto.entrance.QuryEntranceCheckParamOutDto">
+        <id column="IN_ID" jdbcType="VARCHAR" property="inId" />
+        <result column="VEHICLE_NUM" jdbcType="VARCHAR" property="vehicleNum" />
+        <result column="VEHICLE_ID" jdbcType="VARCHAR" property="vehicleId" />
+        <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+        <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+        <result column="PROV_NM" jdbcType="VARCHAR" property="provNm" />
+        <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+        <result column="BOOTH_NUM" jdbcType="VARCHAR" property="boothNum" />
+        <result column="VEHICLE_URL" jdbcType="VARCHAR" property="vehicleUrl" />
+        <result column="IN_TTL_WGHT" jdbcType="DECIMAL" property="inTtlWght" />
+        <result column="TARE_WGHT" jdbcType="DECIMAL" property="tareWght" />
+        <result column="CARGO_WGHT" jdbcType="DECIMAL" property="cargoWght" />
+        <result column="IN_DOOR" jdbcType="VARCHAR" property="inDoor" />
+        <result column="IN_TIME" jdbcType="TIMESTAMP" property="inTime" />
+        <result column="IN_OPER_ID" jdbcType="VARCHAR" property="inOperId" />
+        <result column="IN_REMARK" jdbcType="VARCHAR" property="inRemark" />
+        <result column="IN_TTL_AMT" jdbcType="DECIMAL" property="inTtlAmt" />
+        <result column="IN_AMT" jdbcType="DECIMAL" property="inAmt" />
+        <result column="BOOTH_AMT" jdbcType="DECIMAL" property="boothAmt" />
+        <result column="IN_ACT_AMT" jdbcType="DECIMAL" property="inActAmt" />
+        <result column="IS_REPORT" jdbcType="CHAR" property="isReport" />
+        <result column="OUT_DOOR" jdbcType="VARCHAR" property="outDoor" />
+        <result column="OUT_TIME" jdbcType="TIMESTAMP" property="outTime" />
+        <result column="OUT_TTL_WGHT" jdbcType="DECIMAL" property="outTtlWght" />
+        <result column="OUT_OPER_ID" jdbcType="VARCHAR" property="outOperId" />
+        <result column="IS_RETURN" jdbcType="CHAR" property="isReturn" />
+        <result column="REFUND_AMT" jdbcType="DECIMAL" property="refundAmt" />
+        <result column="SUPPT_AMT" jdbcType="DECIMAL" property="supptAmt" />
+        <result column="PREFER_PRICE" jdbcType="DECIMAL" property="preferPrice" />
+        <result column="ACT_RECEV_AMT" jdbcType="DECIMAL" property="actRecevAmt" />
+        <result column="PARK_TIME" jdbcType="INTEGER" property="parkTime" />
+        <result column="PARK_AMT" jdbcType="DECIMAL" property="parkAmt" />
+        <result column="PARK_CPN" jdbcType="DECIMAL" property="parkCpn" />
+        <result column="PARK_ACT_AMT" jdbcType="DECIMAL" property="parkActAmt" />
+        <result column="CHRG_TP" jdbcType="CHAR" property="chrgTp" />
+        <result column="STATUS" jdbcType="VARCHAR" property="status" />
+        <result column="WHITHER" jdbcType="VARCHAR" property="whither" />
+        <result column="PURCH_PRDT" jdbcType="VARCHAR" property="purchPrdt" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+        <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+        <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+        <result column="IS_CHECK" jdbcType="VARCHAR" property="isCheck" />
+        <result column="IN_OUT_TP" jdbcType="VARCHAR" property="inOutTp"/>
+    </resultMap>
+
+    <resultMap id="InOutResultByInIdMap" type="com.dispart.dto.entrance.QuryEntranceCheckParamOutDto">
+        <id column="IN_ID" jdbcType="VARCHAR" property="inId" />
+        <result column="VEHICLE_NUM" jdbcType="VARCHAR" property="vehicleNum" />
+        <result column="VEHICLE_ID" jdbcType="VARCHAR" property="vehicleId" />
+        <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+        <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+        <result column="PROV_NM" jdbcType="VARCHAR" property="provNm" />
+        <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+        <result column="BOOTH_NUM" jdbcType="VARCHAR" property="boothNum" />
+        <result column="VEHICLE_URL" jdbcType="VARCHAR" property="vehicleUrl" />
+        <result column="IN_TTL_WGHT" jdbcType="DECIMAL" property="inTtlWght" />
+        <result column="TARE_WGHT" jdbcType="DECIMAL" property="tareWght" />
+        <result column="CARGO_WGHT" jdbcType="DECIMAL" property="cargoWght" />
+        <result column="IN_DOOR" jdbcType="VARCHAR" property="inDoor" />
+        <result column="IN_TIME" jdbcType="TIMESTAMP" property="inTime" />
+        <result column="IN_OPER_ID" jdbcType="VARCHAR" property="inOperId" />
+        <result column="IN_REMARK" jdbcType="VARCHAR" property="inRemark" />
+        <result column="IN_TTL_AMT" jdbcType="DECIMAL" property="inTtlAmt" />
+        <result column="IN_AMT" jdbcType="DECIMAL" property="inAmt" />
+        <result column="BOOTH_AMT" jdbcType="DECIMAL" property="boothAmt" />
+        <result column="IN_ACT_AMT" jdbcType="DECIMAL" property="inActAmt" />
+        <result column="IS_REPORT" jdbcType="CHAR" property="isReport" />
+        <result column="OUT_DOOR" jdbcType="VARCHAR" property="outDoor" />
+        <result column="OUT_TIME" jdbcType="TIMESTAMP" property="outTime" />
+        <result column="OUT_TTL_WGHT" jdbcType="DECIMAL" property="outTtlWght" />
+        <result column="OUT_OPER_ID" jdbcType="VARCHAR" property="outOperId" />
+        <result column="IS_RETURN" jdbcType="CHAR" property="isReturn" />
+        <result column="REFUND_AMT" jdbcType="DECIMAL" property="refundAmt" />
+        <result column="SUPPT_AMT" jdbcType="DECIMAL" property="supptAmt" />
+        <result column="PREFER_PRICE" jdbcType="DECIMAL" property="preferPrice" />
+        <result column="ACT_RECEV_AMT" jdbcType="DECIMAL" property="actRecevAmt" />
+        <result column="PARK_TIME" jdbcType="INTEGER" property="parkTime" />
+        <result column="PARK_AMT" jdbcType="DECIMAL" property="parkAmt" />
+        <result column="PARK_CPN" jdbcType="DECIMAL" property="parkCpn" />
+        <result column="PARK_ACT_AMT" jdbcType="DECIMAL" property="parkActAmt" />
+        <result column="CHRG_TP" jdbcType="CHAR" property="chrgTp" />
+        <result column="STATUS" jdbcType="VARCHAR" property="status" />
+        <result column="WHITHER" jdbcType="VARCHAR" property="whither" />
+        <result column="PURCH_PRDT" jdbcType="VARCHAR" property="purchPrdt" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+        <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+        <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+        <result column="IS_CHECK" jdbcType="VARCHAR" property="isCheck" />
+        <result column="IN_OUT_TP" jdbcType="VARCHAR" property="inOutTp"/>
+        <collection property="datilsList" ofType="com.dispart.dto.entrance.EntranceVeCheckOutDatilsDto" column="IN_ID"
+                    select="com.dispart.dao.mapper.TVechicleProcurerDetailsMapper.selectByInId"></collection>
+    </resultMap>
+
+    <sql id="InOut_Column_List">
+        <!--@mbg.generated-->
+        IN_ID, VEHICLE_NUM, VEHICLE_ID, PROV_ID, CARD_NO, PROV_NM, PHONE, BOOTH_NUM, VEHICLE_URL,
+        IN_TTL_WGHT, TARE_WGHT, CARGO_WGHT, IN_DOOR, IN_TIME, IN_OPER_ID, IN_REMARK, IN_TTL_AMT,
+        IN_AMT, BOOTH_AMT, IN_ACT_AMT, IS_REPORT, OUT_DOOR, OUT_TIME, OUT_TTL_WGHT, OUT_OPER_ID,
+        IS_RETURN, REFUND_AMT, SUPPT_AMT, PREFER_PRICE, ACT_RECEV_AMT, PARK_TIME, PARK_AMT,
+        PARK_CPN, PARK_ACT_AMT, CHRG_TP, `STATUS`, WHITHER, PURCH_PRDT, REMARK, OPER_ID,
+        CREAT_TIME, UP_TIME, IS_CHECK,IN_OUT_TP,IN_OUT_TIME
+    </sql>
+    <!--进出场交接查询list字段-->
+    <sql id="Base_Column_INOUT_List">
+        IN_ID,PROV_NM,VEHICLE_NUM,IN_TTL_WGHT,IN_ACT_AMT,ACT_RECEV_AMT,OUT_TIME,IN_TIME
+    </sql>
+    <!--进出场信息查询list字段-->
+    <sql id="Base_Column_QURY_List">
+        <!--@mbg.generated-->
+        IN_ID,IN_TIME,PHONE, PROV_NM,PROV_ID, CARD_NO,IN_DOOR, VEHICLE_NUM, VEHICLE_ID,
+        TARE_WGHT,CARGO_WGHT,IN_TTL_WGHT,IS_CHECK,PAYMENT_MODE,IN_TTL_AMT,IN_OPER_ID,IN_ACT_AMT,OPER_ID
+    </sql>
+    <!--进出场信息查询list字段-->
+    <sql id="Base_Column_QURY_287">
+        <!--@mbg.generated-->
+        a.IN_ID,a.IN_TIME,a.PHONE,a.PROV_NM,a.PROV_ID, a.CARD_NO, a.VEHICLE_NUM, a.VEHICLE_ID,
+        a.TARE_WGHT,a.CARGO_WGHT,a.IN_TTL_WGHT,a.IS_CHECK,a.PAYMENT_MODE,a.IN_TTL_AMT,a.IN_OPER_ID,a.IN_ACT_AMT,c.IN_OUT as IN_DOOR,d.EMP_NM as inOperNm,e.EMP_NM as operId
+    </sql>
+    <sql id="whereSql">
+        <if test="inId != null and inId != ''">
+            and IN_ID = #{inId,jdbcType=CHAR}
+        </if>
+        <if test="provId != null and provId != ''">
+            and PROV_ID = #{provId,jdbcType=CHAR}
+        </if>
+        <if test="provNm != null and provNm != ''">
+            and PROV_NM = #{provNm,jdbcType=CHAR}
+        </if>
+        <if test="vehicleNum != null and vehicleNum != ''">
+            and VEHICLE_NUM = #{vehicleNum,jdbcType=CHAR}
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            and CARD_NO = #{cardNo,jdbcType=CHAR}
+        </if>
+        <if test="inDoor != null and inDoor != ''">
+            and IN_DOOR = #{inDoor,jdbcType=CHAR}
+        </if>
+        <if test="inOperId != null and inOperId != ''">
+            and IN_OPER_ID = #{inOperId,jdbcType=CHAR}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            and IN_TIME &gt;= #{startDate,jdbcType=CHAR}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            and IN_TIME &lt;= #{endDate,jdbcType=CHAR}
+        </if>
+        <if test="phone != null and phone != ''">
+            and PHONE = #{phone,jdbcType=CHAR}
+        </if>
+        <if test="isCheck != null and isCheck != ''">
+            and IS_CHECK = #{isCheck,jdbcType=CHAR}
+        </if>
+        <if test="isCheck == null or isCheck == ''">
+            <!--如果不传入核验状态为未核验-->
+            and IS_CHECK ='0'
+        </if>
+    </sql>
+
+    <sql id="whereInSql">
+        <if test="inId != null and inId != ''">
+            and IN_ID = #{inId,jdbcType=CHAR}
+        </if>
+        <if test="provId != null and provId != ''">
+            and PROV_ID = #{provId,jdbcType=CHAR}
+        </if>
+        <if test="provNm != null and provNm != ''">
+            and PROV_NM = #{provNm,jdbcType=CHAR}
+        </if>
+        <if test="vehicleNum != null and vehicleNum != ''">
+            and VEHICLE_NUM = #{vehicleNum,jdbcType=CHAR}
+        </if>
+        <if test="inDoor != null and inDoor != ''">
+            and IN_DOOR = #{inDoor,jdbcType=CHAR}
+        </if>
+        <if test="operId != null and operId != ''">
+            and IN_OPER_ID = #{operId,jdbcType=CHAR}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            and IN_TIME &gt;= #{startDate,jdbcType=CHAR}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            and IN_TIME &lt;= #{endDate,jdbcType=CHAR}
+        </if>
+        <if test="phone != null and phone != ''">
+            and PHONE = #{phone,jdbcType=CHAR}
+        </if>
+    </sql>
+
+    <sql id="whereOutSql">
+        <if test="inId != null and inId != ''">
+            and IN_ID = #{inId,jdbcType=CHAR}
+        </if>
+        <if test="provId != null and provId != ''">
+            and PROV_ID = #{provId,jdbcType=CHAR}
+        </if>
+        <if test="provNm != null and provNm != ''">
+            and PROV_NM = #{provNm,jdbcType=CHAR}
+        </if>
+        <if test="vehicleNum != null and vehicleNum != ''">
+            and VEHICLE_NUM = #{vehicleNum,jdbcType=CHAR}
+        </if>
+        <if test="outDoor != null and outDoor != ''">
+            and OUT_DOOR = #{outDoor,jdbcType=CHAR}
+        </if>
+        <if test="operId != null and operId != ''">
+            and OUT_OPER_ID = #{operId,jdbcType=CHAR}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            and OUT_TIME &gt;= #{startDate,jdbcType=CHAR}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            and OUT_TIME &lt;= #{endDate,jdbcType=CHAR}
+        </if>
+        <if test="phone != null and phone != ''">
+            and PHONE = #{phone,jdbcType=CHAR}
+        </if>
+    </sql>
+
+    <!-- 货物明细不为空条件-->
+    <sql id="selectHaveDatis">
+         a where  (select count(*) from t_vechicle_procurer_details  where in_id=a.in_id) >0
+    </sql>
+    <!--查询货物核验信息inId-->
+    <select id="selectWhereByInId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_vechicle_procurer
+        where IN_ID = #{inId}
+    </select>
+
+    <!--查询货物核验信息详情根据list-->
+    <select id="selectWhere" resultMap="BaseResultListMap">
+       select DISTINCT
+        <include refid="Base_Column_QURY_287"/>
+        from (select
+        <include refid="Base_Column_QURY_List"/>
+        from t_vechicle_procurer tvp
+        <where>
+            and STATUS = '1'
+        <choose>
+            <when test="chanlNo == '05'.toString() ">
+                <!--智慧贵农时以车牌或用户名查询-->
+                <include refid="selectInOutOrValue"></include>
+            </when>
+            <!--否则以参数条件查询-->
+            <otherwise>
+                <include refid="whereSql"></include>
+            </otherwise>
+        </choose>
+        </where>
+        ) a left join t_vechicle_procurer_details b on a.IN_ID= b.IN_ID left join t_device_relevance c on a.IN_DOOR = c.DEVICE_NO
+        left join t_employee_info d on a.IN_OPER_ID=d.EMP_ID left join t_employee_info e on a.OPER_ID=e.EMP_ID
+        where b.IN_ID is not null
+        order by IN_TIME desc limit #{strNum},#{pageSize}
+    </select>
+
+    <!--根据车牌号或用户名称查询核验货物信息条件-->
+    <sql id="selectInOutOrValue">
+        <if test="value != null and value != ''">
+             and VEHICLE_NUM like  concat ('%',#{value},'%') or PROV_NM  like  concat ('%',#{value},'%')
+        </if>
+        and IS_CHECK ='0'
+    </sql>
+
+    <!--查询未核验并且货物详情不为null总数-->
+    <select id="selectWhereCount" resultType="Integer">
+        select count(DISTINCT(a.IN_ID)) from (select
+         IN_ID
+        from t_vechicle_procurer
+        <where>
+            and STATUS = '1'
+        <choose>
+            <when test="chanlNo == '05'.toString() ">
+                <!--智慧贵农时以车牌或用户名查询-->
+                <include refid="selectInOutOrValue"></include>
+            </when>
+            <!--否则以参数条件查询-->
+            <otherwise>
+                <include refid="whereSql"></include>
+            </otherwise>
+        </choose>
+        </where>
+        ) a left join t_vechicle_procurer_details b on a.IN_ID= b.IN_ID
+        where b.IN_ID is not null
+    </select>
+
+
+    <!--查询未核验并且货物详情不为null总数-->
+    <select id="selectByInIdCount" resultType="Integer">
+        select
+        count(*)
+        from t_vechicle_procurer
+        where IN_ID = #{inId}
+    </select>
+   <!--查询进场数据sql-->
+    <sql id="selectInSql">
+        (select <include refid="Base_Column_INOUT_List"></include>,IN_TIME as IN_OUT_TIME,'0' as IN_OUT_TP from t_vechicle_procurer
+        <!--已进场-->
+        where STATUS != '0'
+        <include refid="whereInSql"></include>
+        )
+    </sql>
+
+    <!--查询进场数据所有字段sql-->
+    <sql id="selectInAllSql">
+        (select *,IN_TIME as IN_OUT_TIME,'0' as IN_OUT_TP from t_vechicle_procurer
+        <!--已进场-->
+        where STATUS != '0'
+        <include refid="whereInSql"></include>
+        )
+    </sql>
+    <!--查询进场数据总数sql统计-->
+    <sql id="selectInCountSql">
+        (select '0' as IN_OUT_TP from t_vechicle_procurer
+        <!--已进场-->
+        where STATUS != '0'
+        <include refid="whereInSql"></include>
+        )
+    </sql>
+    <!--查询出场数据sql-->
+    <sql id="selectOutSql">
+        (select <include refid="Base_Column_INOUT_List"></include>,OUT_TIME as IN_OUT_TIME,'1' as IN_OUT_TP from t_vechicle_procurer
+        <!--已出场-->
+        where STATUS='3'
+        <include refid="whereOutSql"></include>
+        )
+    </sql>
+    <!--查询出场数据sql-->
+    <sql id="selectOutAllSql">
+        (select *,OUT_TIME as IN_OUT_TIME,'1' as IN_OUT_TP from t_vechicle_procurer
+        <!--已出场-->
+        where STATUS='3'
+        <include refid="whereOutSql"></include>
+        )
+    </sql>
+    <!--查询出场数据总数sql-->
+    <sql id="selectOutCountSql">
+        (select '1' as IN_OUT_TP from t_vechicle_procurer
+        <!--已出场-->
+        where STATUS='3'
+        <include refid="whereOutSql"></include>
+        )
+    </sql>
+    <!--查询出场进出场数据sql-->
+    <sql id="selectInOutSql">
+        (
+        <include refid="selectInSql"></include>
+        union all
+        <include refid="selectOutSql"></include>
+        ) a
+    </sql>
+    <!--查询出场进出场数据sql-->
+    <sql id="selectInOutAllSql">
+        (
+        <include refid="selectInAllSql"></include>
+        union all
+        <include refid="selectOutAllSql"></include>
+        ) a
+    </sql>
+
+
+    <!--查询出场进出场数据总数sql-->
+    <sql id="selectInOutCountSql">
+        (
+        <include refid="selectInCountSql"></include>
+        union all
+        <include refid="selectOutCountSql"></include>
+        ) a
+    </sql>
+
+
+    <!--根据员工id或时间条件查询-->
+    <sql id="selcetInOutOrValue">
+        ((select <include refid="Base_Column_INOUT_List"></include>,IN_TIME as IN_OUT_TIME,'0' as IN_OUT_TP from t_vechicle_procurer
+        <!--已进场-->
+        where STATUS !='0'
+        <if test="operId != null and operId != ''">
+            and IN_OPER_ID=#{operId}
+        </if>
+        <if test="inOutTime != null and inOutTime != ''">
+            and SUBSTR(IN_TIME,1,10)=#{inOutTime}
+        </if>
+        ) union all (
+        select <include refid="Base_Column_INOUT_List"></include>,OUT_TIME as IN_OUT_TIME,'1' as IN_OUT_TP from t_vechicle_procurer
+        <!--已出场-->
+        where STATUS='3'
+        <if test="operId != null and operId != ''">
+            and OUT_OPER_ID=#{operId}
+        </if>
+        <if test="inOutTime != null and inOutTime != ''">
+            and SUBSTR(OUT_TIME,1,10)=#{inOutTime}
+        </if>
+        )) a
+    </sql>
+
+    <!--根据员工id或时间条件查询总数sql-->
+    <sql id="selcetInOutOrValueCountSql">
+        ((select '0' as IN_OUT_TP from t_vechicle_procurer
+        <!--已进场-->
+        where STATUS !='0'
+        <if test="operId != null and operId != ''">
+            and IN_OPER_ID=#{operId}
+        </if>
+        <if test="inOutTime != null and inOutTime != ''">
+            and SUBSTR(IN_TIME,1,10)=#{inOutTime}
+        </if>
+        ) union all (
+        select '1' as IN_OUT_TP from t_vechicle_procurer
+        <!--已出场-->
+        where STATUS='3'
+        <if test="operId != null and operId != ''">
+            and OUT_OPER_ID=#{operId}
+        </if>
+        <if test="inOutTime != null and inOutTime != ''">
+            and SUBSTR(OUT_TIME,1,10)=#{inOutTime}
+        </if>
+        )) a
+    </sql>
+
+    <!--查询车辆进出场信息数量-->
+    <select id="selectInOutCount" resultType="Integer">
+        select count(*)
+        from
+        <choose>
+            <when test="inOutTp!=null and inOutTp!='' and inOutTp == '0'.toString() ">
+                <include refid="selectInCountSql"></include>  it
+            </when>
+            <when test="inOutTp!=null and inOutTp!='' and inOutTp == '1'.toString() ">
+                <include refid="selectOutCountSql"></include> ot
+            </when>
+            <otherwise>
+                <include refid="selectInOutCountSql"></include>
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--查询车辆进出场信息-->
+    <select id="selectInOutWhere" resultMap="BaseResultInOutListMap">
+        select <include refid="Base_Column_INOUT_List"></include>,IN_OUT_TP
+        from
+        <choose>
+            <when test="inOutTp!=null and inOutTp!='' and inOutTp == '0'.toString() ">
+                <include refid="selectInSql"></include> it
+            </when>
+            <when test="inOutTp!=null and inOutTp!='' and inOutTp == '1'.toString() ">
+                <include refid="selectOutSql"></include> ot
+            </when>
+            <otherwise>
+                <include refid="selectInOutSql"></include>
+            </otherwise>
+        </choose>
+        order by IN_OUT_TIME desc limit #{strNum},#{pageSize}
+    </select>
+
+    <select id="selectInOutByInid" resultMap="BaseResultMap">
+        select <include refid="InOut_Column_List"></include>
+        from
+        <choose>
+            <when test="inOutTp!=null and inOutTp!='' and inOutTp == '0'.toString() ">
+                <include refid="selectInAllSql"></include> it
+            </when>
+            <when test="inOutTp!=null and inOutTp!='' and inOutTp == '1'.toString() ">
+                <include refid="selectOutAllSql"></include> ot
+            </when>
+            <otherwise>
+                <include refid="selectInOutAllSql"></include>
+            </otherwise>
+        </choose>
+        order by IN_OUT_TIME
+    </select>
+    <!--根据员工id或时间条件查询-->
+    <select id="selcetInOutOrValueCount" resultType="Integer">
+        select count(*)
+        from
+        <include refid="selcetInOutOrValueCountSql"></include>
+    </select>
+
+    <!--根据员工id或时间条件查询-->
+    <select id="selcetInOutOrValueWhere" resultMap="BaseResultInOutListMap">
+        select <include refid="Base_Column_INOUT_List"></include>,IN_OUT_TP
+        from
+        <include refid="selcetInOutOrValue"></include>
+        order by IN_OUT_TIME desc limit #{strNum},#{pageSize}
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.dispart.vo.entrance.TVechicleProcurer">
+        <!--@mbg.generated-->
+        select
+        *
+        from t_vechicle_procurer
+        where IN_ID = #{inId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findNextval" resultType="java.lang.Integer">
+        select nextval(#{seqName})
+    </select>
+
+    <insert id="insert" parameterType="com.dispart.dto.entrance.D_0229addInDto">
+        <!--@mbg.generated-->
+        insert into t_vechicle_procurer (
+        IN_ID,
+        VEHICLE_NUM,
+        VEHICLE_ID,
+        VEHICLE_TP,
+        PROV_ID,
+        CARD_NO,
+        PROV_NM,
+        BOOTH_NUM,
+        VEHICLE_URL,
+        IN_TTL_WGHT,
+        TARE_WGHT,
+        IN_DOOR,
+        IN_TIME,
+        IN_OPER_ID,
+        IN_REMARK,
+        IN_TTL_AMT,
+        IN_AMT,
+        IN_ACT_AMT,
+        `STATUS`,
+        IS_CHECK,
+        IS_DERATED,
+        IS_FIXED,
+        FIXED_AMT,
+        PHONE,
+        CARGO_WGHT,
+        IN_PAY_STATUS,
+        OUT_PAY_STATUS,
+        CHECK_RETURN_AMT,
+        CHECK_SUPPT_AMT,
+        PEEL_SUPPT_AMT,
+        PEEL_RETURN_AMT,
+        OUT_TTL_AMT,
+        REPORT_ID,
+        IN_DOOR_NM,
+        IN_OPER_NM
+        )
+        values (
+        #{inId,jdbcType=VARCHAR},
+        #{vehicleNum,jdbcType=VARCHAR},
+        #{vehicleId,jdbcType=VARCHAR},
+        #{vehicleTp,jdbcType=VARCHAR},
+        #{provId,jdbcType=VARCHAR},
+        #{cardNo,jdbcType=VARCHAR},
+        #{provNm,jdbcType=VARCHAR},
+        #{boothNum,jdbcType=VARCHAR},
+        #{vehicleUrl,jdbcType=VARCHAR},
+        #{inTtlWght,jdbcType=DECIMAL},
+        #{tareWght,jdbcType=DECIMAL},
+        #{inDoor,jdbcType=VARCHAR},
+        #{inTime,jdbcType=TIMESTAMP},
+        #{inOperId,jdbcType=VARCHAR},
+        #{inRemark,jdbcType=VARCHAR},
+        #{inTtlAmt,jdbcType=DECIMAL},
+        #{inAmt,jdbcType=DECIMAL},
+        #{inActAmt,jdbcType=DECIMAL},
+        #{status,jdbcType=VARCHAR},
+        "0",
+        #{isDerated,jdbcType=VARCHAR},
+        #{isFixed,jdbcType=VARCHAR},
+        #{fixedAmt,jdbcType=DECIMAL},
+        #{phone,jdbcType=VARCHAR},
+        #{cargoWght,jdbcType=DECIMAL},
+        #{inPayStatus,jdbcType=VARCHAR},
+        #{outPayStatus,jdbcType=VARCHAR},
+        #{checkReturnAmt,jdbcType=DECIMAL},
+        #{checkSupptAmt,jdbcType=DECIMAL},
+        #{peelSupptAmt,jdbcType=DECIMAL},
+        #{peelReturnAmt,jdbcType=DECIMAL},
+        #{outTtlAmt,jdbcType=DECIMAL},
+        #{reportId,jdbcType=VARCHAR},
+        #{inDoorNm,jdbcType=VARCHAR},
+        #{inOperNm,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertByNoBody" parameterType="com.dispart.vo.entrance.TVechicleProcurer">
+    <!--@mbg.generated-->
+    insert into t_vechicle_procurer (
+    IN_ID,
+    VEHICLE_NUM,
+    VEHICLE_ID,
+    VEHICLE_TP,
+    PROV_ID,
+    CARD_NO,
+    PROV_NM,
+    BOOTH_NUM,
+    VEHICLE_URL,
+    IN_TTL_WGHT,
+    TARE_WGHT,
+    IN_DOOR,
+    IN_TIME,
+    IN_OPER_ID,
+    IN_REMARK,
+    IN_TTL_AMT,
+    IN_AMT,
+    IN_ACT_AMT,
+    `STATUS`,
+    IS_CHECK,
+    IS_DERATED,
+    IS_FIXED,
+    FIXED_AMT,
+    PHONE,
+    CARGO_WGHT,
+    IN_PAY_STATUS,
+    OUT_PAY_STATUS,
+    CHECK_RETURN_AMT,
+    CHECK_SUPPT_AMT,
+    PEEL_SUPPT_AMT,
+    PEEL_RETURN_AMT,
+    OUT_TTL_AMT,
+    IN_DOOR_NM
+    )
+    values (
+    #{inId,jdbcType=VARCHAR},
+    #{vehicleNum,jdbcType=VARCHAR},
+    #{vehicleId,jdbcType=VARCHAR},
+    #{vehicleTp,jdbcType=VARCHAR},
+    #{provId,jdbcType=VARCHAR},
+    #{cardNo,jdbcType=VARCHAR},
+    #{provNm,jdbcType=VARCHAR},
+    #{boothNum,jdbcType=VARCHAR},
+    #{vehicleUrl,jdbcType=VARCHAR},
+    #{inTtlWght,jdbcType=DECIMAL},
+    #{tareWght,jdbcType=DECIMAL},
+    #{inDoor,jdbcType=VARCHAR},
+    #{inTime,jdbcType=TIMESTAMP},
+    #{inOperId,jdbcType=VARCHAR},
+    #{inRemark,jdbcType=VARCHAR},
+    #{inTtlAmt,jdbcType=DECIMAL},
+    #{inAmt,jdbcType=DECIMAL},
+    #{inActAmt,jdbcType=DECIMAL},
+    #{status,jdbcType=VARCHAR},
+    0,
+    #{isDerated,jdbcType=VARCHAR},
+    #{isFixed,jdbcType=VARCHAR},
+    #{fixedAmt,jdbcType=DECIMAL},
+    #{phone,jdbcType=VARCHAR},
+    #{cargoWght,jdbcType=DECIMAL},
+    #{inPayStatus,jdbcType=VARCHAR},
+    #{outPayStatus,jdbcType=VARCHAR},
+    #{checkReturnAmt,jdbcType=DECIMAL},
+    #{checkSupptAmt,jdbcType=DECIMAL},
+    #{peelSupptAmt,jdbcType=DECIMAL},
+    #{peelReturnAmt,jdbcType=DECIMAL},
+    #{outTtlAmt,jdbcType=DECIMAL},
+    #{inDoorNm,jdbcType=VARCHAR}
+    )
+    </insert>
+    <insert id="insertMin" parameterType="com.dispart.dto.entrance.D_0230addInDto">
+        <!--@mbg.generated-->
+        insert into t_vechicle_procurer (
+        IN_ID,
+        VEHICLE_NUM,
+        VEHICLE_URL,
+        VEHICLE_ID,
+        IN_TTL_WGHT,
+        TARE_WGHT,
+        IN_DOOR,
+        IN_TIME,
+        IN_OPER_ID,
+        `STATUS`,
+        IS_CHECK,
+        VEHICLE_TP,
+        CHECK_SUPPT_AMT,
+        CHECK_RETURN_AMT,
+        PEEL_SUPPT_AMT,
+        PEEL_RETURN_AMT,
+        FIXED_AMT,
+        OUT_TTL_AMT,
+        IN_PAY_STATUS,
+        OUT_PAY_STATUS,
+        PROV_ID,
+        PROV_NM,
+        PHONE,
+        CARGO_WGHT,
+        IN_DOOR_NM,
+        IN_OPER_NM
+        )
+        values (
+        #{inId,jdbcType=VARCHAR},
+        #{vehicleNum,jdbcType=VARCHAR},
+        #{vehicleUrl,jdbcType=VARCHAR},
+        #{vehicleId,jdbcType=VARCHAR},
+        #{inTtlWght,jdbcType=DECIMAL},
+        #{tareWght,jdbcType=DECIMAL},
+        #{inDoor,jdbcType=VARCHAR},
+        #{inTime,jdbcType=TIMESTAMP},
+        #{inOperId,jdbcType=VARCHAR},
+        #{status,jdbcType=VARCHAR},
+        '0',
+        #{vehicleTp,jdbcType=VARCHAR},
+        0.00,
+        0.00,
+        0.00,
+        0.00,
+        0.00,
+        0.00,
+        #{inPayStatus,jdbcType=VARCHAR},
+        #{outPayStatus,jdbcType=VARCHAR},
+        #{provId,jdbcType=VARCHAR},
+        #{provNm,jdbcType=VARCHAR},
+        #{phone,jdbcType=VARCHAR},
+        #{cargoWght,jdbcType=DECIMAL},
+        #{inDoorNm,jdbcType=VARCHAR},
+        #{inOperNm,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.dispart.dto.entrance.D_0235UpInDto">
+        <!--@mbg.generated-->
+        update t_vechicle_procurer
+        <set>
+            <if test="vehicleNum != null">
+                VEHICLE_NUM = #{vehicleNum,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleId != null">
+                VEHICLE_ID = #{vehicleId,jdbcType=VARCHAR},
+            </if>
+            <if test="provId != null">
+                PROV_ID = #{provId,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                CARD_NO = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="provNm != null">
+                PROV_NM = #{provNm,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="boothNum != null">
+                BOOTH_NUM = #{boothNum,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleUrl != null">
+                VEHICLE_URL = #{vehicleUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="inTtlWght != null">
+                IN_TTL_WGHT = #{inTtlWght,jdbcType=DECIMAL},
+            </if>
+            <if test="tareWght != null">
+                TARE_WGHT = #{tareWght,jdbcType=DECIMAL},
+            </if>
+            <if test="cargoWght != null">
+                CARGO_WGHT = #{cargoWght,jdbcType=DECIMAL},
+            </if>
+            <if test="inDoor != null">
+                IN_DOOR = #{inDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="inTime != null">
+                IN_TIME = #{inTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inOperId != null">
+                IN_OPER_ID = #{inOperId,jdbcType=VARCHAR},
+            </if>
+            <if test="inRemark != null">
+                IN_REMARK = #{inRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="inTtlAmt != null">
+                IN_TTL_AMT = #{inTtlAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="inAmt != null">
+                IN_AMT = #{inAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="boothAmt != null">
+                BOOTH_AMT = #{boothAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="inActAmt != null">
+                IN_ACT_AMT = #{inActAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="isReport != null">
+                IS_REPORT = #{isReport,jdbcType=CHAR},
+            </if>
+            <if test="outDoor != null">
+                OUT_DOOR = #{outDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="outTime != null">
+                OUT_TIME = #{outTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="outTtlWght != null">
+                OUT_TTL_WGHT = #{outTtlWght,jdbcType=DECIMAL},
+            </if>
+            <if test="outOperId != null">
+                OUT_OPER_ID = #{outOperId,jdbcType=VARCHAR},
+            </if>
+            <if test="isReturn != null">
+                IS_RETURN = #{isReturn,jdbcType=CHAR},
+            </if>
+            <if test="refundAmt != null">
+                REFUND_AMT = #{refundAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="supptAmt != null">
+                SUPPT_AMT = #{supptAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="preferPrice != null">
+                PREFER_PRICE = #{preferPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="actRecevAmt != null">
+                ACT_RECEV_AMT = #{actRecevAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="parkTime != null">
+                PARK_TIME = #{parkTime,jdbcType=INTEGER},
+            </if>
+            <if test="parkAmt != null">
+                PARK_AMT = #{parkAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="parkCpn != null">
+                PARK_CPN = #{parkCpn,jdbcType=DECIMAL},
+            </if>
+            <if test="parkActAmt != null">
+                PARK_ACT_AMT = #{parkActAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="chrgTp != null">
+                CHRG_TP = #{chrgTp,jdbcType=CHAR},
+            </if>
+            <if test="status != null">
+                `STATUS` = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="whither != null">
+                WHITHER = #{whither,jdbcType=VARCHAR},
+            </if>
+            <if test="purchPrdt != null">
+                PURCH_PRDT = #{purchPrdt,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="operId != null">
+                OPER_ID = #{operId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="upTime != null">
+                UP_TIME = #{upTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="peelReturnAmt != null">
+                PEEL_RETURN_AMT = #{peelReturnAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="peelSupptAmt != null">
+                PEEL_SUPPT_AMT = #{peelSupptAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="checkReturnAmt != null">
+                CHECK_RETURN_AMT = #{checkReturnAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="checkSupptAmt != null ">
+                CHECK_SUPPT_AMT = #{checkSupptAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="outTtlAmt != null">
+                OUT_TTL_AMT = #{outTtlAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="isPeel != null and isPeel != ''">
+                IS_PEEL = #{isPeel,jdbcType=VARCHAR},
+            </if>
+            <if test="fixedAmt != null">
+                FIXED_AMT = #{fixedAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="outCargoWght != null">
+                OUT_CARGO_WGHT = #{outCargoWght,jdbcType=DECIMAL},
+            </if>
+            <if test="isParkFree !='' and isParkFree != null ">
+                IS_PARK_FREE = #{isParkFree,jdbcType=VARCHAR}
+            </if>
+            <if test="outDoorNm != null">
+                OUT_DOOR_NM = #{outDoorNm,jdbcType=VARCHAR},
+            </if>
+            <if test="outOperNm != null">
+                OUT_OPER_NM = #{outOperNm,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where IN_ID = #{inId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="upVeStByPrimaryKey" parameterType="com.dispart.dto.entrance.D_0231upInDto">
+        update t_vechicle_procurer
+        set `STATUS` = #{status,jdbcType=VARCHAR}
+        where IN_ID = #{inId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="findInVe" resultType="com.dispart.vo.entrance.TVechicleProcurer">
+        select *
+        from t_vechicle_procurer
+        where VEHICLE_NUM = #{vehicleNum}
+        ORDER BY IN_TIME DESC LIMIT 0,1
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.dispart.vo.entrance.TVechicleProcurer">
+        <!--@mbg.generated-->
+        update t_vechicle_procurer
+        <set>
+            <if test="vehicleNum != null">
+                VEHICLE_NUM = #{vehicleNum,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleId != null">
+                VEHICLE_ID = #{vehicleId,jdbcType=VARCHAR},
+            </if>
+            <if test="provId != null">
+                PROV_ID = #{provId,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                CARD_NO = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="provNm != null">
+                PROV_NM = #{provNm,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="boothNum != null">
+                BOOTH_NUM = #{boothNum,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleUrl != null">
+                VEHICLE_URL = #{vehicleUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="inTtlWght != null">
+                IN_TTL_WGHT = #{inTtlWght,jdbcType=DECIMAL},
+            </if>
+            <if test="tareWght != null">
+                TARE_WGHT = #{tareWght,jdbcType=DECIMAL},
+            </if>
+            <if test="cargoWght != null">
+                CARGO_WGHT = #{cargoWght,jdbcType=DECIMAL},
+            </if>
+            <if test="inDoor != null">
+                IN_DOOR = #{inDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="inTime != null">
+                IN_TIME = #{inTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inOperId != null">
+                IN_OPER_ID = #{inOperId,jdbcType=VARCHAR},
+            </if>
+            <if test="inRemark != null">
+                IN_REMARK = #{inRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="inTtlAmt != null">
+                IN_TTL_AMT = #{inTtlAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="inAmt != null">
+                IN_AMT = #{inAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="boothAmt != null">
+                BOOTH_AMT = #{boothAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="inActAmt != null">
+                IN_ACT_AMT = #{inActAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="isReport != null">
+                IS_REPORT = #{isReport,jdbcType=CHAR},
+            </if>
+            <if test="outDoor != null">
+                OUT_DOOR = #{outDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="outTime != null">
+                OUT_TIME = #{outTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="outTtlWght != null">
+                OUT_TTL_WGHT = #{outTtlWght,jdbcType=DECIMAL},
+            </if>
+            <if test="outOperId != null">
+                OUT_OPER_ID = #{outOperId,jdbcType=VARCHAR},
+            </if>
+            <if test="isReturn != null">
+                IS_RETURN = #{isReturn,jdbcType=CHAR},
+            </if>
+            <if test="refundAmt != null">
+                REFUND_AMT = #{refundAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="supptAmt != null">
+                SUPPT_AMT = #{supptAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="preferPrice != null">
+                PREFER_PRICE = #{preferPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="actRecevAmt != null">
+                ACT_RECEV_AMT = #{actRecevAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="parkTime != null">
+                PARK_TIME = #{parkTime,jdbcType=INTEGER},
+            </if>
+            <if test="parkAmt != null">
+                PARK_AMT = #{parkAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="parkCpn != null">
+                PARK_CPN = #{parkCpn,jdbcType=DECIMAL},
+            </if>
+            <if test="parkActAmt != null">
+                PARK_ACT_AMT = #{parkActAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="chrgTp != null">
+                CHRG_TP = #{chrgTp,jdbcType=CHAR},
+            </if>
+            <if test="status != null">
+                `STATUS` = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="whither != null">
+                WHITHER = #{whither,jdbcType=VARCHAR},
+            </if>
+            <if test="purchPrdt != null">
+                PURCH_PRDT = #{purchPrdt,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="operId != null">
+                OPER_ID = #{operId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="upTime != null">
+                UP_TIME = #{upTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isCheck != null">
+                IS_CHECK = #{isCheck,jdbcType=VARCHAR},
+            </if>
+            <if test="outDoorNm != null">
+                OUT_DOOR_NM = #{outDoorNm,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where IN_ID = #{inId,jdbcType=VARCHAR}
+    </update>
+
+
+    <update id="updateByPrimaryKeySelectiveCheck" parameterType="com.dispart.vo.entrance.TVechicleProcurer">
+        <!--@mbg.generated-->
+        update t_vechicle_procurer
+        <set>
+            <if test="vehicleNum != null">
+                VEHICLE_NUM = #{vehicleNum,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleId != null">
+                VEHICLE_ID = #{vehicleId,jdbcType=VARCHAR},
+            </if>
+            <if test="provId != null">
+                PROV_ID = #{provId,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null">
+                CARD_NO = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="provNm != null">
+                PROV_NM = #{provNm,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="boothNum != null">
+                BOOTH_NUM = #{boothNum,jdbcType=VARCHAR},
+            </if>
+            <if test="vehicleUrl != null">
+                VEHICLE_URL = #{vehicleUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="inTtlWght != null">
+                IN_TTL_WGHT = #{inTtlWght,jdbcType=DECIMAL},
+            </if>
+            <if test="tareWght != null">
+                TARE_WGHT = #{tareWght,jdbcType=DECIMAL},
+            </if>
+            <if test="cargoWght != null">
+                CARGO_WGHT = #{cargoWght,jdbcType=DECIMAL},
+            </if>
+            <if test="inDoor != null">
+                IN_DOOR = #{inDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="inTime != null">
+                IN_TIME = #{inTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inOperId != null">
+                IN_OPER_ID = #{inOperId,jdbcType=VARCHAR},
+            </if>
+            <if test="inRemark != null">
+                IN_REMARK = #{inRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="inTtlAmt != null">
+                IN_TTL_AMT = #{inTtlAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="inAmt != null">
+                IN_AMT = #{inAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="boothAmt != null">
+                BOOTH_AMT = #{boothAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="inActAmt != null">
+                IN_ACT_AMT = #{inActAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="isReport != null">
+                IS_REPORT = #{isReport,jdbcType=CHAR},
+            </if>
+            <if test="outDoor != null">
+                OUT_DOOR = #{outDoor,jdbcType=VARCHAR},
+            </if>
+            <if test="outTime != null">
+                OUT_TIME = #{outTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="outTtlWght != null">
+                OUT_TTL_WGHT = #{outTtlWght,jdbcType=DECIMAL},
+            </if>
+            <if test="outOperId != null">
+                OUT_OPER_ID = #{outOperId,jdbcType=VARCHAR},
+            </if>
+            <if test="isReturn != null">
+                IS_RETURN = #{isReturn,jdbcType=CHAR},
+            </if>
+            <if test="refundAmt != null">
+                REFUND_AMT = #{refundAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="supptAmt != null">
+                SUPPT_AMT = #{supptAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="preferPrice != null">
+                PREFER_PRICE = #{preferPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="actRecevAmt != null">
+                ACT_RECEV_AMT = #{actRecevAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="parkTime != null">
+                PARK_TIME = #{parkTime,jdbcType=INTEGER},
+            </if>
+            <if test="parkAmt != null">
+                PARK_AMT = #{parkAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="parkCpn != null">
+                PARK_CPN = #{parkCpn,jdbcType=DECIMAL},
+            </if>
+            <if test="parkActAmt != null">
+                PARK_ACT_AMT = #{parkActAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="chrgTp != null">
+                CHRG_TP = #{chrgTp,jdbcType=CHAR},
+            </if>
+            <if test="status != null">
+                `STATUS` = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="whither != null">
+                WHITHER = #{whither,jdbcType=VARCHAR},
+            </if>
+            <if test="purchPrdt != null">
+                PURCH_PRDT = #{purchPrdt,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="operId != null">
+                OPER_ID = #{operId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="upTime != null">
+                UP_TIME = #{upTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isCheck != null">
+                IS_CHECK = #{isCheck,jdbcType=VARCHAR},
+            </if>
+            <if test="checkReturnAmt != null">
+                CHECK_RETURN_AMT = #{checkReturnAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="checkSupptAmt != null">
+                CHECK_SUPPT_AMT = #{checkSupptAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="outDoorNm != null">
+                OUT_DOOR_NM = #{outDoorNm,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where IN_ID = #{inId,jdbcType=VARCHAR} and IS_CHECK='0'
+    </update>
+
+    <select id="selectByOutNum" resultType="com.dispart.vo.entrance.TVechicleProcurer" parameterType="java.lang.String">
+        SELECT *
+        FROM t_vechicle_procurer
+        WHERE OUT_DOOR = #{outNum}
+        ORDER BY OUT_TIME DESC
+        LIMIT 1
+    </select>
+
+    <!-- 补贴申请 供应商 采购商 进出场信息查询 -->
+    <select id="findEntranceMessage" parameterType="com.dispart.dto.entrance.D_0297FindDto"
+            resultType="com.dispart.dto.entrance.D_0297FindDto">
+        SELECT t.*,
+            tvr.VEHICLE vehicle, tvr.VEHICLE_TP_ID vehicleTpId
+            <if test="jrnlType == null and carType != null">
+                ,tpj.JRNL_NUM jrnlNum, tpj.TXN_TM txnTm, tpj.POS_ORDER_ID posOrderId
+            </if>
+            ,IF(t.inId = ts.IN_ID, 1, 0) subsidInfoFor, IF(t.inId = ts.IN_ID, ts.STATUS, '-1') subsidStatus
+            <if test="jrnlType != null and jrnlType == 1">
+                ,tpj.JRNL_NUM jrnlNum
+            </if>
+        FROM (
+            SELECT tvp.IN_ID inId, tvp.VEHICLE_NUM vehicleNum, tvp.VEHICLE_ID vehicleId, tvp.PROV_ID provId, tvp.CARD_NO cardNo,
+                tvp.PROV_NM provNm, tvp.PHONE phone, tvp.BOOTH_NUM boothNum, tvp.VEHICLE_TP vehicleTp, tvp.IS_PARK_FREE isParkFree,
+                tvp.VEHICLE_URL vehicleUrl, tvp.IN_TTL_WGHT inTtlWght, tvp.TARE_WGHT tareWght, tvp.CARGO_WGHT cargoWght,
+                tvp.IN_TIME inTime, tvp.IN_OPER_ID inOperId, tvp.OUT_PAYMENT_MODE outPaymentMode, tvp.REPORT_ID reportId,
+                tvp.IN_REMARK inRemark, tvp.IN_TTL_AMT inTtlAmt, tvp.IN_AMT inAmt, tvp.BOOTH_AMT boothAmt, tvp.IN_ACT_AMT inActAmt,
+                tvp.IS_REPORT isReport, tvp.OUT_TIME outTime, tvp.OUT_CARGO_WGHT outCargoWght,
+                tvp.OUT_TTL_WGHT outTtlWght, tvp.OUT_OPER_ID outOperId, tvp.IS_RETURN isReturn, tvp.REFUND_AMT refundAmt,
+                tvp.SUPPT_AMT supptAmt, tvp.PREFER_PRICE preferPrice, tvp.ACT_RECEV_AMT actRecevAmt,
+                tvp.PARK_TIME parkTime, tvp.PARK_AMT parkAmt, tvp.PARK_CPN parkCpn, tvp.PARK_ACT_AMT parkActAmt, tvp.CHRG_TP chrgTp,
+                tvp.STATUS status, tvp.WHITHER whither, tvp.PURCH_PRDT purchPrdt, tvp.IN_DOOR inDoor, tvp.OUT_DOOR outDoor,
+                tvp.REMARK remark, tvp.OPER_ID operId, tvp.CREAT_TIME creatTime, tvp.UP_TIME upTime,
+                tvp.IS_CHECK isCheck, tvp.IS_DERATED, tvp.IS_FIXED, tvp.PAYMENT_MODE paymentMode,
+                tvp.IN_PAY_STATUS, tvp.OUT_PAY_STATUS, tvp.PEEL_SUPPT_AMT peelSupptAmt, tvp.PEEL_RETURN_AMT peelReturnAmt,
+                tvp.IN_OPER_NM inOperName, tvp.OUT_OPER_NM outOperName,
+                tvp.IN_DOOR_NM inDoorNm, tvp.OUT_DOOR_NM outDoorNm
+            FROM t_vechicle_procurer tvp
+            WHERE 1 = 1
+            <if test="inId != null and inId != ''">
+                AND tvp.IN_ID = #{inId}
+            </if>
+            <if test="inIdArr != null and inIdArr.length > 0">
+                AND tvp.IN_ID IN
+                <foreach collection="inIdArr" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        ) t
+        LEFT JOIN t_subsid_info ts ON t.inId = ts.IN_ID
+        <if test="jrnlType != null and jrnlType == 1">
+            LEFT JOIN t_pay_jrn tpj ON tpj.BUSINESS_NO = ts.IN_ID
+            AND (case when ts.status = '1' then tpj.TXN_TYPE = '8' else tpj.TXN_TYPE = '9' end)
+        </if>
+        LEFT JOIN t_vechicle_record tvr ON t.vehicleNum = tvr.VEHICLE_NUM
+        <if test="jrnlType == null and carType != null">
+            LEFT JOIN (
+                SELECT a.JRNL_NUM, a.TXN_TM, a.POS_ORDER_ID, a.BUSINESS_NO
+                FROM t_pay_jrn a, (
+                    SELECT MAX(BUSINESS_NO) BUSINESS_NO, MAX(CREAT_TIME) CREAT_TIME
+                    FROM t_pay_jrn
+                    WHERE STATUS = '2' AND TXN_TYPE = '2'
+                    <if test="jrnlType == null and jrnlNum != null and jrnlNum != ''">
+                        AND JRNL_NUM = #{jrnlNum}
+                    </if>
+                    GROUP BY BUSINESS_NO
+                ) as b
+                where a.BUSINESS_NO = b.BUSINESS_NO AND a.CREAT_TIME = b.CREAT_TIME
+                GROUP BY a.BUSINESS_NO
+            ) tpj ON tpj.BUSINESS_NO = t.inId
+        </if>
+
+        <if test="carType != null and carType == 0">
+            ORDER BY t.outTime DESC
+        </if>
+        <if test="carType != null and carType == 1">
+            ORDER BY t.inTime DESC
+        </if>
+    </select>
+
+    <!-- 补贴申请 供应商 采购商 进出场信息查询数量 -->
+    <select id="findEntranceMessageCount" parameterType="com.dispart.dto.entrance.D_0297FindDto" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT tvp.IN_ID)
+        FROM t_vechicle_procurer tvp
+        <if test="carType != null">
+            LEFT JOIN t_vechicle_procurer_details tvpd ON tvp.IN_ID = tvpd.IN_ID
+        </if>
+        <if test="jrnlType != null and jrnlType == 1 and jrnlNum != null and jrnlNum != ''">
+            LEFT JOIN t_subsid_info ts ON tvp.IN_ID = ts.IN_ID
+            LEFT JOIN t_pay_jrn tpj ON tpj.BUSINESS_NO = ts.IN_ID
+            AND (case when ts.status = '1' then tpj.TXN_TYPE = '8' else tpj.TXN_TYPE = '9' end)
+        </if>
+
+        <if test="jrnlType == null and carType != null and jrnlNum != null and jrnlNum != ''">
+            LEFT JOIN (
+                SELECT a.JRNL_NUM, a.TXN_TM, a.POS_ORDER_ID, a.BUSINESS_NO
+                FROM t_pay_jrn a, (
+                    SELECT MAX(BUSINESS_NO) BUSINESS_NO, MAX(CREAT_TIME) CREAT_TIME
+                    FROM t_pay_jrn
+                    WHERE STATUS = '2' AND TXN_TYPE = '2'
+                    <if test="jrnlType == null and jrnlNum != null and jrnlNum != ''">
+                        AND JRNL_NUM = #{jrnlNum}
+                    </if>
+                    GROUP BY BUSINESS_NO
+                ) as b
+                where a.BUSINESS_NO = b.BUSINESS_NO AND a.CREAT_TIME = b.CREAT_TIME
+                GROUP BY a.BUSINESS_NO
+            ) tpj ON tpj.BUSINESS_NO = tvp.IN_ID
+        </if>
+
+        <if test="(detailsStatus != null and detailsStatus != '') || (depId != null and depId != '')
+            || (categoryId != null and categoryId != '')">
+            LEFT JOIN t_vechicle_procurer_details tvpd ON tvpd.IN_ID = tvp.IN_ID
+            LEFT JOIN t_product_type_info tpti ON tvpd.VARIETY_ID = tpti.VARIETY_NO
+        </if>
+        WHERE 1 = 1
+        <if test="inId != null and inId != ''">
+            AND tvp.IN_ID = #{inId}
+        </if>
+        <if test="carType == null">
+            AND tvp.IN_ID NOT IN(
+                SELECT tsi.IN_ID
+                FROM t_subsid_info tsi
+                <where>
+                    <if test="provId != null and provId != ''">
+                        tsi.PROV_ID = #{provId}
+                    </if>
+                </where>
+            )
+        </if>
+        <if test="nonInductive != null and nonInductive == 1">
+            AND ((tvp.IN_OPER_ID IS NULL AND tvp.OUT_OPER_ID IS NOT NULL)
+                OR (tvp.IN_OPER_ID IS NOT NULL AND tvp.OUT_OPER_ID IS NULL))
+        </if>
+        <if test="nonInductive != null and nonInductive == 2">
+            AND (tvp.IN_OPER_ID is null AND tvp.OUT_OPER_ID is null)
+        </if>
+        <if test="isCheck != null and isCheck != ''">
+            AND tvp.IS_CHECK = #{isCheck,jdbcType=CHAR}
+        </if>
+
+        <if test="carType != null and carType == 0">
+            AND tvpd.IN_ID is not null
+        </if>
+        <if test="carType != null and carType == 1">
+            AND tvpd.IN_ID is null
+        </if>
+
+        <if test="creatTime != null">
+            AND tvp.CREAT_TIME = #{creatTime}
+        </if>
+        <if test="inPayStatus != null and inPayStatus != ''">
+            AND tvp.IN_PAY_STATUS = #{inPayStatus}
+        </if>
+        <if test="outPayStatus != null and outPayStatus != ''">
+            AND tvp.OUT_PAY_STATUS = #{outPayStatus}
+        </if>
+
+        <if test="provId != null and provId != ''">
+            AND tvp.PROV_ID = #{provId}
+        </if>
+
+        <if test="inTime != null">
+            AND tvp.IN_TIME &gt;= #{inTime}
+        </if>
+        <if test="outTime != null">
+            AND tvp.OUT_TIME &lt;= #{outTime}
+        </if>
+
+        <if test="inTimeStart != null and inTimeEnd != null">
+            AND tvp.IN_TIME between #{inTimeStart,jdbcType=TIMESTAMP} and #{inTimeEnd,jdbcType=TIMESTAMP}
+        </if>
+        <if test="outTimeStart != null and outTimeEnd != null">
+            AND tvp.OUT_TIME between #{outTimeStart,jdbcType=TIMESTAMP} and #{outTimeEnd,jdbcType=TIMESTAMP}
+        </if>
+
+        <if test="vehicleNum != null and vehicleNum != ''">
+            AND tvp.VEHICLE_NUM LIKE CONCAT('%',#{vehicleNum},'%')
+        </if>
+        <if test="phone != null and phone != ''">
+            AND tvp.PHONE = #{phone}
+        </if>
+        <if test="paymentMode != null and paymentMode != ''">
+            AND tvp.PAYMENT_MODE = #{paymentMode}
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            AND tvp.CARD_NO = #{cardNo}
+        </if>
+        <if test="purchPrdt != null and purchPrdt != ''">
+            AND tvp.PURCH_PRDT = #{purchPrdt}
+        </if>
+        <if test="status != null and status != ''">
+            AND tvp.STATUS = #{status}
+        </if>
+
+        <if test="provNm != null and provNm != ''">
+            AND tvp.PROV_NM LIKE CONCAT('%',#{provNm},'%')
+        </if>
+
+        <if test="likeValue != null and likeValue != ''">
+            AND (tvp.PHONE LIKE CONCAT('%',#{likeValue},'%') OR tvp.VEHICLE_NUM LIKE CONCAT('%',#{likeValue},'%'))
+        </if>
+        <if test="operator != null and operator != ''">
+            AND (tvp.IN_OPER_ID = #{operator} OR tvp.OUT_OPER_ID = #{operator})
+        </if>
+
+        <if test="detailsStatus != null and detailsStatus != ''">
+            AND tvpd.STATUS = #{detailsStatus}
+        </if>
+
+        <if test="depId != null and depId != ''">
+            AND tpti.DEP_ID = #{depId}
+        </if>
+        <if test="categoryId != null and categoryId != ''">
+            AND tpti.PARENT_PRDT_ID = #{categoryId}
+        </if>
+
+        <if test="inOperName != null and inOperName != ''">
+            AND tvp.IN_OPER_NM LIKE CONCAT(#{inOperName},'%')
+        </if>
+        <if test="outOperName != null and outOperName != ''">
+            AND tvp.OUT_OPER_NM LIKE CONCAT(#{outOperName},'%')
+        </if>
+
+        <if test="jrnlType != null and jrnlNum != null and jrnlNum != ''">
+            AND tpj.JRNL_NUM = #{jrnlNum}
+        </if>
+        <if test="jrnlType != null">
+            AND tvp.OUT_TIME is not null
+        </if>
+    </select>
+
+    <select id="findInVeByVehicleNum" resultType="com.dispart.vo.entrance.TVechicleProcurer">
+        select *
+        from t_vechicle_procurer
+        where VEHICLE_NUM = #{vehicleNum} and status = '1'
+        ORDER BY IN_ID DESC LIMIT 0,1
+    </select>
+
+    <!-- 查询TRoleMenuInfo -->
+    <select id="findRoleMenuInfo" parameterType="com.dispart.dto.entrance.D_0297FindDto"
+            resultType="com.dispart.vo.commons.TRoleMenuInfo">
+        SELECT `ROLE_ID` roleId, `MENU_ID` , `REMARK` remark, `DATA_PARM` dataParm, `UPDATE_DT` updateDt
+        FROM t_role_menu_info
+        WHERE ROLE_ID = #{roleId} AND MENU_ID = #{menuId}
+        LIMIT 1;
+    </select>
+
+    <!-- 查询员工 -->
+    <select id="findEmployeeInfo" parameterType="com.dispart.dto.entrance.D_0297FindDto"
+            resultType="com.dispart.model.EmployeeInfo">
+
+        SELECT `EMP_ID`, `LOGIN_ACCT`, `EMP_NM`, `SEX`, `CERT_TYPE`, `CERT_NUM`, `TELEPHONE`, `EMAIL`, `POSTCODE`, `SUB_DEP`,
+            `SUB_ORG`, `REMARK`, `EFFE_DT`, `EXP_DT`, `PASSWD`, `UPDATE_PASSWD_DT_TM`, `EMP_ST`, `OPER_ID`, `UPDATE_DT`, `DEDU_ADDR`
+        FROM t_employee_info
+        WHERE EMP_ID = #{empId}
+        LIMIT 1;
+    </select>
+
+    <!-- 查询品类 -->
+    <select id="findProductTypeInfo" resultType="com.dispart.vo.entrance.TProductTypeInfo">
+        SELECT tptis.`VARIETY_NO`, tptis.`PRDCT_NM`, tptis.`PARENT_PRDT_ID`, tptis.`PARENT_PRDT`, tptis.`PRDCT_ST`, tptis.`LEVEL`,
+            tptis.`PRDCT_ABBR`, tptis.`RATE`, tptis.`PRICE`, tptis.`REMARK`, tptis.`OPER_ID`, tptis.`DEP_ID`, tptis.`SUB_ORG`,
+            tptis.`CREAT_TIME`, tptis.`UP_TIME`
+        from t_product_type_info tptis
+        inner join t_product_type_info tpti on tptis.VARIETY_NO = tpti.PARENT_PRDT_ID
+        inner join t_vechicle_procurer_details tvpd on tvpd.VARIETY_ID = tpti.VARIETY_NO
+        GROUP BY tptis.VARIETY_NO
+    </select>
+
+    <!--    -->
+    <select id="getParkingInfo" parameterType="com.dispart.dto.entrance.D_0503FindDto" resultType="com.dispart.vo.entrance.D_0503OutVO">
+        select IN_ID,VEHICLE_NUM,IN_DOOR,IN_DOOR_NM,IN_TIME,IN_OPER_ID,IN_OPER_NM,OUT_DOOR,OUT_DOOR_NM,OUT_TIME,OUT_TTL_WGHT,OUT_OPER_ID,OUT_OPER_NM,
+            PARK_TIME,PARK_AMT,PARK_CPN,PARK_ACT_AMT,PAYMENT_MODE,OUT_PAYMENT_MODE,
+            STATUS,IN_PAY_STATUS,OUT_PAY_STATUS,
+            CASE
+                WHEN STATUS in (1,4) THEN (
+                    CASE
+                        WHEN ISNULL(IN_OPER_ID) THEN '无人值守'
+                        WHEN CARGO_WGHT>0 THEN '供货商进场'
+                        ELSE '采购商进场'
+                    END
+                )
+                WHEN STATUS=3 THEN (
+                    CASE
+                        WHEN ISNULL(OUT_OPER_ID) THEN '无人值守'
+                        WHEN CARGO_WGHT>0 THEN '供货商出场'
+                        ELSE '采购商出场'
+                    END
+                )
+            END as type
+        from t_vechicle_procurer
+        <where>
+            <if test="inId != null and inId != ''">
+                IN_ID =#{inId,jdbcType=VARCHAR}
+            </if>
+            <if test="vehicleNum != null and vehicleNum != ''">
+                and VEHICLE_NUM LIKE CONCAT('%',#{vehicleNum},'%')
+            </if>
+            <choose>
+                <when test="status != null and status != ''">
+                    and STATUS = #{status,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    and STATUS in (1,3,4)
+                </otherwise>
+            </choose>
+           <if test="inPayStatus != null and inPayStatus != ''">
+               and IN_PAY_STATUS = #{inPayStatus,jdbcType=VARCHAR}
+           </if>
+            <if test="outPayStatus != null and outPayStatus != ''">
+                and OUT_PAY_STATUS = #{outPayStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="paymentMode != null and paymentMode != ''">
+                and PAYMENT_MODE = #{paymentMode,jdbcType=VARCHAR}
+            </if>
+            <if test="outPaymentMode != null and outPaymentMode != ''">
+                and OUT_PAYMENT_MODE = #{outPaymentMode,jdbcType=VARCHAR}
+            </if>
+            <if test="inTimeStart != null and inTimeEnd != null">
+                and IN_TIME between #{inTimeStart,jdbcType=TIMESTAMP} and #{inTimeEnd,jdbcType=TIMESTAMP}
+            </if>
+            <if test="outTimeStart != null and outTimeEnd != null">
+                and OUT_TIME between #{outTimeStart,jdbcType=TIMESTAMP} and #{outTimeEnd,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+        ORDER BY UP_TIME DESC
+        <if test="pageSize > 0">
+            limit #{curPage}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getParkingInfoCount" parameterType="com.dispart.dto.entrance.D_0503FindDto" resultType="java.lang.Integer">
+        select count(IN_ID)
+        from t_vechicle_procurer
+        <where>
+            <if test="inId != null and inId != ''">
+                IN_ID =#{inId,jdbcType=VARCHAR}
+            </if>
+            <if test="vehicleNum != null and vehicleNum != ''">
+                and VEHICLE_NUM LIKE CONCAT('%',#{vehicleNum},'%')
+            </if>
+            <choose>
+                <when test="status != null and status != ''">
+                    and STATUS = #{status,jdbcType=VARCHAR}
+                </when>
+                <otherwise>
+                    and STATUS in (1,3,4)
+                </otherwise>
+            </choose>
+            <if test="inPayStatus != null and inPayStatus != ''">
+                and IN_PAY_STATUS = #{inPayStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="outPayStatus != null and outPayStatus != ''">
+                and OUT_PAY_STATUS = #{outPayStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="paymentMode != null and paymentMode != ''">
+                and PAYMENT_MODE = #{paymentMode,jdbcType=VARCHAR}
+            </if>
+            <if test="outPaymentMode != null and outPaymentMode != ''">
+                and OUT_PAYMENT_MODE = #{outPaymentMode,jdbcType=VARCHAR}
+            </if>
+            <if test="inTimeStart != null and inTimeEnd != null">
+                and IN_TIME between #{inTimeStart,jdbcType=TIMESTAMP} and #{inTimeEnd,jdbcType=TIMESTAMP}
+            </if>
+            <if test="outTimeStart != null and outTimeEnd != null">
+                and OUT_TIME between #{outTimeStart,jdbcType=TIMESTAMP} and #{outTimeEnd,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <select id="findVechicleProcurerInId" parameterType="com.dispart.dto.entrance.D_0297FindDto"
+            resultType="java.lang.String">
+        SELECT DISTINCT tvp.IN_ID
+        FROM t_vechicle_procurer tvp
+        <if test="carType != null">
+            LEFT JOIN t_vechicle_procurer_details tvpd ON tvp.IN_ID = tvpd.IN_ID
+        </if>
+
+        <if test="jrnlNum != null and jrnlNum != ''">
+            LEFT JOIN t_subsid_info ts ON tvp.IN_ID = ts.IN_ID
+            LEFT JOIN t_pay_jrn tpj ON tpj.BUSINESS_NO = ts.IN_ID
+            AND (case when ts.status = '1' then tpj.TXN_TYPE = '8' else tpj.TXN_TYPE = '9' end)
+        </if>
+
+        <if test="(detailsStatus != null and detailsStatus != '') || (depId != null and depId != '')
+                || (categoryId != null and categoryId != '')">
+            LEFT JOIN t_vechicle_procurer_details tvpd ON tvpd.IN_ID = tvp.IN_ID
+            LEFT JOIN t_product_type_info tpti ON tvpd.VARIETY_ID = tpti.VARIETY_NO
+        </if>
+
+        WHERE 1 = 1
+        <if test="inId != null and inId != ''">
+            AND tvp.IN_ID = #{inId}
+        </if>
+        <if test="inIdArr != null and inIdArr.length > 0">
+            AND tvp.IN_ID IN
+            <foreach collection="inIdArr" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="carType == null">
+            AND tvp.IN_ID NOT IN(
+                SELECT tsi.IN_ID
+                FROM t_subsid_info tsi
+                <where>
+                    <if test="provId != null and provId != ''">
+                        tsi.PROV_ID = #{provId}
+                    </if>
+                </where>
+            )
+        </if>
+        <if test="creatTime != null">
+            AND tvp.CREAT_TIME = #{creatTime}
+        </if>
+        <if test="isCheck != null and isCheck != ''">
+            AND tvp.IS_CHECK = #{isCheck,jdbcType=CHAR}
+        </if>
+        <if test="nonInductive != null and nonInductive == 1">
+            AND ((tvp.IN_OPER_ID IS NULL AND tvp.OUT_OPER_ID IS NOT NULL)
+            OR (tvp.IN_OPER_ID IS NOT NULL AND tvp.OUT_OPER_ID IS NULL))
+        </if>
+        <if test="nonInductive != null and nonInductive == 2">
+            AND (tvp.IN_OPER_ID IS NULL AND tvp.OUT_OPER_ID IS NULL)
+        </if>
+
+        <if test="carType != null and carType == 0">
+            AND tvpd.IN_ID is not null
+        </if>
+        <if test="carType != null and carType == 1">
+            AND tvpd.IN_ID is null
+        </if>
+
+        <if test="inPayStatus != null and inPayStatus != ''">
+            AND tvp.IN_PAY_STATUS = #{inPayStatus}
+        </if>
+        <if test="outPayStatus != null and outPayStatus != ''">
+            AND tvp.OUT_PAY_STATUS = #{outPayStatus}
+        </if>
+
+        <if test="provId != null and provId != ''">
+            AND tvp.PROV_ID = #{provId}
+        </if>
+
+        <if test="inTime != null">
+            AND tvp.IN_TIME &gt;= #{inTime}
+        </if>
+        <if test="outTime != null">
+            AND tvp.OUT_TIME &lt;= #{outTime}
+        </if>
+        <if test="inTimeStart != null and inTimeEnd != null">
+            AND tvp.IN_TIME between #{inTimeStart,jdbcType=TIMESTAMP} and #{inTimeEnd,jdbcType=TIMESTAMP}
+        </if>
+        <if test="outTimeStart != null and outTimeEnd != null">
+            AND tvp.OUT_TIME between #{outTimeStart,jdbcType=TIMESTAMP} and #{outTimeEnd,jdbcType=TIMESTAMP}
+        </if>
+
+        <if test="vehicleNum != null and vehicleNum != ''">
+            AND tvp.VEHICLE_NUM LIKE CONCAT('%',#{vehicleNum},'%')
+        </if>
+        <if test="phone != null and phone != ''">
+            AND tvp.PHONE = #{phone}
+        </if>
+        <if test="paymentMode != null and paymentMode != ''">
+            AND tvp.PAYMENT_MODE = #{paymentMode}
+        </if>
+        <if test="cardNo != null and cardNo != ''">
+            AND tvp.CARD_NO = #{cardNo}
+        </if>
+        <if test="purchPrdt != null and purchPrdt != ''">
+            AND tvp.PURCH_PRDT = #{purchPrdt}
+        </if>
+        <if test="status != null and status != ''">
+            AND tvp.STATUS = #{status}
+        </if>
+
+        <if test="provNm != null and provNm != ''">
+            AND tvp.PROV_NM LIKE CONCAT('%',#{provNm},'%')
+        </if>
+
+        <if test="likeValue != null and likeValue != ''">
+            AND (tvp.PHONE LIKE CONCAT('%',#{likeValue},'%') OR tvp.VEHICLE_NUM LIKE CONCAT('%',#{likeValue},'%'))
+        </if>
+
+        <if test="operator != null and operator != ''">
+            AND (tvp.IN_OPER_ID = #{operator} OR tvp.OUT_OPER_ID = #{operator})
+        </if>
+        <if test="outOperId != null and outOperId != ''">
+            AND tvp.OUT_OPER_ID = #{outOperId}
+        </if>
+        <if test="inOperId != null and inOperId != ''">
+            AND tvp.IN_OPER_ID = #{inOperId}
+        </if>
+
+        <if test="detailsStatus != null and detailsStatus != ''">
+            AND tvpd.STATUS = #{detailsStatus}
+        </if>
+
+        <if test="depId != null and depId != ''">
+            AND tpti.DEP_ID = #{depId}
+        </if>
+        <if test="categoryId != null and categoryId != ''">
+            AND tpti.PARENT_PRDT_ID = #{categoryId}
+        </if>
+
+        <if test="inOperName != null and inOperName != ''">
+            AND tvp.IN_OPER_NM LIKE CONCAT(#{inOperName},'%')
+        </if>
+        <if test="outOperName != null and outOperName != ''">
+            AND tvp.OUT_OPER_NM LIKE CONCAT(#{outOperName},'%')
+        </if>
+
+        <if test="jrnlType != null and jrnlNum != null and jrnlNum != ''">
+            AND tpj.JRNL_NUM = #{jrnlNum}
+        </if>
+
+        <if test="jrnlType != null">
+            AND tvp.OUT_TIME is not null
+        </if>
+
+        <if test="carType != null and carType == 0">
+            ORDER BY tvp.OUT_TIME DESC
+        </if>
+        <if test="carType != null and carType == 1">
+            ORDER BY tvp.IN_TIME DESC
+        </if>
+
+        <if test="pageSize > 0">
+            limit #{curPage}, #{pageSize}
+        </if>
+    </select>
+
+</mapper>

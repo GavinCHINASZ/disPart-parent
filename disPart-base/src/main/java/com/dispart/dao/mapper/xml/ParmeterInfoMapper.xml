@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.ParmeterInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.ParmeterInfo">
+    <!--@mbg.generated-->
+    <!--@Table t_parmeter_info-->
+    <id column="PARAM_TYPE" jdbcType="VARCHAR" property="paramType" />
+    <id column="PARAM_NM" jdbcType="VARCHAR" property="paramNm" />
+    <result column="PARAM_VAL" jdbcType="VARCHAR" property="paramVal" />
+    <result column="PARAM_DESC" jdbcType="VARCHAR" property="paramDesc" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="PERMISSION" jdbcType="VARCHAR" property="permission" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PARAM_TYPE, PARAM_NM, PARAM_VAL, PARAM_DESC, REMARK, PERMISSION, UPDATE_DT
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    <!--@mbg.generated-->
+    delete from t_parmeter_info
+    where PARAM_TYPE = #{paramType,jdbcType=VARCHAR}
+      and PARAM_NM = #{paramNm,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.dispart.model.ParmeterInfo">
+    <!--@mbg.generated-->
+    insert into t_parmeter_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paramType != null">
+        PARAM_TYPE,
+      </if>
+      <if test="paramNm != null">
+        PARAM_NM,
+      </if>
+      <if test="paramVal != null">
+        PARAM_VAL,
+      </if>
+      <if test="paramDesc != null">
+        PARAM_DESC,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="permission != null">
+        PERMISSION,
+      </if>
+      <if test="updateDt != null">
+        UPDATE_DT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paramType != null">
+        #{paramType,jdbcType=VARCHAR},
+      </if>
+      <if test="paramNm != null">
+        #{paramNm,jdbcType=VARCHAR},
+      </if>
+      <if test="paramVal != null">
+        #{paramVal,jdbcType=VARCHAR},
+      </if>
+      <if test="paramDesc != null">
+        #{paramDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null">
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null">
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.dispart.model.ParmeterInfo">
+    <!--@mbg.generated-->
+    update t_parmeter_info
+    <set>
+      <if test="paramVal != null">
+        PARAM_VAL = #{paramVal,jdbcType=VARCHAR},
+      </if>
+      <if test="paramDesc != null">
+        PARAM_DESC = #{paramDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null">
+        PERMISSION = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null">
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PARAM_TYPE = #{paramType,jdbcType=VARCHAR}
+      and PARAM_NM = #{paramNm,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectParmeter" parameterType="com.dispart.dto.parmeterdto.ParmeterSelectInVo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from t_parmeter_info
+    where 1=1
+    <if test="paramType != null and paramType != ''">and PARAM_TYPE = #{paramType,jdbcType=VARCHAR}</if>
+    <if test="paramNm != null and paramNm != ''">and PARAM_NM like concat('%',#{paramNm},'%') </if>
+    order by PARAM_TYPE asc
+    <if test="pageNum != null and pageNum != '' and pageSize != null and pageSize != ''">
+      limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="selectParmeterCount" parameterType="com.dispart.dto.parmeterdto.ParmeterSelectInVo" resultType="java.lang.Integer">
+    select
+    count(*)
+    from t_parmeter_info
+    where 1=1
+    <if test="paramType != null and paramType != ''">and PARAM_TYPE = #{paramType,jdbcType=VARCHAR}</if>
+    <if test="paramNm != null and paramNm != ''">and PARAM_NM like concat('%',#{paramNm},'%') </if>
+  </select>
+
+</mapper>

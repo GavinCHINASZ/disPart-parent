@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.TPlaceOrderTypeMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.hsb.PlaceOrderTypeVo">
+    <!--@mbg.generated-->
+    <!--@Table t_place_order_type-->
+    <id column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <id column="PLACE_ORDER_MD" jdbcType="VARCHAR" property="placeOrderMd" />
+    <result column="PLACE_ORDER_NM" jdbcType="VARCHAR" property="placeOrderNm" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PROV_ID, PLACE_ORDER_MD, PLACE_ORDER_NM, `STATUS`, REMARK, UPDATE_DT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_place_order_type
+    where PROV_ID = #{provId,jdbcType=VARCHAR}
+      and PLACE_ORDER_MD = #{placeOrderMd,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    <!--@mbg.generated-->
+    delete from t_place_order_type
+    where PROV_ID = #{provId,jdbcType=VARCHAR}
+      and PLACE_ORDER_MD = #{placeOrderMd,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.dispart.vo.hsb.PlaceOrderTypeVo">
+    <!--@mbg.generated-->
+    insert into t_place_order_type (PROV_ID, PLACE_ORDER_MD, PLACE_ORDER_NM, 
+      `STATUS`, REMARK, UPDATE_DT
+      )
+    values (#{provId,jdbcType=VARCHAR}, #{placeOrderMd,jdbcType=VARCHAR}, #{placeOrderNm,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updateDt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dispart.vo.hsb.PlaceOrderTypeVo">
+    <!--@mbg.generated-->
+    insert into t_place_order_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="provId != null">
+        PROV_ID,
+      </if>
+      <if test="placeOrderMd != null">
+        PLACE_ORDER_MD,
+      </if>
+      <if test="placeOrderNm != null">
+        PLACE_ORDER_NM,
+      </if>
+      <if test="status != null">
+        `STATUS`,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="updateDt != null">
+        UPDATE_DT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="provId != null">
+        #{provId,jdbcType=VARCHAR},
+      </if>
+      <if test="placeOrderMd != null">
+        #{placeOrderMd,jdbcType=VARCHAR},
+      </if>
+      <if test="placeOrderNm != null">
+        #{placeOrderNm,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null">
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dispart.vo.hsb.PlaceOrderTypeVo">
+    <!--@mbg.generated-->
+    update t_place_order_type
+    <set>
+      <if test="placeOrderNm != null">
+        PLACE_ORDER_NM = #{placeOrderNm,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `STATUS` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null">
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PROV_ID = #{provId,jdbcType=VARCHAR}
+      and PLACE_ORDER_MD = #{placeOrderMd,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dispart.vo.hsb.PlaceOrderTypeVo">
+    <!--@mbg.generated-->
+    update t_place_order_type
+    set PLACE_ORDER_NM = #{placeOrderNm,jdbcType=VARCHAR},
+      `STATUS` = #{status,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP}
+    where PROV_ID = #{provId,jdbcType=VARCHAR}
+      and PLACE_ORDER_MD = #{placeOrderMd,jdbcType=VARCHAR}
+  </update>
+</mapper>

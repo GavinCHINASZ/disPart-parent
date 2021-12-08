@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.CustomBusinessMapper">
+
+<select id="getTxnInfoByPaymentMode" parameterType="com.dispart.dto.dataquery.Disp20210353InDto" resultType="com.dispart.vo.dataQuery.Disp20210353OutVo">
+    SELECT COUNT(*) txnCount,sum(TXN_AMT) txnAmt,AVG(TXN_AMT) avrAmt,SUM(SERV_CHRG) commission,
+    SUM(PART_AMT) finalAmt, t2.PAYMENT_MODE paymentMode
+    FROM t_order_detail_info t1 LEFT JOIN t_order_info t2 on t1.MAIN_ORDER_ID = t2.MAIN_ORDER_ID
+    WHERE t1.ORDER_ST = "2"
+    AND t1.PROV_ID = #{provId}
+    <if test="beginDate != null and beginDate != ''">
+    AND t1.TXN_DT >= #{beginDate}
+    </if>
+    <if test="endDate != null and endDate != ''">
+    AND  #{endDate} >= t1.TXN_DT
+    </if>
+    GROUP BY t2.PAYMENT_MODE
+</select>
+
+<select id="getTolTxnInfo" parameterType="com.dispart.dto.dataquery.Disp20210353InDto" resultType="com.dispart.vo.dataQuery.Disp20210353InfoOutVo">
+    SELECT COUNT(*) txnCount,sum(TXN_AMT) txnAmt,AVG(TXN_AMT) avrAmt,SUM(SERV_CHRG) commission,
+    SUM(PART_AMT) finalAmt,PROV_NM provNm
+    FROM t_order_detail_info
+    WHERE ORDER_ST = "2"
+    AND PROV_ID = #{provId}
+    <if test="beginDate != null and beginDate != ''">
+    AND TXN_DT >= #{beginDate}
+    </if>
+    <if test="endDate != null and endDate != ''">
+    AND  #{endDate} >= TXN_DT
+    </if>
+</select>
+
+<select id="getTxnInfoWithServChrg" parameterType="com.dispart.dto.dataquery.Disp20210353InDto" resultType="com.dispart.vo.dataQuery.Disp20210353InfoOutVo">
+    SELECT COUNT(*) commissionCount, AVG(SERV_CHRG) avrCommission
+    FROM t_order_detail_info
+    WHERE ORDER_ST = "2"
+    AND SERV_CHRG > 0
+    AND PROV_ID = #{provId}
+    <if test="beginDate != null and beginDate != ''">
+    AND TXN_DT >= #{beginDate}
+    </if>
+    <if test="endDate != null and endDate != ''">
+    AND  #{endDate} >= TXN_DT
+    </if>
+</select>
+
+
+</mapper>

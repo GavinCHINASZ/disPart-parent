@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TCustomSignInfoDao">
+
+    <resultMap type="com.dispart.vo.commons.TCustomSignInfo" id="TCustomSignInfoMap">
+        <result property="provId" column="PROV_ID" jdbcType="VARCHAR"/>
+        <result property="provNm" column="PROV_NM" jdbcType="VARCHAR"/>
+        <result property="posNo" column="POS_NO" jdbcType="VARCHAR"/>
+        <result property="provCertTp" column="PROV_CERT_TP" jdbcType="VARCHAR"/>
+        <result property="provCertNo" column="PROV_CERT_NO" jdbcType="VARCHAR"/>
+        <result property="provCntNo" column="PROV_CNT_NO" jdbcType="VARCHAR"/>
+        <result property="certTp" column="CERT_TP" jdbcType="VARCHAR"/>
+        <result property="certNum" column="CERT_NUM" jdbcType="VARCHAR"/>
+        <result property="contacts" column="CONTACTS" jdbcType="VARCHAR"/>
+        <result property="telehone" column="TELEHONE" jdbcType="VARCHAR"/>
+        <result property="provCustId" column="PROV_CUST_ID" jdbcType="VARCHAR"/>
+        <result property="delFlag" column="DEL_FLAG" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="updateDt" column="UPDATE_DT" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.dispart.vo.commons.TCustomSignInfo">
+        insert into logistics.t_custom_sign_info(PROV_ID,MERCHANT_CODE,PROV_NM, POS_NO, PROV_CERT_TP, PROV_CERT_NO, PROV_CNT_NO, CERT_TP, CERT_NUM, CONTACTS, TELEHONE, PROV_CUST_ID, DEL_FLAG, REMARK, UPDATE_DT)
+        values (#{provId},#{merchantCode},#{provNm}, #{posNo}, #{provCertTp}, #{provCertNo}, #{provCntNo}, #{certTp}, #{certNum}, #{contacts}, #{telehone}, #{provCustId}, #{delFlag}, #{remark}, #{updateDt})
+    </insert>
+
+    <!--查询惠市宝请求id-->
+    <select id="selectHSBReqId" resultType="Integer">
+        select nextval('HSBReqId') from dual
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="provId" useGeneratedKeys="true">
+        insert into logistics.t_custom_sign_info(PROV_NM, POS_NO, PROV_CERT_TP, PROV_CERT_NO, PROV_CNT_NO, CERT_TP, CERT_NUM, CONTACTS, TELEHONE, PROV_CUST_ID, DEL_FLAG, REMARK, UPDATE_DT)
+        values (#{provNm}, #{posNo}, #{provCertTp}, #{provCertNo}, #{provCntNo}, #{certTp}, #{certNum}, #{contacts}, #{telehone}, #{provCustId}, #{delFlag}, #{remark}, #{updateDt})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update logistics.t_custom_sign_info
+        <set>
+            <if test="provNm != null and provNm != ''">
+                PROV_NM = #{provNm},
+            </if>
+            <if test="posNo != null and posNo != ''">
+                POS_NO = #{posNo},
+            </if>
+            <if test="provCertTp != null and provCertTp != ''">
+                PROV_CERT_TP = #{provCertTp},
+            </if>
+            <if test="provCertNo != null and provCertNo != ''">
+                PROV_CERT_NO = #{provCertNo},
+            </if>
+            <if test="provCntNo != null and provCntNo != ''">
+                PROV_CNT_NO = #{provCntNo},
+            </if>
+            <if test="certTp != null and certTp != ''">
+                CERT_TP = #{certTp},
+            </if>
+            <if test="certNum != null and certNum != ''">
+                CERT_NUM = #{certNum},
+            </if>
+            <if test="contacts != null and contacts != ''">
+                CONTACTS = #{contacts},
+            </if>
+            <if test="telehone != null and telehone != ''">
+                TELEHONE = #{telehone},
+            </if>
+            <if test="provCustId != null and provCustId != ''">
+                PROV_CUST_ID = #{provCustId},
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                DEL_FLAG = #{delFlag},
+            </if>
+            <if test="remark != null and remark != ''">
+                REMARK = #{remark},
+            </if>
+            <if test="updateDt != null">
+                UPDATE_DT = #{updateDt},
+            </if>
+        </set>
+        where PROV_ID = #{provId}
+    </update>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TCustomSignInfoMap">
+        select
+          PROV_ID, PROV_NM, POS_NO, PROV_CERT_TP, PROV_CERT_NO, PROV_CNT_NO, CERT_TP, CERT_NUM, CONTACTS, TELEHONE, PROV_CUST_ID, DEL_FLAG, REMARK, UPDATE_DT
+        from logistics.t_custom_sign_info
+        where PROV_ID = #{provId}
+    </select>
+</mapper>

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.BillingDetailMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.BillingDetail">
+    <!--@mbg.generated-->
+    <!--@Table t_billing_detail-->
+    <id column="BILL_NUM" jdbcType="VARCHAR" property="billNum" />
+    <result column="BILL_ST" jdbcType="VARCHAR" property="billSt" />
+    <result column="PAYMENT_MODE" jdbcType="VARCHAR" property="paymentMode" />
+    <result column="PAYMENT_ST" jdbcType="VARCHAR" property="paymentSt" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="PROV_NM" jdbcType="VARCHAR" property="provNm" />
+    <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
+    <result column="BOOTH_NUM" jdbcType="VARCHAR" property="boothNum" />
+    <result column="BOOTH_NAME" jdbcType="VARCHAR" property="boothName" />
+    <result column="PAY_ID" jdbcType="VARCHAR" property="payId" />
+    <result column="PAY_ITEM" jdbcType="VARCHAR" property="payItem" />
+    <result column="CONTRACT_NUM" jdbcType="VARCHAR" property="contractNum" />
+    <result column="BILL_AMT" jdbcType="DECIMAL" property="billAmt" />
+    <result column="OVERDUE_FINE" jdbcType="DECIMAL" property="overdueFine" />
+    <result column="RECV_AMT" jdbcType="DECIMAL" property="recvAmt" />
+    <result column="PREFER_PRICE" jdbcType="DECIMAL" property="preferPrice" />
+    <result column="ACT_RECEV_AMT" jdbcType="DECIMAL" property="actRecevAmt" />
+    <result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+    <result column="AREA" jdbcType="DECIMAL" property="area" />
+    <result column="UNIT_PRICE" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="PAY_NUM" jdbcType="INTEGER" property="payNum" />
+    <result column="START_DT" jdbcType="DATE" property="startDt" />
+    <result column="END_DT" jdbcType="DATE" property="endDt" />
+    <result column="CURR_REC_NUM" jdbcType="DECIMAL" property="currRecNum" />
+    <result column="LAST_REC_NUM" jdbcType="DECIMAL" property="lastRecNum" />
+    <result column="USAGE_QNTY" jdbcType="DECIMAL" property="usageQnty" />
+    <result column="PAY_TIME" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="OPER_NM" jdbcType="VARCHAR" property="operNm" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    BILL_NUM, BILL_ST, PAYMENT_MODE, PAYMENT_ST, PROV_ID, PROV_NM, TELEPHONE, BOOTH_NUM, 
+    BOOTH_NAME, PAY_ID, PAY_ITEM, CONTRACT_NUM, BILL_AMT, OVERDUE_FINE, RECV_AMT, PREFER_PRICE, 
+    ACT_RECEV_AMT, SUMMARY, AREA, UNIT_PRICE, PAY_NUM, START_DT, END_DT, CURR_REC_NUM, 
+    LAST_REC_NUM, USAGE_QNTY, PAY_TIME, REMARK, OPER_ID, OPER_NM, CREAT_TIME, UP_TIME
+  </sql>
+
+  <!-- 查询菜单权限 -->
+  <select id="getDataRole" parameterType="java.lang.String" resultType="java.lang.String">
+    SELECT DATA_PARM FROM t_role_menu_info WHERE  ROLE_ID = #{roleId} AND MENU_ID = #{menuId}
+  </select>
+
+  <!-- 查询缴费项目 -->
+  <select id="selectPayItems" parameterType="com.dispart.dto.billDto.BillSelectionInDto" resultType="com.dispart.dto.billDto.BillPayItemsOutDto">
+    select DISTINCT m.PAY_ID payId, i.PAY_ITEM payItem, m.DEP_ID depId from t_pay_prj_manager m
+    LEFT JOIN t_pay_item i on m.PAY_ID = i.PAY_ID
+    WHERE m.DEP_ID = #{depId}
+  </select>
+
+  <!-- 获取账单编号序列 -->
+  <select id="getBillNumSeq" resultType="java.lang.Integer">
+    SELECT nextval('billNum')
+  </select>
+
+  <!-- 账单录入 -->
+  <insert id="addBill" parameterType="com.dispart.dto.billDto.BillInsertInDto">
+    insert into t_billing_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="billNum != null and billNum != ''">
+        BILL_NUM,
+      </if>
+      <if test="billSt != null and billSt != ''">
+        BILL_ST,
+      </if>
+      <if test="paymentMode != null and paymentMode != ''">
+        PAYMENT_MODE,
+      </if>
+      <if test="paymentSt != null and paymentSt != ''">
+        PAYMENT_ST,
+      </if>
+      <if test="depId != null and depId != ''">
+        DEP_ID,
+      </if>
+      <if test="provId != null and provId != ''">
+        PROV_ID,
+      </if>
+      <if test="provNm != null and provNm != ''">
+        PROV_NM,
+      </if>
+      <if test="telephone != null and telephone != ''">
+        TELEPHONE,
+      </if>
+      <if test="boothNum != null and boothNum != ''">
+        BOOTH_NUM,
+      </if>
+      <if test="boothName != null and boothName != ''">
+        BOOTH_NAME,
+      </if>
+      <if test="payId != null and payId != ''">
+        PAY_ID,
+      </if>
+      <if test="payItem != null and payItem != ''">
+        PAY_ITEM,
+      </if>
+      <if test="contractNum != null and contractNum != ''">
+        CONTRACT_NUM,
+      </if>
+      <if test="billAmt != null">
+        BILL_AMT,
+      </if>
+      <if test="overdueFine != null">
+        OVERDUE_FINE,
+      </if>
+      <if test="recvAmt != null">
+        RECV_AMT,
+      </if>
+      <if test="preferPrice != null">
+        PREFER_PRICE,
+      </if>
+      <if test="actRecevAmt != null">
+        ACT_RECEV_AMT,
+      </if>
+      <if test="summary != null and summary != ''">
+        SUMMARY,
+      </if>
+      <if test="area != null">
+        AREA,
+      </if>
+      <if test="unitPrice != null">
+        UNIT_PRICE,
+      </if>
+      <if test="payNum != null">
+        PAY_NUM,
+      </if>
+      <if test="startDt != null and startDt != ''">
+        START_DT,
+      </if>
+      <if test="endDt != null and endDt != ''">
+        END_DT,
+      </if>
+      <if test="currRecNum != null">
+        CURR_REC_NUM,
+      </if>
+      <if test="lastRecNum != null">
+        LAST_REC_NUM,
+      </if>
+      <if test="usageQnty != null">
+        USAGE_QNTY,
+      </if>
+      <if test="payTime != null and payTime != ''">
+        PAY_TIME,
+      </if>
+      <if test="remark != null and remark != ''">
+        REMARK,
+      </if>
+      <if test="operId != null and operId != ''">
+        OPER_ID,
+      </if>
+      <if test="creatTime != null">
+        CREAT_TIME,
+      </if>
+      <if test="upTime != null">
+        UP_TIME,
+      </if>
+      <if test="operNm != null and operNm != ''">
+        OPER_NM
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="billNum != null and billNum != ''">
+        #{billNum,jdbcType=VARCHAR},
+      </if>
+      <if test="billSt != null and billSt != ''">
+        #{billSt,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMode != null and paymentMode != ''">
+        #{paymentMode,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentSt != null and paymentSt != ''">
+        #{paymentSt,jdbcType=VARCHAR},
+      </if>
+      <if test="depId != null and depId != ''">
+        #{depId,jdbcType=VARCHAR},
+      </if>
+      <if test="provId != null and provId != ''">
+        #{provId,jdbcType=VARCHAR},
+      </if>
+      <if test="provNm != null and provNm != ''">
+        #{provNm,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null and telephone != ''">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="boothNum != null and boothNum != ''">
+        #{boothNum,jdbcType=VARCHAR},
+      </if>
+      <if test="boothName != null and boothName != ''">
+        #{boothName,jdbcType=VARCHAR},
+      </if>
+      <if test="payId != null and payId != ''">
+        #{payId,jdbcType=VARCHAR},
+      </if>
+      <if test="payItem != null and payItem != ''">
+        #{payItem,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null and contractNum != ''">
+        #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="billAmt != null">
+        #{billAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueFine != null">
+        #{overdueFine,jdbcType=DECIMAL},
+      </if>
+      <if test="recvAmt != null">
+        #{recvAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="preferPrice != null">
+        #{preferPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="actRecevAmt != null">
+        #{actRecevAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="summary != null and summary != ''">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payNum != null">
+        #{payNum,jdbcType=INTEGER},
+      </if>
+      <if test="startDt != null and startDt != ''">
+        #{startDt,jdbcType=DATE},
+      </if>
+      <if test="endDt != null and endDt != ''">
+        #{endDt,jdbcType=DATE},
+      </if>
+      <if test="currRecNum != null">
+        #{currRecNum,jdbcType=DECIMAL},
+      </if>
+      <if test="lastRecNum != null">
+        #{lastRecNum,jdbcType=DECIMAL},
+      </if>
+      <if test="usageQnty != null">
+        #{usageQnty,jdbcType=DECIMAL},
+      </if>
+      <if test="payTime != null and payTime != ''">
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null and remark != ''">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null and operId != ''">
+        #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTime != null">
+        #{upTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operNm != null and operNm != ''">
+        #{operNm,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 账单总条数查询 -->
+  <select id="selectBillsCount" parameterType="com.dispart.dto.billDto.BillSelectionInDto" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM t_billing_detail b
+    left join t_department_info d on b.DEP_ID = d.DEP_ID
+    where 1=1
+    <if test="appSelectKey != null and appSelectKey != ''">
+        AND (
+            TELEPHONE like concat('%',#{appSelectKey},'%') or
+            PROV_NM like concat('%',#{appSelectKey},'%')
+        )
+    </if>
+    <if test="txnStDate != null and txnStDate != ''">AND b.CREAT_TIME >= #{txnStDate}</if>
+    <if test="txnEndDate != null and txnEndDate != ''">AND #{txnEndDate} >= b.CREAT_TIME</if>
+    <if test="operNm != null and operNm != ''">AND b.OPER_NM like concat('%',#{operNm},'%')</if>
+    <if test="billNum != null and billNum != ''">and b.BILL_NUM = #{billNum}</if>
+    <if test="payId != null and payId != ''">and b.PAY_ID = #{payId}</if>
+    <if test="billSt != null and billSt != ''">and b.BILL_ST = #{billSt,jdbcType=VARCHAR}</if>
+    <if test="telephone != null and telephone != ''">and b.TELEPHONE like concat('%',#{telephone},'%')</if>
+    <if test="provNm != null and provNm != ''">and b.PROV_NM like concat('%',#{provNm},'%')</if>
+    <if test="payId != null and payId != ''">and b.PAY_ID = #{payId}</if>
+    <if test="provId != null and provId != ''">and b.PROV_ID like concat('%',#{provId},'%')</if>
+    <if test="paymentSt != null and paymentSt != ''">and b.PAYMENT_ST = #{paymentSt,jdbcType=VARCHAR}</if>
+    <if test="dataRole.equals('0'.toString())">AND b.OPER_ID = #{operId}</if>
+    <if test="dataRole.equals('1'.toString())">AND b.DEP_ID = #{depId}</if>
+    <!--  贵农购只关注是否支付，在此作转换  -->
+    <if test="isPayed != null and isPayed != ''">
+        <choose>
+            <when test="isPayed.equals('0'.toString())">
+                and (b.PAYMENT_ST = '9' or b.PAYMENT_ST = '1' or b.PAYMENT_ST = '0')
+            </when>
+            <otherwise>
+                and (b.PAYMENT_ST = '2' or b.PAYMENT_ST = '4' or b.PAYMENT_ST = '5' or b.PAYMENT_ST = '6' or b.PAYMENT_ST = '3')
+            </otherwise>
+        </choose>
+    </if>
+  </select>
+
+  <!-- 账单查询 -->
+  <select id="selectBills" parameterType="com.dispart.dto.billDto.BillSelectionInDto" resultType="com.dispart.dto.billDto.DISP20210307OutDto">
+    SELECT d.DEP_NM depNm, b.*
+    FROM t_billing_detail b
+    left join t_department_info d on b.DEP_ID = d.DEP_ID
+    where 1=1
+    <if test="appSelectKey != null and appSelectKey != ''">
+        AND (
+            TELEPHONE like concat('%',#{appSelectKey},'%') or
+            PROV_NM like concat('%',#{appSelectKey},'%')
+        )
+    </if>
+    <if test="txnStDate != null and txnStDate != ''">AND b.CREAT_TIME >= #{txnStDate}</if>
+    <if test="txnEndDate != null and txnEndDate != ''">AND #{txnEndDate} >= b.CREAT_TIME</if>
+    <if test="operNm != null and operNm != ''">AND b.OPER_NM like concat('%',#{operNm},'%')</if>
+    <if test="billNum != null and billNum != ''">and b.BILL_NUM = #{billNum}</if>
+    <if test="payId != null and payId != ''">and b.PAY_ID = #{payId}</if>
+    <if test="billSt != null and billSt != ''">and b.BILL_ST = #{billSt,jdbcType=VARCHAR}</if>
+    <if test="telephone != null and telephone != ''">and b.TELEPHONE like concat('%',#{telephone},'%')</if>
+    <if test="provNm != null and provNm != ''">and b.PROV_NM like concat('%',#{provNm},'%')</if>
+    <if test="payId != null and payId != ''">and b.PAY_ID = #{payId}</if>
+    <if test="provId != null and provId != ''">and b.PROV_ID like concat('%',#{provId},'%')</if>
+    <if test="paymentSt != null and paymentSt != ''">and b.PAYMENT_ST = #{paymentSt,jdbcType=VARCHAR}</if>
+    <if test="dataRole.equals('0'.toString())">AND b.OPER_ID = #{operId}</if>
+    <if test="dataRole.equals('1'.toString())">AND b.DEP_ID = #{depId}</if>
+    <!--  贵农购只关注是否支付，在此作转换  -->
+    <if test="isPayed != null and isPayed != ''">
+        <choose>
+            <when test="isPayed.equals('0'.toString())">
+                and (b.PAYMENT_ST = '9' or b.PAYMENT_ST = '1' or b.PAYMENT_ST = '0')
+            </when>
+            <otherwise>
+                and (b.PAYMENT_ST = '2' or b.PAYMENT_ST = '4' or b.PAYMENT_ST = '5' or b.PAYMENT_ST = '6' or b.PAYMENT_ST = '3')
+            </otherwise>
+        </choose>
+    </if>
+    ORDER BY CREAT_TIME DESC
+    <if test="pageSize != null and pageNum != null">LIMIT #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}</if>
+
+  </select>
+
+  <select id="getNewestPayInfo" parameterType="java.lang.String" resultType="com.dispart.model.PayJrn">
+   SELECT j.POS_ORDER_ID posOrderId, j.TXN_TM txnTm
+   FROM t_pay_jrn j
+   WHERE j.BUSINESS_NO = #{billNum}
+   AND j.STATUS = '2'
+   ORDER BY j.CREAT_TIME DESC LIMIT 0,1
+  </select>
+
+  <!-- 账单作废 -->
+  <update id="abolishBill" parameterType="com.dispart.dto.billDto.BillUpdateInDto">
+    update t_billing_detail set BILL_ST = '1', OPER_ID = #{operId}, OPER_NM = #{operNm}, UP_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T')
+    WHERE BILL_NUM = #{billNum}
+  </update>
+
+  <!-- 账单支付状态修改 -->
+  <update id="updateBillPayStatus" parameterType="com.dispart.dto.billDto.DISP20210332InDto">
+    update t_billing_detail set PAYMENT_ST = #{paymentSt},OPER_ID = #{operId},OPER_NM = #{operNm}, UP_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T')
+    WHERE BILL_NUM = #{billNum}
+  </update>
+
+</mapper>

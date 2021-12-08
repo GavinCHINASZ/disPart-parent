@@ -1,0 +1,9 @@
+package com.disPart.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.dispart.model.order.TApportionDetailsInfo;
+
+public interface TApportionDetailsInfoService extends IService<TApportionDetailsInfo>{
+
+
+}

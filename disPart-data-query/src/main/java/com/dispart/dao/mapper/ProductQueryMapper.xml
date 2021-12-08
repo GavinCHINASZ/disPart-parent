@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.ProductQueryMapper">
+
+    <select id="quryProductInventory" parameterType="com.dispart.dto.dataquery.Disp20210075InDto" resultType="com.dispart.dto.dataquery.Disp20210075OutMx">
+         SELECT
+            tpi.PRDCT_ID prdctId,
+            tpi.PRDCT_NM prdctNm,
+            tpi.STOCK stock,
+            tpi.UNIT unit,
+            tpi.UPDATE_DT updateDt,
+            tpi.PROV_ID provId,
+            tpi.UNIT unit,
+            bm.PROV_NM provNm
+        FROM
+            t_product_inventory_info tpi
+            INNER JOIN t_custom_info_manager bm ON tpi.PROV_ID = bm.PROV_ID
+        WHERE
+            1 = 1
+            <if test="prdctId != null and prdctId != '' ">
+            AND tpi.PRDCT_NM like concat('%',#{prdctNm},'%')
+            </if>
+            <if test="provId != null and provId != '' ">
+            AND tpi.PROV_ID like concat('%',#{provId},'%')
+            </if>
+            <if test="provNm != null and provNm != '' ">
+            AND bm.PROV_NM like concat('%', #{provNm},'%')
+            </if>
+            <if test="prdctTypeId != null and prdctTypeId != ''">
+                AND tpi.PARENT_PRDT_ID in
+                <foreach collection="prdctTypeIdList" item="prdctTypeId" index="index" open="(" close=")" separator=",">
+                    #{prdctTypeId}
+                </foreach>
+            </if>
+            LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="quryProductInventory_count" parameterType="com.dispart.dto.dataquery.Disp20210075InDto" resultType="com.dispart.entity.DatabaseCount">
+        SELECT count(*) as countRec
+        FROM
+            t_product_inventory_info tpi
+            INNER JOIN t_custom_info_manager bm ON tpi.PROV_ID = bm.PROV_ID
+        WHERE
+            1 = 1
+            <if test="prdctId != null and prdctId != '' ">
+            AND tpi.PRDCT_NM like concat('%',#{prdctNm},'%')
+            </if>
+            <if test="provId != null and provId != '' ">
+            AND tpi.PROV_ID like concat('%',#{provId},'%')
+            </if>
+            <if test="provNm != null and provNm != '' ">
+            AND bm.PROV_NM like concat('%', #{provNm},'%')
+            </if>
+            <if test="prdctTypeId != null and prdctTypeId != ''">
+                AND tpi.PARENT_PRDT_ID in
+                <foreach collection="prdctTypeIdList" item="prdctTypeId" index="index" open="(" close=")" separator=",">
+                    #{prdctTypeId}
+                </foreach>
+            </if>
+    </select>
+
+</mapper>

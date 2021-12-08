@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TVechicleProcurerMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.tmp.TVechicleProcurer">
+    <!--@mbg.generated-->
+    <!--@Table t_vechicle_procurer-->
+    <id column="IN_ID" jdbcType="VARCHAR" property="inId" />
+    <result column="VEHICLE_NUM" jdbcType="VARCHAR" property="vehicleNum" />
+    <result column="VEHICLE_TP" jdbcType="VARCHAR" property="vehicleTp" />
+    <result column="VEHICLE_ID" jdbcType="VARCHAR" property="vehicleId" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+    <result column="PROV_NM" jdbcType="VARCHAR" property="provNm" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="BOOTH_NUM" jdbcType="VARCHAR" property="boothNum" />
+    <result column="VEHICLE_URL" jdbcType="VARCHAR" property="vehicleUrl" />
+    <result column="IN_TTL_WGHT" jdbcType="DECIMAL" property="inTtlWght" />
+    <result column="TARE_WGHT" jdbcType="DECIMAL" property="tareWght" />
+    <result column="CARGO_WGHT" jdbcType="DECIMAL" property="cargoWght" />
+    <result column="IN_DOOR" jdbcType="VARCHAR" property="inDoor" />
+    <result column="IN_TIME" jdbcType="TIMESTAMP" property="inTime" />
+    <result column="IN_OPER_ID" jdbcType="VARCHAR" property="inOperId" />
+    <result column="IN_REMARK" jdbcType="VARCHAR" property="inRemark" />
+    <result column="IN_TTL_AMT" jdbcType="DECIMAL" property="inTtlAmt" />
+    <result column="IN_AMT" jdbcType="DECIMAL" property="inAmt" />
+    <result column="BOOTH_AMT" jdbcType="DECIMAL" property="boothAmt" />
+    <result column="IN_ACT_AMT" jdbcType="DECIMAL" property="inActAmt" />
+    <result column="IS_REPORT" jdbcType="CHAR" property="isReport" />
+    <result column="OUT_DOOR" jdbcType="VARCHAR" property="outDoor" />
+    <result column="OUT_TIME" jdbcType="TIMESTAMP" property="outTime" />
+    <result column="OUT_TTL_WGHT" jdbcType="DECIMAL" property="outTtlWght" />
+    <result column="OUT_OPER_ID" jdbcType="VARCHAR" property="outOperId" />
+    <result column="IS_DERATED" jdbcType="CHAR" property="isDerated" />
+    <result column="IS_CHECK" jdbcType="CHAR" property="isCheck" />
+    <result column="IS_RETURN" jdbcType="CHAR" property="isReturn" />
+    <result column="CHECK_RETURN_AMT" jdbcType="DECIMAL" property="checkReturnAmt" />
+    <result column="CHECK_SUPPT_AMT" jdbcType="DECIMAL" property="checkSupptAmt" />
+    <result column="IS_PEEL" jdbcType="CHAR" property="isPeel" />
+    <result column="PEEL_SUPPT_AMT" jdbcType="DECIMAL" property="peelSupptAmt" />
+    <result column="PEEL_RETURN_AMT" jdbcType="DECIMAL" property="peelReturnAmt" />
+    <result column="IS_FIXED" jdbcType="CHAR" property="isFixed" />
+    <result column="FIXED_AMT" jdbcType="DECIMAL" property="fixedAmt" />
+    <result column="REFUND_AMT" jdbcType="DECIMAL" property="refundAmt" />
+    <result column="SUPPT_AMT" jdbcType="DECIMAL" property="supptAmt" />
+    <result column="OUT_TTL_AMT" jdbcType="DECIMAL" property="outTtlAmt" />
+    <result column="PREFER_PRICE" jdbcType="DECIMAL" property="preferPrice" />
+    <result column="ACT_RECEV_AMT" jdbcType="DECIMAL" property="actRecevAmt" />
+    <result column="PARK_TIME" jdbcType="INTEGER" property="parkTime" />
+    <result column="PARK_AMT" jdbcType="DECIMAL" property="parkAmt" />
+    <result column="PARK_CPN" jdbcType="DECIMAL" property="parkCpn" />
+    <result column="IS_PARK_FREE" jdbcType="INTEGER" property="isParkFree" />
+    <result column="PARK_ACT_AMT" jdbcType="DECIMAL" property="parkActAmt" />
+    <result column="CHRG_TP" jdbcType="VARCHAR" property="chrgTp" />
+    <result column="PAYMENT_MODE" jdbcType="VARCHAR" property="paymentMode" />
+    <result column="OUT_PAYMENT_MODE" jdbcType="VARCHAR" property="outPaymentMode" />
+    <result column="NON_INDUCTIVE" jdbcType="TINYINT" property="nonInductive" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="IN_PAY_STATUS" jdbcType="VARCHAR" property="inPayStatus" />
+    <result column="OUT_PAY_STATUS" jdbcType="VARCHAR" property="outPayStatus" />
+    <result column="WHITHER" jdbcType="VARCHAR" property="whither" />
+    <result column="PURCH_PRDT" jdbcType="VARCHAR" property="purchPrdt" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="OUT_CARGO_WGHT" jdbcType="DECIMAL" property="outCargoWght" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+    <result column="REPORT_ID" jdbcType="VARCHAR" property="reportId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    IN_ID, VEHICLE_NUM, VEHICLE_TP, VEHICLE_ID, PROV_ID, CARD_NO, PROV_NM, PHONE, BOOTH_NUM, 
+    VEHICLE_URL, IN_TTL_WGHT, TARE_WGHT, CARGO_WGHT, IN_DOOR, IN_TIME, IN_OPER_ID, IN_REMARK, 
+    IN_TTL_AMT, IN_AMT, BOOTH_AMT, IN_ACT_AMT, IS_REPORT, OUT_DOOR, OUT_TIME, OUT_TTL_WGHT, 
+    OUT_OPER_ID, IS_DERATED, IS_CHECK, IS_RETURN, CHECK_RETURN_AMT, CHECK_SUPPT_AMT, 
+    IS_PEEL, PEEL_SUPPT_AMT, PEEL_RETURN_AMT, IS_FIXED, FIXED_AMT, REFUND_AMT, SUPPT_AMT, 
+    OUT_TTL_AMT, PREFER_PRICE, ACT_RECEV_AMT, PARK_TIME, PARK_AMT, PARK_CPN, IS_PARK_FREE, 
+    PARK_ACT_AMT, CHRG_TP, PAYMENT_MODE, OUT_PAYMENT_MODE, NON_INDUCTIVE, `STATUS`, IN_PAY_STATUS, 
+    OUT_PAY_STATUS, WHITHER, PURCH_PRDT, REMARK, OPER_ID, CREAT_TIME, OUT_CARGO_WGHT, 
+    UP_TIME, REPORT_ID
+  </sql>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TEmployeeRoleInfoDao">
+    <resultMap type="com.dispart.vo.commons.TEmployeeRoleInfo" id="TEmployeeRoleInfoMap">
+        <result property="empId" column="EMP_ID" jdbcType="VARCHAR"/>
+        <result property="roleId" column="ROLE_ID" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="updateDt" column="UPDATE_DT" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByChanlNo"  resultType="com.dispart.dto.auth.TRoleInfoDto" >
+        select
+          b.ROLE_ID roleId, b.ORG_ID orgId, b.ROLE_NM roleNm, b.REMARK remark, b.UPDATE_DT updateDt
+        from t_employee_role_info a ,t_role_info b
+        where a.ROLE_ID=b.ROLE_ID and a.EMP_ID=#{empId} and b.CHANL_NO=#{chanlNo}
+    </select>
+    <select id="queryAll" resultMap="TEmployeeRoleInfoMap">
+        select
+          EMP_ID, ROLE_ID, REMARK, UPDATE_DT
+        from logistics.t_employee_role_info
+        <where>
+            <if test="empId != null and empId != ''">
+                and EMP_ID = #{empId}
+            </if>
+            <if test="roleId != null and roleId != ''">
+                and ROLE_ID = #{roleId}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK = #{remark}
+            </if>
+            <if test="updateDt != null">
+                and UPDATE_DT = #{updateDt}
+            </if>
+        </where>
+    </select>
+
+</mapper>

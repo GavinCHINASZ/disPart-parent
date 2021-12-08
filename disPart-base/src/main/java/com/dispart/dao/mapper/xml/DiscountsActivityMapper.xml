@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.DiscountsActivityMapper">
+    <resultMap id="discountsActivityMap" type="com.dispart.vo.base.DiscountsActivityVo">
+        <id property="actId" column="ACT_ID" jdbcType="INTEGER"/>
+        <result property="actNm" column="ACT_NM" jdbcType="VARCHAR"/>
+        <result property="startDt" column="START_DT" jdbcType="DATE"/>
+        <result property="endDt" column="END_DT" jdbcType="DATE"/>
+        <result property="discntPrd" column="DISCNT_PRD" jdbcType="INTEGER"/>
+        <result property="discntNum" column="DISCNT_NUM" jdbcType="INTEGER"/>
+        <result property="status" column="STATUS" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="operName" column="OPER_NAME" jdbcType="VARCHAR"/>
+        <result property="creatTime" column="CREAT_TIME" jdbcType="TIMESTAMP"/>
+        <result property="upTime" column="UP_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="resultSql">
+        `ACT_ID`, `ACT_NM`, `START_DT`, `END_DT`, `DISCNT_PRD`, `DISCNT_NUM`, `STATUS`, `REMARK`, `OPER_NAME`,
+        `CREAT_TIME`, `UP_TIME`
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="actId != null and actId > 0">
+                ACT_ID = #{actId}
+            </if>
+            <if test="actNm != null and actNm != ''">
+                and ACT_NM like concat('%',#{actNm},'%')
+            </if>
+            <if test="startDt != null">
+                and START_DT &gt;= #{startDt}
+            </if>
+            <if test="endDt != null">
+                and END_DT &lt;= #{endDt}
+            </if>
+            <if test="discntPrd != null and discntPrd > 0">
+                and DISCNT_PRD = #{discntPrd}
+            </if>
+            <if test="discntNum != null and discntNum > 0">
+                and DISCNT_NUM = #{discntNum}
+            </if>
+            <if test="status != null and status != ''">
+                and STATUS = #{status}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK like concat('%',#{remark},'%')
+            </if>
+            <if test="operName != null and operName != ''">
+                and OPER_NAME like concat('%',#{operName},'%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 优惠活动 新增 -->
+    <insert id="insertDiscountsActivity" parameterType="com.dispart.vo.base.DiscountsActivityVo">
+        INSERT INTO t_discounts_activity (`ACT_NM`, `START_DT`, `END_DT`, `DISCNT_PRD`, `DISCNT_NUM`, `STATUS`,
+            `REMARK`, `OPER_NAME`, `CREAT_TIME`)
+        VALUES (#{actNm}, #{startDt}, #{endDt}, #{discntPrd}, #{discntNum}, '0',
+            #{remark}, #{operName}, NOW());
+    </insert>
+
+    <!-- 优惠活动 查询list -->
+    <select id="selectDiscountsActivityList" parameterType="com.dispart.vo.base.DiscountsActivityVo" resultMap="discountsActivityMap">
+        SELECT <include refid="resultSql"/>
+        FROM t_discounts_activity
+        <include refid="whereSql"/>
+        ORDER BY UP_TIME DESC
+        <if test="pageSize > 0">
+            limit #{curPage},#{pageSize}
+        </if>
+    </select>
+
+    <!-- 查询消息数量 -->
+    <select id="selectDiscountsActivityCount" parameterType="com.dispart.vo.base.DiscountsActivityVo" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT ACT_ID)
+        FROM t_discounts_activity
+        <include refid="whereSql"/>
+    </select>
+
+    <!-- 优惠活动 删除 -->
+    <delete id="deleteDiscountsActivity">
+        DELETE FROM t_discounts_activity
+        <include refid="whereSql"/>
+    </delete>
+
+    <!-- 优惠活动 修改 -->
+    <update id="updateDiscountsActivity" parameterType="com.dispart.vo.base.DiscountsActivityVo">
+        UPDATE t_discounts_activity
+        <set>
+            <if test="actNm != null and actNm != ''">
+                ACT_NM = #{actNm},
+            </if>
+            <if test="startDt != null">
+                START_DT = #{startDt},
+            </if>
+            <if test="endDt != null">
+                END_DT = #{endDt},
+            </if>
+            <if test="discntPrd != null and discntPrd > 0">
+                DISCNT_PRD = #{discntPrd},
+            </if>
+            <if test="discntNum != null and discntNum > 0">
+                DISCNT_NUM = #{discntNum},
+            </if>
+            <if test="status != null and status != ''">
+                `STATUS` = #{status},
+            </if>
+            <if test="remark != null and remark != ''">
+                REMARK = #{remark},
+            </if>
+            <if test="operName != null and operName != ''">
+                OPER_NAME = #{operName}
+            </if>
+        </set>
+        WHERE `ACT_ID` = #{actId}
+    </update>
+
+    <!-- 查询消息数量 -->
+    <select id="findStatusCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT ACT_ID)
+        FROM t_discounts_activity
+        WHERE `STATUS` = #{activityStatus}
+    </select>
+
+    <!-- 查询开启并且在有效时间内的活动 -->
+    <select id="findDiscountsActivityOpen" resultMap="discountsActivityMap">
+        SELECT <include refid="resultSql"/>
+        FROM t_discounts_activity
+        WHERE STATUS = '1' AND START_DT &lt; NOW() AND END_DT &gt;= NOW();
+    </select>
+
+    <!-- 查询活动 -->
+    <select id="findDiscountsActivityByActID" parameterType="java.lang.Integer" resultMap="discountsActivityMap">
+        SELECT <include refid="resultSql"/>
+        FROM t_discounts_activity
+        WHERE `ACT_ID` = #{actId}
+    </select>
+
+    <!-- 查询客户 -->
+    <select id="findCustomInfoManagerByProvId" parameterType="java.lang.String"
+        resultType="com.dispart.model.CustomInfoManager">
+        SELECT `PROV_ID`, `TAX_NUM`, `CUSTOM_TP`, `PVTY_TP`, `PROV_NM`, `SHRT_NM`, `CERT_TYPE`, `CERT_NUM`, `CERT_ADDR`,
+            `CERT_PRD`, `PHONE`, `LEGAL_NAME`, `LEGAL_PHONE`, `LEGAL_CERT_TP`, `LEGAL_CERT_NUM`, `AGENT_NAME`,
+            `AGENT_PHONE`, `AGENT_CERT_NO`, `AGENT_ADDR`, `TERM_PRCTN`, `TERM_DUE_DT`, `FRONT_URL`, `REVERSER_URL`,
+            `BUSINESS_URL`, `BUSINESS_SCOPE`, `STATUS`, `IS_REAL`, `IS_WITHDRAW`, `MNMN_CODE`,
+            `QRCODE_URL`, `AUDITOR`, `AUDITOR_TM`, `REMARK`, `OPER_ID`, `CREAT_TIME`, `UP_TIME`, `AGENT_FRONT_URL`,
+            `AGENT_REVERSER_URL`, `AGENT_TERM_BOOK_URL`, `CHANL_NO`, `OTHER_FILE_URL`
+        FROM t_custom_info_manager
+        WHERE PROV_ID = #{provId}
+    </select>
+
+    <!-- 活动优惠总金额 -->
+    <select id="findDiscountsAmt" resultType="java.lang.String">
+        SELECT PARAM_VAL
+        FROM t_parmeter_info
+        WHERE PARAM_TYPE = '07' AND PARAM_NM = 'hsb.discounts.amt';
+    </select>
+
+</mapper>

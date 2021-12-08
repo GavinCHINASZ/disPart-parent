@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.ProductPriceInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.ProductPriceInfo">
+    <!--@mbg.generated-->
+    <!--@Table t_product_price_info-->
+    <id column="DATE" jdbcType="DATE" property="date" />
+    <id column="PRDCT_ID" jdbcType="CHAR" property="prdctId" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="MAX_PRICE" jdbcType="DECIMAL" property="maxPrice" />
+    <result column="MID_PRICE" jdbcType="DECIMAL" property="midPrice" />
+    <result column="MIN_PRICE" jdbcType="DECIMAL" property="minPrice" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    `DATE`, PRDCT_ID, PRDCT_NM, MAX_PRICE, MID_PRICE, MIN_PRICE, UNIT, UPDATE_DT
+  </sql>
+
+  <insert id="insert" parameterType="com.dispart.model.ProductPriceInfo">
+    <!--@mbg.generated-->
+    insert into t_product_price_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="date != null">
+        `DATE`,
+      </if>
+      <if test="prdctId != null">
+        PRDCT_ID,
+      </if>
+      <if test="prdctNm != null">
+        PRDCT_NM,
+      </if>
+      <if test="maxPrice != null">
+        MAX_PRICE,
+      </if>
+      <if test="midPrice != null">
+        MID_PRICE,
+      </if>
+      <if test="minPrice != null">
+        MIN_PRICE,
+      </if>
+      <if test="unit != null">
+        UNIT,
+      </if>
+      <if test="updateDt != null">
+        UPDATE_DT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="prdctId != null">
+        #{prdctId,jdbcType=CHAR},
+      </if>
+      <if test="prdctNm != null">
+        #{prdctNm,jdbcType=VARCHAR},
+      </if>
+      <if test="maxPrice != null">
+        #{maxPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="midPrice != null">
+        #{midPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="minPrice != null">
+        #{minPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null">
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="delete" parameterType="com.dispart.model.ProductPriceInfo">
+    delete from t_product_price_info
+    where DATE = #{date,jdbcType=DATE}
+    and PRDCT_NM = #{prdctNm,jdbcType=VARCHAR}
+  </delete>
+</mapper>

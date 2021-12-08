@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.IPayIncDao">
+
+    <!--  更新账单支付状态  -->
+    <update  id="updateBillStatus" parameterType="com.dispart.model.PayJrn">
+        UPDATE t_billing_detail b SET
+        b.PAYMENT_ST = #{status,jdbcType=VARCHAR}, b.PAYMENT_MODE = #{transMd,jdbcType=VARCHAR},
+        b.UP_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T'),
+        b.PAY_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T')
+        WHERE b.BILL_NUM = #{businessNo}
+    </update>
+
+    <!--  更新月卡账单支付状态  -->
+    <update id="updateMCardStatus" parameterType="com.dispart.model.PayJrn">
+        UPDATE t_vechicle_month_pay_details m SET
+        m.PAYMENT_ST = #{status,jdbcType=VARCHAR}, m.PAYMENT_MODE = #{transMd,jdbcType=VARCHAR},
+        m.UP_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T'),
+        m.PAYMENT_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T')
+        WHERE m.PAY_ORDER = #{businessNo,jdbcType=VARCHAR}
+    </update>
+
+
+    <!--  更新入场支付状态  -->
+    <update id="updateInStatus" parameterType="com.dispart.model.PayJrn">
+        UPDATE t_vechicle_procurer p set
+        p.IN_PAY_STATUS = #{status,jdbcType=VARCHAR}, p.PAYMENT_MODE=#{transMd,jdbcType=VARCHAR},
+        p.UP_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T')
+        WHERE p.IN_ID = #{businessNo,jdbcType=VARCHAR}
+    </update>
+
+    <!--  更新出场支付状态  -->
+    <update id="updateOutStatus" parameterType="com.dispart.model.PayJrn">
+        UPDATE t_vechicle_procurer p set
+        <if test="status.equals('2'.toString())">
+        p.STATUS = '3',
+        </if>
+        p.OUT_PAY_STATUS = #{status,jdbcType=VARCHAR},
+        p.OUT_PAYMENT_MODE = #{transMd,jdbcType=VARCHAR},
+        p.UP_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T')
+        WHERE p.IN_ID = #{businessNo,jdbcType=VARCHAR}
+    </update>
+
+        <!--  查找月卡账单信息  -->
+    <select id="selectMCardPayDetail" parameterType="com.dispart.model.PayJrn" resultType="com.dispart.model.VechicleMonthPayDetails">
+        SELECT
+        d.PAYMENT_ST paymentSt, d.PAY_ST_DT payStDt,
+        d.PAY_DEADLINE payDeadline, d.MCARD_NUM mcardNum
+        FROM t_vechicle_month_pay_details d WHERE d.PAY_ORDER = #{businessNo,jdbcType=VARCHAR}
+    </select>
+
+    <!--  查找月卡生效时间  -->
+    <select id="getMcardInfo" parameterType="com.dispart.model.VechicleMonthPayDetails" resultType="com.dispart.model.MCardInfo">
+        SELECT START_DT startDt,DUE_DT dueDt FROM t_vehicle_month WHERE MCARD_NUM = #{mcardNum}
+    </select>
+
+    <!--  更新月卡时间和状态  -->
+    <update id="updateMCardInfo" parameterType="com.dispart.model.MCardInfo">
+        UPDATE t_vehicle_month m set
+        <if test="startDt != null">
+            m.START_DT = #{startDt},
+        </if>
+        <if test="dueDt != null">
+            m.DUE_DT = #{dueDt},
+        </if>
+         m.`STATUS` = #{status},
+         m.UP_TIME = DATE_FORMAT(NOW(),'%Y-%m-%d %T')
+         WHERE m.MCARD_NUM = #{mcardNum,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

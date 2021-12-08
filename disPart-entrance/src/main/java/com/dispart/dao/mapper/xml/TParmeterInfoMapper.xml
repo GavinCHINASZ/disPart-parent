@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TParmeterInfoMapper">
+  <select id="selectByTypeNum" parameterType="com.dispart.vo.commons.TParmeterInfo" resultType="com.dispart.vo.commons.TParmeterInfo">
+    select *
+    from t_parmeter_info
+    where PARAM_TYPE = #{paramType,jdbcType=VARCHAR} and PARAM_NM = #{paramNm,jdbcType=VARCHAR}
+    limit 1
+  </select>
+</mapper>

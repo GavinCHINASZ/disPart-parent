@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TCarioGoWhereMapper">
+    <select id="getList" resultType="com.dispart.vo.entrance.TCarioGoWhere">
+        select *
+        from t_cario_go_where
+        where address like CONCAT('%',#{whither,jdbcType=VARCHAR},'%')
+        limit 20
+    </select>
+</mapper>

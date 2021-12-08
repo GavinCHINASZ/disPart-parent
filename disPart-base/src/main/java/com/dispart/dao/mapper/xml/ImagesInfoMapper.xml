@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.ImagesInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.ImagesInfo">
+    <!--@mbg.generated-->
+    <!--@Table t_images_info-->
+    <id column="IMAGE_ID" property="imageId" />
+    <result column="BELONG" property="belong" />
+    <result column="IMAGE_NM" property="imageNm" />
+    <result column="IMAGE_DESC" property="imageDesc" />
+    <result column="IMAGE_URL" property="imageUrl" />
+    <result column="URL" property="url" />
+    <result column="TITLE" property="title" />
+    <result column="PRIORITY" property="priority" />
+    <result column="REMARK" property="remark" />
+    <result column="UPDATE_DT" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    IMAGE_ID,BELONG, IMAGE_NM, IMAGE_DESC, IMAGE_URL, URL, TITLE, PRIORITY, REMARK, UPDATE_DT
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from t_images_info
+    where IMAGE_ID = #{imageId}
+  </delete>
+
+  <insert id="insert" parameterType="com.dispart.model.ImagesInfo">
+    <!--@mbg.generated-->
+    insert into t_images_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="imageId != null and imageId != ''">IMAGE_ID,</if>
+      <if test="imageNm != null and imageNm != ''">IMAGE_NM,</if>
+      <if test="imageDesc != null and imageDesc != ''">IMAGE_DESC,</if>
+      <if test="imageUrl != null and imageUrl != ''">IMAGE_URL,</if>
+      <if test="url != null and url != ''">URL,</if>
+      <if test="title != null and title != ''">TITLE,</if>
+      <if test="priority != null and priority != ''">PRIORITY,</if>
+      <if test="remark != null and remark != ''">REMARK,</if>
+      <if test="belong != null and belong != ''">BELONG,</if>
+      UPDATE_DT,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="imageId != null and imageId != ''">#{imageId},</if>
+      <if test="imageNm != null and imageNm != ''">#{imageNm},</if>
+      <if test="imageDesc != null and imageDesc != ''">#{imageDesc},</if>
+      <if test="imageUrl != null and imageUrl != ''">#{imageUrl},</if>
+      <if test="url != null and url != ''">#{url},</if>
+      <if test="title != null and title != ''">#{title},</if>
+      <if test="priority != null and priority != ''">#{priority},</if>
+      <if test="remark != null and remark != ''">#{remark},</if>
+      <if test="belong != null and belong != ''">#{belong},</if>
+      DATE_FORMAT(NOW(),'%Y-%m-%d %T'),
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.dispart.model.ImagesInfo">
+    <!--@mbg.generated-->
+    update t_images_info
+    <set>
+      <if test="imageNm != null and imageNm != ''">IMAGE_NM = #{imageNm},</if>
+      <if test="imageDesc != null and imageDesc != ''"> IMAGE_DESC = #{imageDesc},</if>
+      <if test="imageUrl != null and imageUrl != ''">IMAGE_URL = #{imageUrl},</if>
+      <if test="url != null and url != ''">URL = #{url},</if>
+      <if test="title != null and title != ''">TITLE = #{title},</if>
+      <if test="priority != null and priority != ''">PRIORITY = #{priority},</if>
+      <if test="remark != null and remark != ''">REMARK = #{remark},</if>
+      UPDATE_DT = DATE_FORMAT(NOW(),'%Y-%m-%d %T'),
+    </set>
+    where IMAGE_ID = #{imageId}
+  </update>
+
+  <select id="selectImagesInfo" parameterType="com.dispart.dto.imageInfoDto.ImageSelectInVo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from t_images_info where 1=1
+    <if test="imageNm != null and imageNm != ''">
+      and IMAGE_NM like concat('%',#{imageNm},'%')
+    </if>
+    <if test="title != null and title != ''">
+      and TITLE like concat('%',#{title},'%')
+    </if>
+    <if test="belong != null and belong != ''">and BELONG = #{belong}</if>
+    order by PRIORITY desc
+    <if test="pageSize != null and pageNum != null">
+      limit #{pageNum},#{pageSize}
+    </if>
+  </select>
+
+  <select id="selectImagesInfoCount" parameterType="com.dispart.dto.imageInfoDto.ImageSelectInVo" resultType="java.lang.Integer">
+    select count(*)
+    from t_images_info where 1=1
+    <if test="imageNm != null and imageNm != ''">
+      and IMAGE_NM like concat('%',#{imageNm},'%')
+    </if>
+    <if test="title != null and title != ''">
+      and TITLE like concat('%',#{title},'%')
+    </if>
+    <if test="belong != null and belong != ''">and BELONG = #{belong}</if>
+  </select>
+</mapper>

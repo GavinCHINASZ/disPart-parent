@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.DeviceManagerMapper">
+    <select id="findDeviceManager" parameterType="com.dispart.dto.deviceManagerDto.DISP20210116FindDeMa" resultType="com.dispart.dto.deviceManagerDto.DISP20210116FindDeMa">
+        SELECT
+	        a.CUSTOM_TP  merchantType, a.PROV_ID  merchantCode, a.PROV_NM  cname, a.CERT_NUM  certNo, a.PHONE  legalTel,b.DEVICE_ID deviceId,b.REMARK remark
+        FROM
+            t_custom_info_manager a
+        LEFT JOIN
+            t_device_manager b
+        ON
+	        a.PROV_ID=b.CUSTOMER_ID
+	        <if test="pageSize>0"> limit #{curPage},#{pageSize}</if>
+    </select>
+    <select id="findDeMaByDe" resultType="com.dispart.dto.deviceManagerDto.DISP20210116FindDeMa">
+        SELECT
+                a.CUSTOM_TP  merchantType, a.PROV_ID  merchantCode, a.PROV_NM  cname, a.CERT_NUM  certNo, a.PHONE  legalTel,b.DEVICE_ID deviceId,b.REMARK remark
+            FROM
+                (select e.* from t_device_manager e where
+                    e.DEVICE_ID = #{deviceId}
+                ) b
+            LEFT JOIN
+                (select d.* from t_custom_info_manager d
+                where
+                1=1
+                <if test="certNo != null and certNo != ''"> AND d.idcard = #{certNo}</if>
+                <if test="legalTel != null and legalTel != ''"> AND d.contactstelno = #{legalTel}</if>
+                <if test="cname != null and cname != ''"> AND d.cname like "%"#{cname}"%"</if>
+                ) a
+            ON
+                a.PROV_ID=b.CUSTOMER_ID
+                <if test="pageSize>0"> limit #{curPage},#{pageSize}</if>
+</select>
+
+<select id="findDeMaByMa" resultType="com.dispart.dto.deviceManagerDto.DISP20210116FindDeMa">
+        SELECT
+                a.CUSTOM_TP  merchantType, a.PROV_ID  merchantCode, a.PROV_NM  cname, a.CERT_NUM  certNo, a.PHONE  legalTel,b.DEVICE_ID deviceId,b.REMARK remark
+            FROM
+                (select d.* from t_custom_info_manager d
+                where
+                1=1
+                <if test="merchantCode != null and merchantCode != ''"> AND d.PROV_ID = #{merchantCode}</if>
+                <if test="certNo != null and certNo != ''"> AND d.CERT_NUM = #{certNo}</if>
+                <if test="legalTel != null and legalTel != ''"> AND d.PHONE = #{legalTel}</if>
+                <if test="cname != null and cname != ''"> AND d.PROV_NM like "%"#{cname}"%"</if>
+                )a
+            LEFT JOIN
+                (select e.* from t_device_manager e where
+                1=1
+                <if test="deviceId != null and deviceId != ''"> AND e.DEVICE_ID = #{deviceId}</if>
+                ) b
+            ON
+                a.PROV_ID=b.CUSTOMER_ID
+                <if test="pageSize>0"> limit #{curPage},#{pageSize}</if>
+</select>
+
+
+    <select id="findAllNum" parameterType="com.dispart.dto.deviceManagerDto.DISP20210116FindDeMa" resultType="java.lang.Integer">
+       SELECT
+            count(*) as deciNum
+        FROM
+            t_custom_info_manager
+    </select>
+    <select id="findMNumByDe" resultType="java.lang.Integer">
+        SELECT
+            count(*) as deciNum
+        FROM
+            t_device_manager
+        where
+            DEVICE_ID = #{deviceId}
+</select>
+<select id="findMNumByMa" resultType="java.lang.Integer">
+        SELECT
+            count(*) as deciNum
+        FROM
+            t_custom_info_manager d
+        where
+                1=1
+                <if test="merchantCode != null and merchantCode != ''"> AND d.PROV_ID = #{merchantCode}</if>
+                <if test="certNo != null and certNo != ''"> AND d.CERT_NUM = #{certNo}</if>
+                <if test="legalTel != null and legalTel != ''"> AND d.PHONE = #{legalTel}</if>
+                <if test="cname != null and cname != ''"> AND d.PROV_NM like "%"#{cname}"%"</if>
+</select>
+<insert id="addDeviceManager" parameterType="com.dispart.dto.deviceManagerDto.DISP20210116FindDeMa">
+    insert into t_device_manager
+        (DEVICE_TYPE,DEVICE_KEY,DEVICE_ID,CUSTOMER_ID,REMARK)
+    values
+        (#{deviceType},#{deviceKey},#{deviceId},#{customerId},#{remark})
+</insert>
+<select id="findNumByCustomer" resultType="java.lang.Integer">
+    SELECT
+            count(*) as deciNum
+        FROM
+            t_device_manager
+        where
+            <if test="customerId != null and customerId != ''"> CUSTOMER_ID = #{customerId}</if>
+</select>
+<delete id="upDeviceManager" parameterType="com.dispart.dto.deviceManagerDto.DISP20210116FindDeMa">
+    update
+        t_device_manager
+    set
+        DEVICE_TYPE = #{deviceType},
+        DEVICE_ID = #{deviceId},
+        REMARK = #{remark}
+    where
+        CUSTOMER_ID = #{customerId}
+</delete>
+<delete id="deDeviceManager">
+    delete from t_device_manager
+    where
+        <if test="deviceId != null and deviceId != ''"> DEVICE_ID = #{deviceId}</if>
+        <if test="deviceId != null and deviceId != '' and customerId != null and customerId != ''"> and </if>
+        <if test="customerId != null and customerId != ''"> CUSTOMER_ID = #{customerId}</if>
+</delete>
+</mapper>

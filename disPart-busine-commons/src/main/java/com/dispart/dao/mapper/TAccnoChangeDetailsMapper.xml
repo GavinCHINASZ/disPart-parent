@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TAccnoChangeDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.tmp.TAccnoChangeDetails">
+    <!--@mbg.generated-->
+    <!--@Table t_accno_change_details-->
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="JRNL_NUM" jdbcType="VARCHAR" property="jrnlNum" />
+    <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="PROV_NM" jdbcType="VARCHAR" property="provNm" />
+    <result column="TXN_TYPE" jdbcType="VARCHAR" property="txnType" />
+    <result column="TRANS_MD" jdbcType="VARCHAR" property="transMd" />
+    <result column="INCOME_TP" jdbcType="CHAR" property="incomeTp" />
+    <result column="ACCT_BAL" jdbcType="DECIMAL" property="acctBal" />
+    <result column="BEFORE_AMT" jdbcType="DECIMAL" property="beforeAmt" />
+    <result column="AFTER_AMT" jdbcType="DECIMAL" property="afterAmt" />
+    <result column="TXN_AMT" jdbcType="DECIMAL" property="txnAmt" />
+    <result column="TXN_TM" jdbcType="TIMESTAMP" property="txnTm" />
+    <result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="SUB_ORG" jdbcType="VARCHAR" property="subOrg" />
+    <result column="DEP_ID" jdbcType="VARCHAR" property="depId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ID, JRNL_NUM, CARD_NO, PROV_ID, PROV_NM, TXN_TYPE, TRANS_MD, INCOME_TP, ACCT_BAL, 
+    BEFORE_AMT, AFTER_AMT, TXN_AMT, TXN_TM, SUMMARY, REMARK, OPER_ID, SUB_ORG, DEP_ID, 
+    CREAT_TIME, UP_TIME
+  </sql>
+</mapper>

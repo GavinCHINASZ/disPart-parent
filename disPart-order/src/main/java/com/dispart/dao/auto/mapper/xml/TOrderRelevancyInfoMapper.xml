@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TOrderRelevancyInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TOrderRelevancyInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_order_relevancy_info-->
+    <id column="MAIN_ORDER_ID" jdbcType="CHAR" property="mainOrderId" />
+    <id column="ORDER_ID" jdbcType="CHAR" property="orderId" />
+    <id column="CUST_ORDER_ID" jdbcType="CHAR" property="custOrderId" />
+    <result column="CCB_ORDER_ID" jdbcType="VARCHAR" property="ccbOrderId" />
+    <result column="CCB_ORDER_DETAIL_ID" jdbcType="VARCHAR" property="ccbOrderDetailId" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    MAIN_ORDER_ID, ORDER_ID, CUST_ORDER_ID, CCB_ORDER_ID, CCB_ORDER_DETAIL_ID, UPDATE_DT
+  </sql>
+</mapper>

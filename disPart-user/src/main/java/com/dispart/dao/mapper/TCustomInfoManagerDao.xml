@@ -1,0 +1,871 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TCustomInfoManagerDao">
+    <resultMap id="BaseResultMap" type="com.dispart.vo.user.TCustomInfoManagerVo">
+        <!--@Table t_custom_info_manager-->
+        <id column="PROV_ID" jdbcType="VARCHAR" property="provId"/>
+        <result column="TAX_NUM" jdbcType="VARCHAR" property="taxNum"/>
+        <result column="CUSTOM_TP" jdbcType="VARCHAR" property="customTp"/>
+        <result column="PVTY_TP" jdbcType="VARCHAR" property="pvtyTp"/>
+        <result column="PROV_NM" jdbcType="VARCHAR" property="provNm"/>
+        <result column="SHRT_NM" jdbcType="VARCHAR" property="shrtNm"/>
+        <result column="CERT_TYPE" jdbcType="VARCHAR" property="certType"/>
+        <result column="CERT_NUM" jdbcType="VARCHAR" property="certNum"/>
+        <result column="CERT_ADDR" jdbcType="VARCHAR" property="certAddr"/>
+        <result column="CERT_PRD" jdbcType="DATE" property="certPrd"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName"/>
+        <result column="LEGAL_PHONE" jdbcType="VARCHAR" property="legalPhone"/>
+        <result column="LEGAL_CERT_TP" jdbcType="VARCHAR" property="legalCertTp"/>
+        <result column="LEGAL_CERT_NUM" jdbcType="VARCHAR" property="legalCertNum"/>
+        <result column="AGENT_NAME" jdbcType="VARCHAR" property="agentName"/>
+        <result column="AGENT_PHONE" jdbcType="VARCHAR" property="agentPhone"/>
+        <result column="AGENT_CERT_NO" jdbcType="VARCHAR" property="agentCertNo"/>
+        <result column="AGENT_ADDR" jdbcType="VARCHAR" property="agentAddr"/>
+        <result column="TERM_PRCTN" jdbcType="CHAR" property="termPrctn"/>
+        <result column="TERM_DUE_DT" jdbcType="DATE" property="termDueDt"/>
+        <result column="FRONT_URL" jdbcType="VARCHAR" property="frontUrl"/>
+        <result column="REVERSER_URL" jdbcType="VARCHAR" property="reverserUrl"/>
+        <result column="BUSINESS_URL" jdbcType="VARCHAR" property="businessUrl"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="IS_REAL" jdbcType="CHAR" property="isReal"/>
+        <result column="MNMN_CODE" jdbcType="VARCHAR" property="mnmnCode"/>
+        <result column="QRCODE_URL" jdbcType="VARCHAR" property="qrcodeUrl"/>
+        <result column="AUDITOR" jdbcType="VARCHAR" property="auditor"/>
+        <result column="AUDITOR_TM" jdbcType="TIMESTAMP" property="auditorTm"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="OPER_ID" jdbcType="VARCHAR" property="operId"/>
+        <result column="BUSINESS_SCOPE" jdbcType="VARCHAR" property="businessScope"/>
+        <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime"/>
+        <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime"/>
+
+        <result column="AGENT_FRONT_URL" jdbcType="VARCHAR" property="agentFrontUrl"/>
+        <result column="AGENT_REVERSER_URL" jdbcType="VARCHAR" property="agentReverserUrl"/>
+        <result column="AGENT_TERM_BOOK_URL" jdbcType="VARCHAR" property="agentTermBookUrl"/>
+        <result column="CHANL_NO" jdbcType="VARCHAR" property="chanlNo"/>
+        <result column="OTHER_FILE_URL" jdbcType="VARCHAR" property="otherFileUrl"/>
+    </resultMap>
+
+    <resultMap id="ResultListDto" type="com.dispart.dto.customdto.QuryCustomInfoOutParamDto">
+        <!--@Table t_custom_info_manager-->
+        <id column="PROV_ID" jdbcType="VARCHAR" property="provId"/>
+        <result column="TAX_NUM" jdbcType="VARCHAR" property="taxNum"/>
+        <result column="CUSTOM_TP" jdbcType="VARCHAR" property="customTp"/>
+        <result column="PVTY_TP" jdbcType="VARCHAR" property="pvtyTp"/>
+        <result column="PROV_NM" jdbcType="VARCHAR" property="provNm"/>
+        <result column="SHRT_NM" jdbcType="VARCHAR" property="shrtNm"/>
+        <result column="CERT_TYPE" jdbcType="VARCHAR" property="certTp"/>
+        <result column="CERT_NUM" jdbcType="VARCHAR" property="certNum"/>
+        <result column="CERT_ADDR" jdbcType="VARCHAR" property="certAddr"/>
+        <result column="CERT_PRD" jdbcType="DATE" property="certPrd"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName"/>
+        <result column="LEGAL_PHONE" jdbcType="VARCHAR" property="legalPhone"/>
+        <result column="LEGAL_CERT_TP" jdbcType="VARCHAR" property="legalCertTp"/>
+        <result column="LEGAL_CERT_NUM" jdbcType="VARCHAR" property="legalCertNum"/>
+        <result column="AGENT_NAME" jdbcType="VARCHAR" property="agentName"/>
+        <result column="AGENT_PHONE" jdbcType="VARCHAR" property="agentPhone"/>
+        <result column="AGENT_CERT_NO" jdbcType="VARCHAR" property="agentCertNo"/>
+        <result column="AGENT_ADDR" jdbcType="VARCHAR" property="agentAddr"/>
+        <result column="TERM_PRCTN" jdbcType="CHAR" property="termPrctn"/>
+        <result column="TERM_DUE_DT" jdbcType="DATE" property="termDueDt"/>
+        <result column="FRONT_URL" jdbcType="VARCHAR" property="frontUrl"/>
+        <result column="REVERSER_URL" jdbcType="VARCHAR" property="reverserUrl"/>
+        <result column="BUSINESS_URL" jdbcType="VARCHAR" property="businessUrl"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="IS_REAL" jdbcType="CHAR" property="isReal"/>
+        <result column="MNMN_CODE" jdbcType="VARCHAR" property="mnmnCode"/>
+        <result column="QRCODE_URL" jdbcType="VARCHAR" property="qrcodeUrl"/>
+        <result column="AUDITOR" jdbcType="VARCHAR" property="auditor"/>
+        <result column="AUDITOR_TM" jdbcType="TIMESTAMP" property="auditorTm"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="OPER_ID" jdbcType="VARCHAR" property="operId"/>
+        <result column="BUSINESS_SCOPE" jdbcType="VARCHAR" property="businessScope"/>
+        <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime"/>
+        <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime"/>
+        <result column="AGENT_FRONT_URL" jdbcType="VARCHAR" property="agentFrontUrl"/>
+        <result column="AGENT_REVERSER_URL" jdbcType="VARCHAR" property="agentReverserUrl"/>
+        <result column="AGENT_TERM_BOOK_URL" jdbcType="VARCHAR" property="agentTermBookUrl"/>
+        <result column="CHANL_NO" jdbcType="VARCHAR" property="chanlNo"/>
+        <result column="OTHER_FILE_URL" jdbcType="VARCHAR" property="otherFileUrl"/>
+        <collection property="backCardList" column="PROV_ID"
+                    select="com.dispart.dao.ITCustomBankcardDao.selectByPrimaryKeyProvId">
+        </collection>
+    </resultMap>
+
+    <resultMap id="ResultListDtoNoBankNo" type="com.dispart.dto.customdto.QuryCustomInfoOutParamDto">
+        <!--@Table t_custom_info_manager-->
+        <id column="PROV_ID" jdbcType="VARCHAR" property="provId"/>
+        <result column="TAX_NUM" jdbcType="VARCHAR" property="taxNum"/>
+        <result column="CUSTOM_TP" jdbcType="VARCHAR" property="customTp"/>
+        <result column="PVTY_TP" jdbcType="VARCHAR" property="pvtyTp"/>
+        <result column="PROV_NM" jdbcType="VARCHAR" property="provNm"/>
+        <result column="SHRT_NM" jdbcType="VARCHAR" property="shrtNm"/>
+        <result column="CERT_TYPE" jdbcType="VARCHAR" property="certType"/>
+        <result column="CERT_NUM" jdbcType="VARCHAR" property="certNum"/>
+        <result column="CERT_ADDR" jdbcType="VARCHAR" property="certAddr"/>
+        <result column="CERT_PRD" jdbcType="DATE" property="certPrd"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName"/>
+        <result column="LEGAL_PHONE" jdbcType="VARCHAR" property="legalPhone"/>
+        <result column="LEGAL_CERT_TP" jdbcType="VARCHAR" property="legalCertTp"/>
+        <result column="LEGAL_CERT_NUM" jdbcType="VARCHAR" property="legalCertNum"/>
+        <result column="AGENT_NAME" jdbcType="VARCHAR" property="agentName"/>
+        <result column="AGENT_PHONE" jdbcType="VARCHAR" property="agentPhone"/>
+        <result column="AGENT_CERT_NO" jdbcType="VARCHAR" property="agentCertNo"/>
+        <result column="AGENT_ADDR" jdbcType="VARCHAR" property="agentAddr"/>
+        <result column="TERM_PRCTN" jdbcType="CHAR" property="termPrctn"/>
+        <result column="TERM_DUE_DT" jdbcType="DATE" property="termDueDt"/>
+        <result column="FRONT_URL" jdbcType="VARCHAR" property="frontUrl"/>
+        <result column="REVERSER_URL" jdbcType="VARCHAR" property="reverserUrl"/>
+        <result column="BUSINESS_URL" jdbcType="VARCHAR" property="businessUrl"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="IS_REAL" jdbcType="CHAR" property="isReal"/>
+        <result column="MNMN_CODE" jdbcType="VARCHAR" property="mnmnCode"/>
+        <result column="QRCODE_URL" jdbcType="VARCHAR" property="qrcodeUrl"/>
+        <result column="AUDITOR" jdbcType="VARCHAR" property="auditor"/>
+        <result column="AUDITOR_TM" jdbcType="TIMESTAMP" property="auditorTm"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="OPER_ID" jdbcType="VARCHAR" property="operId"/>
+        <result column="BUSINESS_SCOPE" jdbcType="VARCHAR" property="businessScope"/>
+        <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime"/>
+        <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime"/>
+        <result column="IS_WITHDRAW" jdbcType="VARCHAR" property="isWithdraw"/>
+
+        <result column="AGENT_FRONT_URL" jdbcType="VARCHAR" property="agentFrontUrl"/>
+        <result column="AGENT_REVERSER_URL" jdbcType="VARCHAR" property="agentReverserUrl"/>
+        <result column="AGENT_TERM_BOOK_URL" jdbcType="VARCHAR" property="agentTermBookUrl"/>
+        <result column="CHANL_NO" jdbcType="VARCHAR" property="chanlNo"/>
+        <result column="OTHER_FILE_URL" jdbcType="VARCHAR" property="otherFileUrl"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        tcim.PROV_ID, tcim.TAX_NUM, tcim.CUSTOM_TP, tcim.PVTY_TP, tcim.PROV_NM, tcim.SHRT_NM, tcim.CERT_TYPE, tcim.CERT_NUM,
+        tcim.CERT_ADDR, tcim.CERT_PRD, tcim.PHONE, tcim.LEGAL_NAME, tcim.LEGAL_PHONE, tcim.LEGAL_CERT_TP, tcim.LEGAL_CERT_NUM,
+        tcim.AGENT_NAME, tcim.AGENT_PHONE, tcim.AGENT_CERT_NO, tcim.AGENT_ADDR, tcim.TERM_PRCTN, tcim.TERM_DUE_DT, tcim.FRONT_URL,
+        tcim.REVERSER_URL, tcim.BUSINESS_URL, tcim.STATUS, tcim.IS_REAL, tcim.MNMN_CODE, tcim.QRCODE_URL, tcim.AUDITOR, tcim.AUDITOR_TM,
+        tcim.REMARK, tcim.OPER_ID, tcim.CREAT_TIME, tcim.UP_TIME, tcim.BUSINESS_SCOPE, tcim.QRCODE_URL, tcim.IS_WITHDRAW,
+        tcim.AGENT_FRONT_URL, tcim.AGENT_REVERSER_URL, tcim.AGENT_TERM_BOOK_URL, tcim.CHANL_NO, tcim.OTHER_FILE_URL
+    </sql>
+
+    <!--根据手同号或者法人电话查询客户信息-->
+    <select id="selectCustomInfoByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_custom_info_manager tcim
+        where (tcim.PHONE = #{phone,jdbcType=VARCHAR} or tcim.LEGAL_PHONE= #{phone,jdbcType=VARCHAR} )
+    </select>
+
+    <!--根据手同号或者法人电话查询客户信息并且不等于要修改的客户id是否存在-->
+    <select id="selectCustomInfoByPhoneNOEqProvId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_custom_info_manager tcim
+        where (tcim.PHONE = #{phone,jdbcType=VARCHAR} or tcim.LEGAL_PHONE= #{phone,jdbcType=VARCHAR})
+        and tcim.PROV_ID != #{provId,jdbcType=VARCHAR}
+    </select>
+
+    <sql id="selectWhere">
+        <if test="provId != null and provId != ''">
+            and tcim.PROV_ID = #{provId}
+        </if>
+        <if test="customTp != null and customTp != ''">
+            and tcim.CUSTOM_TP = #{customTp}
+        </if>
+        <if test="provNm != null and provNm != ''">
+            and tcim.PROV_NM = #{provNm}
+        </if>
+        <if test="shrtNm != null and shrtNm != ''">
+            and tcim.SHRT_NM = #{shrtNm}
+        </if>
+
+        <if test="certNum != null and certNum != ''">
+            and tcim.CERT_NUM = #{certNum}
+        </if>
+
+        <if test="phone != null  and phone != ''">
+            and (tcim.PHONE = #{phone} or tcim.LEGAL_PHONE=#{phone})
+        </if>
+        <if test="status != null  and status != ''">
+            and tcim.STATUS = #{status}
+        </if>
+        <if test="isReal != null and isReal != ''">
+            and tcim.IS_REAL = #{isReal}
+        </if>
+        <if test="mnmnCode != null and mnmnCode != ''">
+            and tcim.MNMN_CODE = #{mnmnCode}
+        </if>
+        <if test="chanlNo != null and chanlNo != ''">
+            and tcim.CHANL_NO = #{chanlNo}
+        </if>
+        <if test="creatTime != null">
+            and tcim.CREAT_TIME = #{creatTime}
+        </if>
+        <if test="creatStTime != null and creatEndTime != null">
+            and tcim.CREAT_TIME between #{creatStTime} and #{creatEndTime}
+        </if>
+
+        <if test="operName != null and operName != ''">
+            and tei.EMP_NM like concat ('%',#{operName},'%')
+        </if>
+    </sql>
+
+    <sql id="selectWhere2">
+        <if test="paramDto.provId != null and paramDto.provId != ''">
+            and tcim.PROV_ID = #{paramDto.provId}
+        </if>
+        <if test="paramDto.customTp != null and paramDto.customTp != ''">
+            and tcim.CUSTOM_TP = #{paramDto.customTp}
+        </if>
+        <if test="paramDto.provNm != null and paramDto.provNm != ''">
+            and tcim.PROV_NM like concat ('%',#{paramDto.provNm},'%')
+        </if>
+
+        <if test="paramDto.certNum != null and paramDto.certNum != ''">
+            and tcim.CERT_NUM = #{paramDto.certNum}
+        </if>
+        <if test="paramDto.shrtNm != null and paramDto.shrtNm != ''">
+            and tcim.SHRT_NM = #{paramDto.shrtNm}
+        </if>
+
+        <if test="paramDto.phone != null  and paramDto.phone != ''">
+            and (tcim.PHONE = #{paramDto.phone} or tcim.LEGAL_PHONE #{paramDto.phone})
+        </if>
+        <if test="paramDto.status != null  and paramDto.status != ''">
+            and tcim.STATUS = #{paramDto.status}
+        </if>
+        <if test="paramDto.isReal != null and paramDto.isReal != ''">
+            and tcim.IS_REAL = #{paramDto.isReal}
+        </if>
+        <if test="paramDto.mnmnCode != null and paramDto.mnmnCode != ''">
+            and tcim.MNMN_CODE = #{paramDto.mnmnCode}
+        </if>
+        <if test="chanlNo != null and chanlNo != ''">
+            and tcim.CHANL_NO = #{paramDto.chanlNo}
+        </if>
+        <if test="creatTime != null">
+            and tcim.CREAT_TIME = #{paramDto.creatTime}
+        </if>
+        <if test="creatStTime != null and creatEndTime != null">
+            and tcim.CREAT_TIME between #{paramDto.creatStTime} and #{paramDto.creatEndTime}
+        </if>
+
+        <if test="operName != null and operName != ''">
+            and tei.EMP_NM like concat ('%',#{paramDto.operName},'%')
+        </if>
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>,
+            tei.EMP_NM operName
+        from t_custom_info_manager tcim
+        LEFT JOIN t_employee_info tei ON tei.EMP_ID = tcim.OPER_ID
+        where tcim.PROV_ID = #{provId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByPrimaryKeyDatils" parameterType="java.lang.String"
+            resultType="com.dispart.dto.customdto.QuryCustomInfoOutParamDto">
+        select tcim.*, CERT_TYPE as CERT_TP
+        from t_custom_info_manager tcim
+        where tcim.PROV_ID = #{provId,jdbcType=VARCHAR}
+    </select>
+
+    <!--  -->
+    <select id="selectByPrimaryKeyWhereByProvId" resultMap="ResultListDtoNoBankNo">
+        select <include refid="Base_Column_List"/>,
+            tei.EMP_NM operName
+        from t_custom_info_manager tcim
+        LEFT JOIN t_employee_info tei ON tei.EMP_ID = tcim.OPER_ID
+        WHERE 1 = 1
+        <include refid="selectWhere2"/>
+        and tcim.PROV_ID
+        in (
+            <foreach collection="cardList" item="item" separator="," index="index">
+                #{item.provId}
+            </foreach>
+        )
+        order by tcim.CREAT_TIME desc
+        limit #{paramDto.strNum}, #{paramDto.pageSize}
+    </select>
+
+    <select id="selectByWhereByProvIdList" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>,
+            tei.EMP_NM operName
+        from t_custom_info_manager tcim
+        LEFT JOIN t_employee_info tei ON tei.EMP_ID = tcim.OPER_ID
+        where tcim.PROV_ID
+        in (
+            <foreach collection="provIdList" item="item" separator="," index="index">
+                #{item.provId}
+            </foreach>
+        )
+        order by tcim.CREAT_TIME desc
+    </select>
+
+    <select id="selectCountByProvId" resultType="Integer">
+        select COUNT(distinct tcim.PROV_ID)
+        from t_custom_info_manager tcim
+        <if test="operName != null and operName != ''">
+            LEFT JOIN t_employee_info tei ON tei.EMP_ID = tcim.OPER_ID
+        </if>
+        where 1 = 1
+        <include refid="selectWhere2"/>
+        and tcim.PROV_ID
+        in (
+            <foreach collection="cardList" item="item" separator="," index="index">
+                #{item.provId}
+            </foreach>
+        )
+    </select>
+
+    <select id="selectByPrimaryKeyWhere" parameterType="com.dispart.dto.customdto.QuryCustomInfoInDto" resultMap="ResultListDto">
+        select <include refid="Base_Column_List"/>,
+            tei.EMP_NM operName
+        from t_custom_info_manager tcim
+        LEFT JOIN t_employee_info tei ON tei.EMP_ID = tcim.OPER_ID
+        <where>
+            <include refid="selectWhere"/>
+        </where>
+        order by tcim.CREAT_TIME desc
+        limit #{strNum}, #{pageSize}
+    </select>
+
+    <select id="selectCount" parameterType="com.dispart.dto.customdto.QuryCustomInfoInDto" resultType="Integer">
+        select COUNT(distinct tcim.PROV_ID)
+        from t_custom_info_manager tcim
+        <if test="operName != null and operName != ''">
+            LEFT JOIN t_employee_info tei ON tei.EMP_ID = tcim.OPER_ID
+        </if>
+        <where>
+            <include refid="selectWhere"/>
+        </where>
+    </select>
+
+    <select id="selectCountOrValue" parameterType="com.dispart.dto.customdto.QuryCustomInfoInDto" resultType="Integer">
+        <!--@mbg.generated-->
+        select COUNT(distinct tcim.PROV_ID)
+        from t_custom_info_manager tcim
+        <if test="operName != null and operName != ''">
+            LEFT JOIN t_employee_info tei ON tei.EMP_ID = tcim.OPER_ID
+        </if>
+        <where>
+            <if test="value != null and value != ''">
+                tcim.PROV_NM like concat ('%',#{value},'%') or PHONE like concat ('%',#{value},'%')
+            </if>
+            <if test="creatStTime != null and creatEndTime != null">
+                AND tcim.CREAT_TIME between #{creatStTime} and #{creatEndTime}
+            </if>
+            <if test="operName != null and operName != ''">
+                AND tei.EMP_NM LIKE CONCAT(#{operName},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrValue" parameterType="com.dispart.dto.customdto.QuryCustomInfoInDto"
+            resultType="com.dispart.dto.customdto.QuryCustomInfoOutParamDto">
+        select <include refid="Base_Column_List"/>,
+            tei.EMP_NM operName
+        from t_custom_info_manager tcim
+        LEFT JOIN t_employee_info tei ON tei.EMP_ID = tcim.OPER_ID
+        <where>
+            <if test="value != null and value != ''">
+                tcim.PROV_NM like concat ('%',#{value},'%')
+                or tcim.PHONE like concat ('%',#{value},'%')
+                or tcim.LEGAL_PHONE like concat ('%',#{value},'%')
+            </if>
+            <if test="creatStTime != null and creatEndTime != null">
+                AND tcim.CREAT_TIME between #{creatStTime} and #{creatEndTime}
+            </if>
+            <if test="operName != null and operName != ''">
+                AND tei.EMP_NM LIKE CONCAT(#{operName},'%')
+            </if>
+        </where>
+        order by tcim.PROV_ID asc
+        limit #{strNum},#{pageSize}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from t_custom_info_manager
+        where PROV_ID = #{provId,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.dispart.vo.user.TCustomInfoManagerVo">
+        insert into t_custom_info_manager (PROV_ID, TAX_NUM, CUSTOM_TP,
+        PVTY_TP, PROV_NM, SHRT_NM,
+        CERT_TYPE, CERT_NUM, CERT_ADDR,
+        CERT_PRD, PHONE, LEGAL_NAME,
+        LEGAL_PHONE, LEGAL_CERT_TP, LEGAL_CERT_NUM,
+        AGENT_NAME, AGENT_PHONE, AGENT_CERT_NO,
+        AGENT_ADDR, TERM_PRCTN, TERM_DUE_DT,
+        FRONT_URL, REVERSER_URL, BUSINESS_URL,
+        `STATUS`, IS_REAL, MNMN_CODE,
+        QRCODE_URL, AUDITOR, AUDITOR_TM,
+        REMARK, OPER_ID, CREAT_TIME, BUSINESS_SCOPE,
+        AGENT_FRONT_URL, AGENT_REVERSER_URL, AGENT_TERM_BOOK_URL,
+        CHANL_NO, OTHER_FILE_URL)
+        values (#{provId,jdbcType=VARCHAR}, #{taxNum,jdbcType=VARCHAR}, #{customTp,jdbcType=VARCHAR},
+        #{pvtyTp,jdbcType=VARCHAR}, #{provNm,jdbcType=VARCHAR}, #{shrtNm,jdbcType=VARCHAR},
+        #{certType,jdbcType=VARCHAR}, #{certNum,jdbcType=VARCHAR}, #{certAddr,jdbcType=VARCHAR},
+        #{certPrd,jdbcType=DATE}, #{phone,jdbcType=VARCHAR}, #{legalName,jdbcType=VARCHAR},
+        #{legalPhone,jdbcType=VARCHAR}, #{legalCertTp,jdbcType=VARCHAR}, #{legalCertNum,jdbcType=VARCHAR},
+        #{agentName,jdbcType=VARCHAR}, #{agentPhone,jdbcType=VARCHAR}, #{agentCertNo,jdbcType=VARCHAR},
+        #{agentAddr,jdbcType=VARCHAR}, #{termPrctn,jdbcType=CHAR}, #{termDueDt,jdbcType=DATE},
+        #{frontUrl,jdbcType=VARCHAR}, #{reverserUrl,jdbcType=VARCHAR}, #{businessUrl,jdbcType=VARCHAR},
+        #{status,jdbcType=VARCHAR}, #{isReal,jdbcType=CHAR}, #{mnmnCode,jdbcType=VARCHAR},
+        #{qrcodeUrl,jdbcType=VARCHAR}, #{auditor,jdbcType=VARCHAR}, #{auditorTm,jdbcType=TIMESTAMP},
+        #{remark,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{businessScope,jdbcType=VARCHAR},
+        #{agentFrontUrl,jdbcType=VARCHAR}, #{agentReverserUrl,jdbcType=VARCHAR}, #{agentTermBookUrl,jdbcType=VARCHAR},
+        #{chanlNo}, #{otherFileUrl})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.dispart.vo.user.TCustomInfoManagerVo">
+        insert into t_custom_info_manager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="provId != null">
+                PROV_ID,
+            </if>
+            <if test="taxNum != null">
+                TAX_NUM,
+            </if>
+            <if test="customTp != null">
+                CUSTOM_TP,
+            </if>
+            <if test="pvtyTp != null">
+                PVTY_TP,
+            </if>
+            <if test="provNm != null">
+                PROV_NM,
+            </if>
+            <if test="shrtNm != null">
+                SHRT_NM,
+            </if>
+            <if test="certType != null">
+                CERT_TYPE,
+            </if>
+            <if test="certNum != null and certNum != ''">
+                CERT_NUM,
+            </if>
+            <if test="certAddr != null">
+                CERT_ADDR,
+            </if>
+            <if test="certPrd != null">
+                CERT_PRD,
+            </if>
+            <if test="phone != null">
+                PHONE,
+            </if>
+            <if test="legalName != null">
+                LEGAL_NAME,
+            </if>
+            <if test="legalPhone != null">
+                LEGAL_PHONE,
+            </if>
+            <if test="legalCertTp != null">
+                LEGAL_CERT_TP,
+            </if>
+            <if test="legalCertNum != null">
+                LEGAL_CERT_NUM,
+            </if>
+            <if test="agentName != null">
+                AGENT_NAME,
+            </if>
+            <if test="agentPhone != null">
+                AGENT_PHONE,
+            </if>
+            <if test="agentCertNo != null">
+                AGENT_CERT_NO,
+            </if>
+            <if test="agentAddr != null">
+                AGENT_ADDR,
+            </if>
+            <if test="termPrctn != null">
+                TERM_PRCTN,
+            </if>
+            <if test="termDueDt != null">
+                TERM_DUE_DT,
+            </if>
+            <if test="frontUrl != null">
+                FRONT_URL,
+            </if>
+            <if test="reverserUrl != null">
+                REVERSER_URL,
+            </if>
+            <if test="businessUrl != null">
+                BUSINESS_URL,
+            </if>
+            <if test="status != null">
+                `STATUS`,
+            </if>
+            <if test="isReal != null">
+                IS_REAL,
+            </if>
+            <if test="mnmnCode != null">
+                MNMN_CODE,
+            </if>
+            <if test="qrcodeUrl != null">
+                QRCODE_URL,
+            </if>
+            <if test="auditor != null">
+                AUDITOR,
+            </if>
+            <if test="auditorTm != null">
+                AUDITOR_TM,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="operId != null">
+                OPER_ID,
+            </if>
+            <if test="creatTime != null">
+                CREAT_TIME,
+            </if>
+            <if test="businessScope != null">
+                BUSINESS_SCOPE,
+            </if>
+
+            <if test="agentFrontUrl != null">
+                AGENT_FRONT_URL,
+            </if>
+            <if test="agentReverserUrl != null">
+                AGENT_REVERSER_URL,
+            </if>
+            <if test="agentTermBookUrl != null">
+                AGENT_TERM_BOOK_URL,
+            </if>
+            <if test="chanlNo != null">
+                CHANL_NO,
+            </if>
+            <if test="otherFileUrl != null">
+                OTHER_FILE_URL
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="provId != null">
+                #{provId,jdbcType=VARCHAR},
+            </if>
+            <if test="taxNum != null">
+                #{taxNum,jdbcType=VARCHAR},
+            </if>
+            <if test="customTp != null">
+                #{customTp,jdbcType=VARCHAR},
+            </if>
+            <if test="pvtyTp != null">
+                #{pvtyTp,jdbcType=VARCHAR},
+            </if>
+            <if test="provNm != null">
+                #{provNm,jdbcType=VARCHAR},
+            </if>
+            <if test="shrtNm != null">
+                #{shrtNm,jdbcType=VARCHAR},
+            </if>
+            <if test="certType != null">
+                #{certType,jdbcType=VARCHAR},
+            </if>
+            <if test="certNum != null and certNum != ''">
+                #{certNum,jdbcType=VARCHAR},
+            </if>
+            <if test="certAddr != null">
+                #{certAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="certPrd != null">
+                #{certPrd,jdbcType=DATE},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="legalName != null">
+                #{legalName,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPhone != null">
+                #{legalPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="legalCertTp != null">
+                #{legalCertTp,jdbcType=VARCHAR},
+            </if>
+            <if test="legalCertNum != null">
+                #{legalCertNum,jdbcType=VARCHAR},
+            </if>
+            <if test="agentName != null">
+                #{agentName,jdbcType=VARCHAR},
+            </if>
+            <if test="agentPhone != null">
+                #{agentPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="agentCertNo != null">
+                #{agentCertNo,jdbcType=VARCHAR},
+            </if>
+            <if test="agentAddr != null">
+                #{agentAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="termPrctn != null">
+                #{termPrctn,jdbcType=CHAR},
+            </if>
+            <if test="termDueDt != null">
+                #{termDueDt,jdbcType=DATE},
+            </if>
+            <if test="frontUrl != null">
+                #{frontUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="reverserUrl != null">
+                #{reverserUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="businessUrl != null">
+                #{businessUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="isReal != null">
+                #{isReal,jdbcType=CHAR},
+            </if>
+            <if test="mnmnCode != null">
+                #{mnmnCode,jdbcType=VARCHAR},
+            </if>
+            <if test="qrcodeUrl != null">
+                #{qrcodeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="auditor != null">
+                #{auditor,jdbcType=VARCHAR},
+            </if>
+            <if test="auditorTm != null">
+                #{auditorTm,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="operId != null">
+                #{operId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="businessScope != null">
+                #{businessScope,jdbcType=VARCHAR},
+            </if>
+
+            <if test="agentFrontUrl != null">
+                #{agentFrontUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="agentReverserUrl != null">
+                #{agentReverserUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="agentTermBookUrl != null">
+                #{agentTermBookUrl,jdbcType=VARCHAR},
+            </if>
+
+            <if test="chanlNo != null">
+                #{chanlNo, jdbcType=VARCHAR},
+            </if>
+            <if test="otherFileUrl != null">
+                #{otherFileUrl, jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新 客户信息管理 -->
+    <update id="updateByPrimaryKeySelective" parameterType="com.dispart.vo.user.TCustomInfoManagerVo">
+        update t_custom_info_manager
+        <set>
+            <if test="taxNum != null">
+                TAX_NUM = #{taxNum,jdbcType=VARCHAR},
+            </if>
+            <if test="customTp != null">
+                CUSTOM_TP = #{customTp,jdbcType=VARCHAR},
+            </if>
+            <if test="pvtyTp != null">
+                PVTY_TP = #{pvtyTp,jdbcType=VARCHAR},
+            </if>
+            <if test="provNm != null">
+                PROV_NM = #{provNm,jdbcType=VARCHAR},
+            </if>
+            <if test="shrtNm != null">
+                SHRT_NM = #{shrtNm,jdbcType=VARCHAR},
+            </if>
+            <if test="certType != null">
+                CERT_TYPE = #{certType,jdbcType=VARCHAR},
+            </if>
+
+            CERT_NUM = #{certNum,jdbcType=VARCHAR},
+
+            <if test="certAddr != null">
+                CERT_ADDR = #{certAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="certPrd != null">
+                CERT_PRD = #{certPrd,jdbcType=DATE},
+            </if>
+            <if test="phone != null">
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="legalName != null">
+                LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+            </if>
+
+            LEGAL_PHONE = #{legalPhone,jdbcType=VARCHAR},
+
+            <if test="legalCertTp != null">
+                LEGAL_CERT_TP = #{legalCertTp,jdbcType=VARCHAR},
+            </if>
+
+            LEGAL_CERT_NUM = #{legalCertNum,jdbcType=VARCHAR},
+
+            <if test="agentName != null">
+                AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+            </if>
+            <if test="agentPhone != null">
+                AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="agentCertNo != null">
+                AGENT_CERT_NO = #{agentCertNo,jdbcType=VARCHAR},
+            </if>
+            <if test="agentAddr != null">
+                AGENT_ADDR = #{agentAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="termPrctn != null">
+                TERM_PRCTN = #{termPrctn,jdbcType=CHAR},
+            </if>
+            <if test="termDueDt != null">
+                TERM_DUE_DT = #{termDueDt,jdbcType=DATE},
+            </if>
+
+                FRONT_URL = #{frontUrl,jdbcType=VARCHAR},
+                REVERSER_URL = #{reverserUrl,jdbcType=VARCHAR},
+                BUSINESS_URL = #{businessUrl,jdbcType=VARCHAR},
+
+            <if test="status != null">
+                `STATUS` = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="isReal != null">
+                IS_REAL = #{isReal,jdbcType=CHAR},
+            </if>
+            <if test="mnmnCode != null ">
+                MNMN_CODE = #{mnmnCode,jdbcType=VARCHAR},
+            </if>
+            <if test="qrcodeUrl != null">
+                QRCODE_URL = #{qrcodeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="auditor != null">
+                AUDITOR = #{auditor,jdbcType=VARCHAR},
+            </if>
+            <if test="auditorTm != null">
+                AUDITOR_TM = #{auditorTm,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="operId != null">
+                OPER_ID = #{operId,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="upTime != null">
+                UP_TIME = #{upTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="businessScope != null">
+                BUSINESS_SCOPE = #{businessScope,jdbcType=VARCHAR},
+            </if>
+                AGENT_FRONT_URL = #{agentFrontUrl,jdbcType=VARCHAR},
+                AGENT_REVERSER_URL = #{agentReverserUrl,jdbcType=VARCHAR},
+                AGENT_TERM_BOOK_URL = #{agentTermBookUrl,jdbcType=VARCHAR},
+                OTHER_FILE_URL = #{otherFileUrl, jdbcType=VARCHAR}
+        </set>
+        WHERE PROV_ID = #{provId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.dispart.vo.user.TCustomInfoManagerVo">
+        update t_custom_info_manager
+        set
+        <if test="agentFrontUrl != null">
+            AGENT_FRONT_URL = #{agentFrontUrl,jdbcType=VARCHAR},
+        </if>
+        <if test="agentReverserUrl != null">
+            AGENT_REVERSER_URL = #{agentReverserUrl,jdbcType=VARCHAR},
+        </if>
+        <if test="agentTermBookUrl != null">
+            AGENT_TERM_BOOK_URL = #{agentTermBookUrl,jdbcType=VARCHAR},
+        </if>
+        <if test="otherFileUrl != null">
+            OTHER_FILE_URL = #{otherFileUrl, jdbcType=VARCHAR},
+        </if>
+        TAX_NUM = #{taxNum,jdbcType=VARCHAR},
+        CUSTOM_TP = #{customTp,jdbcType=VARCHAR},
+        PVTY_TP = #{pvtyTp,jdbcType=VARCHAR},
+        PROV_NM = #{provNm,jdbcType=VARCHAR},
+        SHRT_NM = #{shrtNm,jdbcType=VARCHAR},
+        CERT_TYPE = #{certType,jdbcType=VARCHAR},
+        CERT_NUM = #{certNum,jdbcType=VARCHAR},
+        CERT_ADDR = #{certAddr,jdbcType=VARCHAR},
+        CERT_PRD = #{certPrd,jdbcType=DATE},
+        PHONE = #{phone,jdbcType=VARCHAR},
+        LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+        LEGAL_PHONE = #{legalPhone,jdbcType=VARCHAR},
+        LEGAL_CERT_TP = #{legalCertTp,jdbcType=VARCHAR},
+        LEGAL_CERT_NUM = #{legalCertNum,jdbcType=VARCHAR},
+        AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+        AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR},
+        AGENT_CERT_NO = #{agentCertNo,jdbcType=VARCHAR},
+        AGENT_ADDR = #{agentAddr,jdbcType=VARCHAR},
+        TERM_PRCTN = #{termPrctn,jdbcType=CHAR},
+        TERM_DUE_DT = #{termDueDt,jdbcType=DATE},
+        FRONT_URL = #{frontUrl,jdbcType=VARCHAR},
+        REVERSER_URL = #{reverserUrl,jdbcType=VARCHAR},
+        BUSINESS_URL = #{businessUrl,jdbcType=VARCHAR},
+        `STATUS` = #{status,jdbcType=VARCHAR},
+        IS_REAL = #{isReal,jdbcType=CHAR},
+        MNMN_CODE = #{mnmnCode,jdbcType=VARCHAR},
+        QRCODE_URL = #{qrcodeUrl,jdbcType=VARCHAR},
+        AUDITOR = #{auditor,jdbcType=VARCHAR},
+        AUDITOR_TM = #{auditorTm,jdbcType=TIMESTAMP},
+        REMARK = #{remark,jdbcType=VARCHAR},
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+        CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+        BUSINESS_SCOPE = #{businessScope,jdbcType=VARCHAR}
+        where PROV_ID = #{provId,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 查询用户序列号-->
+    <select id="selectCustomIdSeq" resultType="Integer">
+        select nextval('customId')
+        from dual
+    </select>
+
+    <!--更新用户状态为禁用-->
+    <update id="updateDisableStatus">
+        update t_custom_info_manager
+        set status = #{status}
+        where PROV_ID = #{provId,jdbcType=VARCHAR}
+        <!--禁用-->
+        <if test="status eq '1'.toString() ">
+            and status != #{status,jdbcType=VARCHAR}
+        </if>
+        <!--启用-->
+        <if test="status eq '0'.toString() ">
+            and status = '1'
+        </if>
+    </update>
+
+    <!-- 更新客户是否提现标志 -->
+    <update id="updateWithDrawStatus">
+        update t_custom_info_manager
+        set IS_WITHDRAW = #{isWithdraw}
+        where PROV_ID = #{provId,jdbcType=VARCHAR}
+        <!--不允许提现-->
+        <if test="isWithdraw eq '1'.toString() ">
+            and IS_WITHDRAW = '0'
+        </if>
+        <!--允许提现-->
+        <if test="isWithdraw eq '0'.toString() ">
+            and IS_WITHDRAW = '1'
+        </if>
+    </update>
+
+    <select id="selectByCertNumCount" resultType="Integer">
+        select count(*)
+        from t_custom_info_manager
+        where CERT_NUM = #{certNum}
+        <if test="provId != null  and provId != ''">
+            and PROV_ID != #{provId}
+        </if>
+    </select>
+
+</mapper>

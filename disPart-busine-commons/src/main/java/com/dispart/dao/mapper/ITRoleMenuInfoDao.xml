@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.ITRoleMenuInfoDao">
+
+    <select id="queryAll" parameterType="java.util.Map"  resultType="com.dispart.vo.commons.TMenuInfo">
+         select
+          a.MENU_ID, a.PARENT_MENU_ID, a.ICON_ID, a.MENU_NM, a.MENU_TYPE, a.REMARK, a.UPDATE_DT, a.MENU_URL, a.URL
+        from t_menu_info a ,t_role_menu_info b
+        where b.ROLE_ID=#{roleId} and b.MENU_ID=a.MENU_ID and (a.MENU_TYPE=1 or a.MENU_TYPE=2)
+        <if test="chanlNoType != null and chanlNoType != ''">
+            and a.CHNAL_NO_TYPE = #{chanlNoType}
+        </if>
+    </select>
+    <select id="queryByOne" parameterType="java.util.Map"  resultType="com.dispart.vo.commons.TMenuInfo">
+         select
+          a.MENU_ID, a.PARENT_MENU_ID, a.ICON_ID, a.MENU_NM, a.MENU_TYPE, a.REMARK, a.UPDATE_DT, a.MENU_URL, a.URL
+        from t_menu_info a ,t_role_menu_info b
+        where b.ROLE_ID=#{roleId} and b.MENU_ID=a.MENU_ID and a.MENU_TYPE=1
+    </select>
+
+    <select id="queryByRoleToMenu" parameterType="java.util.Map"  resultType="com.dispart.vo.commons.TMenuInfo">
+         select
+          a.MENU_ID, a.PARENT_MENU_ID, a.ICON_ID, a.MENU_NM, a.MENU_TYPE, a.REMARK, a.UPDATE_DT, a.MENU_URL, a.URL
+        from t_menu_info a ,t_role_menu_info b
+        where b.ROLE_ID=#{roleId} and b.MENU_ID=a.MENU_ID and a.PARENT_MENU_ID=#{menuId}
+    </select>
+</mapper>

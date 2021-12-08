@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TRoleInfoDao">
+    <resultMap type="com.dispart.vo.commons.TRoleInfo" id="TRoleInfoMap">
+        <result property="roleId" column="ROLE_ID" jdbcType="VARCHAR"/>
+        <result property="orgId" column="ORG_ID" jdbcType="VARCHAR"/>
+        <result property="roleNm" column="ROLE_NM" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="updateDt" column="UPDATE_DT" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <select id="queryById" parameterType="java.lang.String" resultMap="TRoleInfoMap">
+        select
+        ROLE_ID, ORG_ID, ROLE_NM, REMARK, UPDATE_DT
+        from logistics.t_role_info
+        <where>
+            <if test="roleId != null and roleId != ''">
+                and ROLE_ID = #{roleId}
+            </if>
+        </where>
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TRoleInfoMap">
+        select
+          ROLE_ID, ORG_ID, ROLE_NM, REMARK, UPDATE_DT
+        from logistics.t_role_info
+        <where>
+            <if test="roleId != null and roleId != ''">
+                and ROLE_ID = #{roleId}
+            </if>
+            <if test="orgId != null and orgId != ''">
+                and ORG_ID = #{orgId}
+            </if>
+            <if test="roleNm != null and roleNm != ''">
+                and ROLE_NM = #{roleNm}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK = #{remark}
+            </if>
+            <if test="updateDt != null">
+                and UPDATE_DT = #{updateDt}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

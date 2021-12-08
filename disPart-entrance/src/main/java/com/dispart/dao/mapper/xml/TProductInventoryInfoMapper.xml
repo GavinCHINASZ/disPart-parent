@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TProductInventoryInfoMapper">
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        PRDCT_ID, PROV_ID, PRDCT_NM, STOCK, UNIT, REMARK, UPDATE_DT, PRDCT_TYPE, PRDCT_TYPE_ID
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="map" resultType="com.dispart.dto.entrance.TProductInventoryInfoDto">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_product_inventory_info
+        where PRDCT_ID = #{prdctId,jdbcType=CHAR}
+        and PROV_ID = #{provId,jdbcType=CHAR}
+    </select>
+
+    <select id="selectCountByPrimaryKey" parameterType="map" resultType="Integer">
+        <!--@mbg.generated-->
+        select
+        count(*)
+
+        from t_product_inventory_info
+        where PRDCT_ID = #{prdctId,jdbcType=CHAR}
+        and PROV_ID = #{provId,jdbcType=CHAR}
+        and UNIT = #{unit,jdbcType=CHAR}
+
+    </select>
+
+    <!--根据客户手机号，客户名称为条件查询客户id作为库存表条件。-->
+    <sql id="selectProvIdSql">
+        <where>
+            <if test="prdctNm != null and prdctNm != ''">
+                and
+                PRDCT_ID in (select VARIETY_NO from t_product_type_info where PRDCT_NM = #{prdctNm,jdbcType=CHAR})
+            </if>
+            <if test="(phone != null and phone != '') or (provNm != null and provNm != '') ">
+                and PROV_ID in (
+                select PROV_ID from t_custom_info_manager
+                <where>
+                    <if test="phone != null and phone != ''">
+                        and PHONE = #{phone,jdbcType=CHAR} or
+                        LEGAL_PHONE = #{phone,jdbcType=CHAR}
+                    </if>
+                    <if test="provNm != null and provNm != ''">
+                        and PROV_NM = #{provNm,jdbcType=CHAR}
+                    </if>
+                </where>
+                )
+            </if>
+        </where>
+    </sql>
+    <!--查询关联订单表sql语句-->
+    <sql id="selectOrderSql">
+        select sum(PRDCT_NUM) as SALE_NUM,sum(PRDCT_AMT) as SALE_AMT, PRDCT_ID,PROV_ID,PRDCT_UNIT
+        from
+        (select t1.ORDER_ID as ORDER_ID,t1.ORDER_ST as ORDER_ST,t1.PROV_ID as
+        PROV_ID,t2.PRDCT_AMT as PRDCT_AMT,t2.PRDCT_ID as PRDCT_ID,t2.PRDCT_UNIT as PRDCT_UNIT,t2.PRDCT_NUM as
+        PRDCT_NUM from (select * from t_order_detail_info where ORDER_ST='3'
+        <!--已支付-->
+        <if test="startDate != null and startDate
+            != ''">
+            and TXN_DT &gt;=
+            #{
+            startDate,jdbcType=CHAR}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            and TXN_DT &lt;= #{endDate,jdbcType=CHAR}
+        </if>
+    </sql>
+
+    <!--货物统计查询没有商户作为条件-->
+    <sql id="selectTolWhereNoProv">
+        <!--@mbg.generated-->
+        select A1.*,A2.PRDCT_NM as PRDCT_NM, A2.PARENT_PRDT_ID as PRDCT_TYPE_ID,A2.PARENT_PRDT as PRDCT_TYPE
+        from (select a.*,IFNULL(b.SALE_AMT,0) AS SALE_AMT ,IFNULL(b.SALE_NUM ,0) AS SALE_NUM from (select
+        PRDCT_ID,UNIT,sum(STOCK) as STOCK
+        from
+        t_product_inventory_info
+        <include refid="selectProvIdSql"></include>
+        group by PRDCT_ID,UNIT ) a left join (
+        <include refid="selectOrderSql"></include>
+        )t1 left join t_order_goods_info t2 on t1.ORDER_ID=t2.ORDER_ID) t3
+
+        group by PRDCT_ID
+
+        ,PRDCT_UNIT ) b on
+        a.PRDCT_ID =b.PRDCT_ID
+
+        and a.UNIT = b.PRDCT_UNIT
+        order by SALE_NUM desc,PRDCT_ID asc limit #{strNum},#{pageSize}
+        ) A1 left join  (select B1.VARIETY_NO as VARIETY_NO,B1.PRDCT_NM as PRDCT_NM,B1.PARENT_PRDT_ID
+        as PARENT_PRDT_ID ,B2.PRDCT_NM as PARENT_PRDT from t_product_type_info B1 left join t_product_type_info B2 on
+        B1.PARENT_PRDT_ID  = B2.VARIETY_NO) A2 on A1.PRDCT_ID = A2.VARIETY_NO
+    </sql>
+    <!--货物统计查询有商户作为条件-->
+    <sql id="selectTolWhereAndProv">
+        select A1.*,A2.PRDCT_NM as PRDCT_NM, A2.PARENT_PRDT_ID as PRDCT_TYPE_ID,A2.PARENT_PRDT as PRDCT_TYPE
+        from (
+        select
+        a.PRDCT_ID as PRDCT_ID, a.PROV_ID as PROV_ID,a.UNIT as UNIT,a.STOCK as STOCK,
+        IFNULL(b.SALE_AMT,0) AS SALE_AMT ,IFNULL(b.SALE_NUM ,0) AS SALE_NUM
+            ,(select PROV_NM from
+            t_custom_info_manager where PROV_ID=a.PROV_ID) as PROV_NM,
+            (select if (PHONE is not null and PHONE <![CDATA[<>]]> '',PHONE,LEGAL_PHONE)
+            from
+            t_custom_info_manager where PROV_ID=a.PROV_ID ) as PHONE
+        from (select
+                <include refid="Base_Column_List"></include>
+
+        from
+        t_product_inventory_info
+        <include refid="selectProvIdSql"></include>
+        ) a left join (<include refid="selectOrderSql"></include>
+        )t1 left join t_order_goods_info t2 on t1.ORDER_ID=t2.ORDER_ID) t3
+
+        group by PRDCT_ID,PROV_ID,PRDCT_UNIT ) b on
+        a.PRDCT_ID =b.PRDCT_ID
+        and a.PROV_ID = b.PROV_ID
+        and a.UNIT = b.PRDCT_UNIT
+        order by SALE_NUM desc,PRDCT_ID asc limit #{strNum},#{pageSize}
+        ) A1 left join  (select B1.VARIETY_NO as VARIETY_NO,B1.PRDCT_NM as PRDCT_NM,B1.PARENT_PRDT_ID
+        as PARENT_PRDT_ID ,B2.PRDCT_NM as PARENT_PRDT from t_product_type_info B1 left join t_product_type_info B2 on
+        B1.PARENT_PRDT_ID  = B2.VARIETY_NO) A2 on A1.PRDCT_ID = A2.VARIETY_NO
+    </sql>
+    <select id="selectTolWhere" resultType="com.dispart.dto.entrance.TProductInventoryInfoDto">
+        <choose>
+            <!--有查询商户条件-->
+         <when test="(phone != null and phone != '') or (provNm != null and provNm != '')">
+             <include refid="selectTolWhereAndProv"></include>
+         </when>
+            <!--没有查询商户条件-->
+            <otherwise>
+            <include refid="selectTolWhereNoProv"></include>
+        </otherwise>
+        </choose>
+
+    </select>
+
+
+    <select id="selectWhere" resultType="com.dispart.dto.entrance.TProductInventoryInfoDto">
+        <!--@mbg.generated-->
+        select
+        a.*,b.PROV_NM as PROV_NM, if (b.PHONE is not null and b.PHONE <![CDATA[<>]]> '',b.PHONE,b.LEGAL_PHONE) as
+        PROV_PHONE
+        from ( select * from (
+        <include refid="joinTcustomInfo"></include>
+        ) a
+
+        <where>
+            <if test="prdctId != null and prdctId != ''">
+                and PRDCT_ID = #{prdctId,jdbcType=CHAR}
+            </if>
+            <if test="provId != null and provId != ''">
+                and PROV_ID = #{provId,jdbcType=CHAR}
+            </if>
+            <if test="prdctTypeId != null and prdctTypeId != ''">
+                and PRDCT_TYPE_ID = #{prdctTypeId,jdbcType=CHAR}
+            </if>
+        </where>
+        ) a left join t_custom_info_manager b on a.PROV_ID=b.PROV_ID
+        order by UPDATE_DT desc,PROV_ID asc, PRDCT_ID asc limit #{strNum},#{pageSize}
+    </select>
+
+    <sql id="selectProvIdByUserId">
+        (
+        select PROV_ID from t_user_info where user_id = #{userId} )
+    </sql>
+    <select id="selectWhereByPhone" resultType="com.dispart.dto.entrance.TProductInventoryInfoDto">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_product_inventory_info where prov_id =
+        <include refid="selectProvIdByUserId"></include>
+
+        <if test="vo.prdctId != null and vo.prdctId != ''">
+            and PRDCT_ID = #{vo.prdctId,jdbcType=CHAR}
+        </if>
+        <if test="vo.prdctTypeId != null and vo.prdctTypeId != ''">
+            and PRDCT_TYPE_ID = #{vo.prdctTypeId,jdbcType=CHAR}
+        </if>
+        order by UPDATE_DT desc,PROV_ID asc,PRDCT_ID asc limit #{vo.strNum},#{vo.pageSize}
+    </select>
+
+
+    <select id="selectWhereByPhoneCount" resultType="Integer">
+        <!--@mbg.generated-->
+        select
+        count(*)
+        from
+        t_product_inventory_info where prov_id =
+        <include refid="selectProvIdByUserId"></include>
+
+        <if test="vo.prdctId != null and vo.prdctId != ''">
+            and PRDCT_ID = #{vo.prdctId,jdbcType=CHAR}
+        </if>
+        <if test="vo.prdctTypeId != null and vo.prdctTypeId != ''">
+            and PRDCT_TYPE_ID = #{vo.prdctTypeId,jdbcType=CHAR}
+        </if>
+    </select>
+
+    <!--客户名称，手机号，肋记码关联客户信息表查provId-->
+    <sql id="joinTcustomInfo">
+        select
+        *
+        from t_product_inventory_info
+        <where>
+            <if test="(provNm != null and provNm !='')
+    or (phone != null and phone !='')
+    or (mnmnCode != null and mnmnCode !='') ">
+                PROV_ID in (
+
+                select prov_id from t_custom_info_manager
+                <where>
+                    <if test="provNm != null and provNm !=''">
+                        and PROV_NM = #{provNm}
+                    </if>
+                    <if test="phone != null and phone !=''">
+                        and PHONE = #{phone} or LEGAL_PHONE = #{phone}
+                    </if>
+                    <if test="mnmnCode != null and mnmnCode !=''">
+                        and MNMN_CODE = #{mnmnCode}
+                    </if>
+                </where>
+
+                )
+            </if>
+
+
+        </where>
+
+    </sql>
+
+    <select id="selectCount" resultType="Integer">
+        <!--@mbg.generated-->
+        select count(*) from (
+        <include refid="joinTcustomInfo"></include>
+        ) a
+        <where>
+            <if test="prdctId != null and prdctId != ''">
+                and PRDCT_ID = #{prdctId,jdbcType=CHAR}
+            </if>
+            <if test="provId != null and provId != ''">
+                and prov_Id = #{provId,jdbcType=CHAR}
+            </if>
+            <if test="prdctTypeId != null and prdctTypeId != ''">
+                and PRDCT_TYPE_ID = #{prdctTypeId,jdbcType=CHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectTolCount" resultType="Integer">
+
+        <choose>
+            <!--有查询商户条件-->
+            <when test="(phone != null and phone != '') or (provNm != null and provNm != '')">
+                <!--@mbg.generated-->
+                select
+                count(*)
+                from t_product_inventory_info
+                <include refid="selectProvIdSql"></include>
+            </when>
+            <!--没有查询商户条件-->
+            <otherwise>
+               select count(*)  from (select  PRDCT_ID,UNIT  from t_product_inventory_info
+                <include refid="selectProvIdSql"></include>
+                group by PRDCT_ID,UNIT) a
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        <!--@mbg.generated-->
+        delete from t_product_inventory_info
+        where PRDCT_ID = #{prdctId,jdbcType=CHAR}
+        and PROV_ID = #{provId,jdbcType=CHAR}
+    </delete>
+    <insert id="insert" parameterType="com.dispart.dto.entrance.TProductInventoryInfoDto">
+        <!--@mbg.generated-->
+        insert into t_product_inventory_info (PRDCT_ID, PROV_ID, PRDCT_NM,
+        STOCK, UNIT, REMARK,
+        UPDATE_DT, PRDCT_TYPE, PRDCT_TYPE_ID
+        )
+        values (#{prdctId,jdbcType=CHAR}, #{provId,jdbcType=CHAR}, #{prdctNm,jdbcType=VARCHAR},
+        #{stock,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+        #{updateDt,jdbcType=TIMESTAMP}, #{prdctType,jdbcType=VARCHAR}, #{prdctTypeId,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.dispart.dto.entrance.TProductInventoryInfoDto">
+        <!--@mbg.generated-->
+        insert into t_product_inventory_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="prdctId != null">
+                PRDCT_ID,
+            </if>
+            <if test="provId != null">
+                PROV_ID,
+            </if>
+            <if test="prdctNm != null">
+                PRDCT_NM,
+            </if>
+            <if test="stock != null">
+                STOCK,
+            </if>
+            <if test="unit != null">
+                UNIT,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="updateDt != null">
+                UPDATE_DT,
+            </if>
+            <if test="prdctType != null">
+                PRDCT_TYPE,
+            </if>
+            <if test="prdctTypeId != null">
+                PRDCT_TYPE_ID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="prdctId != null">
+                #{prdctId,jdbcType=CHAR},
+            </if>
+            <if test="provId != null">
+                #{provId,jdbcType=CHAR},
+            </if>
+            <if test="prdctNm != null">
+                #{prdctNm,jdbcType=VARCHAR},
+            </if>
+            <if test="stock != null">
+                #{stock,jdbcType=DECIMAL},
+            </if>
+            <if test="unit != null">
+                #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDt != null">
+                #{updateDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="prdctType != null">
+                #{prdctType,jdbcType=VARCHAR},
+            </if>
+            <if test="prdctTypeId != null">
+                #{prdctTypeId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dispart.dto.entrance.TProductInventoryInfoDto">
+        <!--@mbg.generated-->
+        update t_product_inventory_info
+        <set>
+            <if test="prdctNm != null">
+                PRDCT_NM = #{prdctNm,jdbcType=VARCHAR},
+            </if>
+            <if test="stock != null">
+                STOCK = #{stock,jdbcType=DECIMAL},
+            </if>
+            <if test="unit != null">
+                UNIT = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDt != null">
+                UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="prdctType != null">
+                PRDCT_TYPE = #{prdctType,jdbcType=VARCHAR},
+            </if>
+            <if test="prdctTypeId != null">
+                PRDCT_TYPE_ID = #{prdctTypeId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where PRDCT_ID = #{prdctId,jdbcType=CHAR}
+        and PROV_ID = #{provId,jdbcType=CHAR}
+        and UNIT = #{unit,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dispart.dto.entrance.TProductInventoryInfoDto">
+        <!--@mbg.generated-->
+        update t_product_inventory_info
+        set PRDCT_NM = #{prdctNm,jdbcType=VARCHAR},
+        STOCK = #{stock,jdbcType=DECIMAL},
+        UNIT = #{unit,jdbcType=VARCHAR},
+        REMARK = #{remark,jdbcType=VARCHAR},
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+        PRDCT_TYPE = #{prdctType,jdbcType=VARCHAR},
+        PRDCT_TYPE_ID = #{prdctTypeId,jdbcType=VARCHAR}
+        where PRDCT_ID = #{prdctId,jdbcType=CHAR}
+        and PROV_ID = #{provId,jdbcType=CHAR}
+        and UNIT = #{unit,jdbcType=CHAR}
+    </update>
+</mapper>

@@ -1,0 +1,112 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: disPart-gateway
+  redis:
+    host: 128.11.132.1
+    port: 6379
+    timeout: 10s
+    password: 123456
+    #host: 10.250.16.38
+    #port: 6379
+    #timeout: 10s
+    #password: 123456Wly
+  management:
+    endpoints:
+      web:
+        exposure:
+          incloude: "*"
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 128.11.132.1:8848
+        #server-addr: 10.250.16.40:8848
+    gateway:
+      httpclient:
+        connect-timeout: 3000
+        response-timeout: 20s
+      routes:
+        - id: securityCenter
+          uri: lb://security-center
+          predicates:
+            - Path=/securityCenter/**
+          filters:
+            - StripPrefix=0
+        - id: busineCommon
+          uri: lb://disPart-busine-commons
+          predicates:
+            - Path=/busineCommon/**
+          filters:
+            - StripPrefix=1
+        - id: base
+          uri: lb://disPart-base
+          predicates:
+            - Path=/base/**
+          filters:
+            - StripPrefix=1
+        - id: dataQuery
+          uri: lb://disPart-data-query
+          predicates:
+            - Path=/dataQuery/**
+          filters:
+            - StripPrefix=1
+        - id: order
+          uri: lb://disPart-order
+          predicates:
+            - Path=/order/**
+          filters:
+            - StripPrefix=1
+        - id: user
+          uri: lb://disPart-user
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
+        - id: task
+          uri: lb://disPart-task
+          predicates:
+            - Path=/task/**
+          filters:
+            - StripPrefix=1
+        - id: outCommon
+          uri: lb://disPart-out-common
+          predicates:
+            - Path=/outCommon/**
+          filters:
+            - StripPrefix=1
+        - id: files
+          uri: lb://disPart-files
+          predicates:
+            - Path=/files/**
+          filters:
+            - StripPrefix=1
+      discovery:
+        locator:
+          lower-case-service-id:management: true
+          enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#ribbon:
+  #ReadTimeout: 50000
+  #ConnectTimeout: 5000
+#hystrix:
+  #command:
+    #default:
+      #execution:
+        #isolation:
+          #thread:
+            #timeoutInMilliseconds: 50000
+sign:
+  secret: KTLFJDAK@543&#23234FdfdsT
+  nodename: disPart-gateway
+auth:
+  rasKeyUrl: /securityCenter/ca/rsaKey
+  reqAuthUrl: http://128.11.132.11:9002/securityCenter/authority/authentication
+  token:
+    aesKey: m00280d42a0O437c☯m0012345678O437c
+logging:
+  file:
+    name: /home/ap/gateway/log/gateway_log.log

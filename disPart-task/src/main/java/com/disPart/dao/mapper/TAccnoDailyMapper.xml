@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.TAccnoDailyMapper">
+  <insert id="add">
+        insert into t_accno_daily (day_dt, curr_amt, avail_bal, freeze_amt, debit_amt, credit_amt)
+        select date_sub(curdate(), interval 1 day), sum(acct_bal), sum(avail_bal), sum(freeze_amt), sum(ddebit_amt), sum(dcredit_amt)
+        from t_accno_info where account != '60020001190100000078'
+  </insert>
+</mapper>

@@ -1,0 +1,24 @@
+server:
+  port: 8092
+
+spring:
+  application:
+    name: disPart-out-ccb
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+#配置mapper.xml文件的路径
+
+logging:
+  file:
+    name: /home/ap/ccb/log/ccb.log
+
+url: http://128.11.132.8:8092/outGnLoan/DISP20210347

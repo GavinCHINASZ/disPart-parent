@@ -1,0 +1,107 @@
+spring:
+  application:
+    name: disPart-busine-commons
+
+  cloud:
+    nacos:
+      config:
+        server-addr: 128.11.132.1:8848
+        file-extension: yaml
+
+getui-push-message:
+  message1: 您有新的供货车辆(value0)进场，货重value1kg，入场佣金为 value2元。
+  message2: 您有新的供货车辆(value0)出场，退费/缴费 value1元。
+  message3: 您尾号为value0的一卡通value1 value2元。
+  message4: 您提交的货物报备信息已value0。
+  message5: 您有新的待审核来货报备信息，请尽快处理。
+  message6: 您有新的交易订单支付完成,支付金额为 value0元。
+
+##服务端口
+#server:
+#  port: 8085
+#  tomcat:
+#    connection-timeout: 180000
+#spring:
+##  application:
+##    name: disPart-busine-commons  #服务名
+#  cloud:
+#    nacos:
+#      discovery:
+#        #server-addr: 192.168.149.53:8848
+#        server-addr: 128.11.132.1:8848
+#        #server-addr: 10.250.16.40:8848
+#  redis:
+#    host: 128.11.132.1
+#    port: 6379
+#    timeout: 10s
+#    password: 123456
+#    #host: 10.250.16.38
+#    #port: 6379
+#    #timeout: 5000
+#    #password: 123456Wly
+#
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+##  profiles:
+##    active: dev #环境设置
+#  #mysql数据库链接 om.mysql.cj.jdbc.Driver
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://128.11.132.1:3306/logistics?charaterEncoding=utf8&useSSL=false
+#    username: root
+#    password: 123456
+#    #url: jdbc:mysql://10.250.16.38:3306/logistics?charaterEncoding=utf8&useSSL=false
+#    #username: deployer
+#    #password: mysql123
+#
+#  #返回json的全局时间格式
+#  jackson:
+#    date-format: yyyy-MM-dd HH:mm:ss
+#    time-zone: GMT+8
+##配置mapper.xml文件的路径
+#mybatis-plus:
+#  mapper-locations: classpath*:com/dispart/dao/mapper/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  global-config:
+#    db-config:
+#      logic-delete-field: flag  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+#      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+#      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+#
+#feign:
+#  sentinel:
+#    enabled: true
+##当前指定修文县
+#area:
+#  areaCd: 520123
+#  areaName: 修文县
+#
+#
+#sign:
+#  secret: KTLFJDAK@543&#23234FdfdsT
+##惠市宝商户信息查询url
+#out-hsb:
+#  url: http://128.11.132.9:8082/outHsb/securityCenter/DISP20210093
+#  #url: http://10.250.16.35:8082/outHsb/securityCenter/DISP20210093
+##安全中心
+#myAuth:
+#  pushRoleUrl: http://128.11.132.19:8081/securityCenter/authority/syncRoleAuth
+#  pushDepUrl: http://128.11.132.19:8081/securityCenter/authority/syncOrgAuth
+#  #pushRoleUrl: http://10.250.16.40:8081/securityCenter/authority/syncRoleAuth
+#  #pushDepUrl: http://10.250.16.40:8081/securityCenter/authority/syncOrgAuth
+##外联区登录授权
+#out-common:
+#  wx_zfb:
+#    loginAuthUrl: http://128.11.132.19:8090/outCommon/wx_zfb/login/auth
+#    #loginAuthUrl: http://10.250.16.35:8090/outCommon/wx_zfb/login/auth
+#    #loginAuthUrl: http://192.168.149.53:8090/outCommon/wx_zfb/login/auth
+#  smsSendUrl: http://128.11.132.19:8090/outCommon/securityCenter/DISP20210099 #发送验证码
+#  #smsSendUrl: http://10.250.16.35:8090/outCommon/securityCenter/DISP20210099 #发送验证码
+#  #smsSendUrl: http://192.168.149.53:8090/outCommon/securityCenter/DISP20210099 #发送验证码
+#
+#logging:
+#  file:
+#    name: /home/ap/busineCommon/log/busineCommon_log.log

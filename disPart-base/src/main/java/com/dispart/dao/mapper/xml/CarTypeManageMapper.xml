@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.CarTypeManageMapper">
+
+  <insert id="insertCarType" parameterType="com.dispart.model.base.CarTypeManage">
+    insert into t_vehicle_manager(VEHICLE_TP_ID,VEHICLE_TP,VEHICLE_ID,VEHICLE,REMARK,OPER_ID,CREAT_TIME,UP_TIME)
+    values (#{carTypeManage.vehicleTpId},#{carTypeManage.vehicleTp},#{carTypeManage.vehicleId},
+    #{carTypeManage.vehicle},#{carTypeManage.remark},#{carTypeManage.operId},#{carTypeManage.creatTime},#{carTypeManage.upTime})
+  </insert>
+  <select id="findCarInfoByVehicleTp" resultType="com.dispart.model.base.CarTypeManage">
+    select * from t_vehicle_manager where 1=1
+    <if test="carTypeManage.vehicle != null and carTypeManage.vehicle != ''"> and VEHICLE like "%"#{carTypeManage.vehicle,jdbcType=VARCHAR}"%"</if>
+    <if test="carTypeManage.vehicleTp != null and carTypeManage.vehicleTp != ''"> and VEHICLE_TP like "%"#{carTypeManage.vehicleTp}"%"</if>
+
+  </select>
+  <update id="updateCarTypeByVehicle" parameterType="com.dispart.model.base.CarTypeManage">
+    update t_vehicle_manager set
+    VEHICLE=#{carTypeManage.vehicle},
+    REMARK=#{carTypeManage.remark},OPER_ID=#{carTypeManage.operId},CREAT_TIME=#{carTypeManage.creatTime},UP_TIME=#{carTypeManage.upTime}
+    where  VEHICLE_ID=#{carTypeManage.vehicleId}
+  </update>
+  <delete id="deleteCarTypeByVehicle">
+    delete from t_vehicle_manager where VEHICLE=#{carTypeManage.vehicle,jdbcType=VARCHAR} and VEHICLE_TP_ID=#{carTypeManage.vehicleTpId}
+  </delete>
+  <select id="findCarInfoByVehicleSub" resultType="com.dispart.model.base.CarTypeManage">
+    select * from t_vehicle_manager where 1=1
+    <if test="carTypeManage.vehicle != null and carTypeManage.vehicle != ''"> and VEHICLE like "%"#{carTypeManage.vehicle,jdbcType=VARCHAR}"%"</if>
+    <if test="carTypeManage.vehicleTp != null and carTypeManage.vehicleTp != ''"> and VEHICLE_TP like "%"#{carTypeManage.vehicleTp}"%"</if>
+  </select>
+  <select id="findCarInfoByVehicleTpa" resultType="com.dispart.model.base.CarTypeManage">
+    select * from t_vehicle_manager where <!--1=1-->
+    <!--<if test="carTypeManage.vehicle != null and carTypeManage.vehicle != ''"> and VEHICLE like "%"#{carTypeManage.vehicle,jdbcType=VARCHAR}"%"</if>
+    <if test="carTypeManage.vehicleTp != null and carTypeManage.vehicleTp != ''"> and VEHICLE_TP like "%"#{carTypeManage.vehicleTp}"%"</if>-->
+    <!--<if test="param1.vehicleId != null and param1.vehicleId != ''"> and--> VEHICLE_ID=#{vehicleId} and VEHICLE_TP_ID=#{vehicleTpId}<!--like "%"#{carTypeManage.vehicleId}"%"</if>-->
+  </select>
+  <select id="findCarInfoByVehicleForCharge" resultType="com.dispart.model.base.CarTypeManage">
+    select * from t_vehicle_manager where 1=1
+    <if test="vehicleId != null and vehicleId != ''"> and VEHICLE_ID like "%"#{vehicleId,jdbcType=VARCHAR}"%"</if>
+    <if test="vehicleTp != null and vehicleTp != ''"> and VEHICLE_TP like "%"#{vehicleTp}"%"</if>
+    <if test="pageSize>0">limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}</if>
+  </select>
+  <select id="findCarInfoByVehicleForChargeCount" resultType="java.lang.Integer">
+    select count(1) from t_vehicle_manager where 1=1
+    <if test="vehicle != null and vehicle != ''"> and VEHICLE like "%"#{vehicle,jdbcType=VARCHAR}"%"</if>
+    <if test="vehicleTp != null and vehicleTp != ''"> and VEHICLE_TP like "%"#{vehicleTp}"%"</if>
+    <if test="pageSize>0">limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}</if>
+  </select>
+  <!-- 获取序列员-->
+  <select id="selectEmployeeIdSeq" resultType="Integer">
+        select nextval('vehicleId') from dual
+    </select>
+</mapper>

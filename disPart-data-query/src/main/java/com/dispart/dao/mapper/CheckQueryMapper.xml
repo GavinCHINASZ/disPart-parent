@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.CheckQueryMapper">
+
+    <select id="quryCheckDetail" parameterType="com.dispart.dto.dataquery.Disp20210071InDto" resultType="com.dispart.dto.dataquery.Disp20210071OutMx">
+        SELECT DISTINCT
+            tad.PAYEE_ID provId,
+            tad.PAYEE_NM provNm,
+            tad.PAYMENT_TRACE_ID paymentTraceId,
+            tad.PART_DT txnDate,
+            tad.PART_AMT partAmt,
+            tad.SERV_CHRG servChrg,
+            tad.RESP_ST respSt,
+            tad.SUB_ORDER_ID subOrderId,
+            tod.ORDER_ID orderId,
+            tod.TXN_AMT prdctAmt,
+            toi.PAYMENT_MODE payMethod,
+            pmt.PART_MD_NM partModeNm
+        FROM
+            t_apportion_details_info tad
+            LEFT JOIN t_order_relevancy_info tor on tad.SUB_ORDER_ID = tor.CCB_ORDER_DETAIL_ID
+            LEFT JOIN t_order_detail_info tod on tor.ORDER_ID = tod.ORDER_ID
+            LEFT JOIN t_order_info toi on toi.MAIN_ORDER_ID = tor.MAIN_ORDER_ID
+            LEFT JOIN t_part_mode_type pmt on toi.PART_MODE_ID = pmt.PART_MD_ID
+        WHERE 1=1
+            <if test="paymentMode != null and paymentMode != ''">
+                AND toi.PAYMENT_MODE = #{paymentMode}
+            </if>
+            <if test="provId != null and provId != '' ">
+                AND tad.PAYEE_ID like concat('%',#{provId},'%')
+            </if>
+            <if test="provNm != null and provNm != '' ">
+                AND tad.PAYEE_NM like concat('%',#{provNm},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                AND tad.PART_DT &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND tad.PART_DT &lt;= #{endDate}
+            </if>
+            <if test="respSt != null and respSt != '' ">
+                AND tad.RESP_ST = #{respSt}
+            </if>
+            <if test="orderId != null and orderId != ''">
+                AND tod.ORDER_ID like concat('%',#{orderId},'%')
+            </if>
+            <if test="subOrderId != null and subOrderId != ''">
+                AND tad.SUB_ORDER_ID like concat('%',#{subOrderId},'%')
+            </if>
+            ORDER BY tad.PART_DT DESC, tad.MAIN_ORDER_ID DESC
+            LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+    </select>
+
+    <select id="quryCheckDetail_count" parameterType="com.dispart.dto.dataquery.Disp20210071InDto" resultType="com.dispart.entity.DatabaseCount">
+        SELECT
+            count(*) as countRec
+        FROM
+            t_apportion_details_info tad
+            LEFT JOIN t_order_relevancy_info tor on tad.SUB_ORDER_ID = tor.CCB_ORDER_DETAIL_ID
+            LEFT JOIN t_order_detail_info tod on tor.ORDER_ID = tod.ORDER_ID
+            LEFT JOIN t_order_info toi on toi.MAIN_ORDER_ID = tor.MAIN_ORDER_ID
+        WHERE 1=1
+            <if test="paymentMode != null and paymentMode != ''">
+                AND toi.PAYMENT_MODE = #{paymentMode}
+            </if>
+            <if test="provId != null and provId != '' ">
+                AND tad.PAYEE_ID like concat('%',#{provId},'%')
+            </if>
+            <if test="provNm != null and provNm != '' ">
+                AND tad.PAYEE_NM like concat('%',#{provNm},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                AND tad.PART_DT &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND tad.PART_DT &lt;= #{endDate}
+            </if>
+            <if test="respSt != null and respSt != '' ">
+                AND tad.RESP_ST = #{respSt}
+            </if>
+            <if test="orderId != null and orderId != ''">
+                AND tod.ORDER_ID like concat('%',#{orderId},'%')
+            </if>
+            <if test="subOrderId != null and subOrderId != ''">
+                AND tad.SUB_ORDER_ID like concat('%',#{subOrderId},'%')
+            </if>
+    </select>
+
+    <select id="quryCheckResult" parameterType="com.dispart.dto.dataquery.Disp20210072InDto" resultType="com.dispart.dto.dataquery.Disp20210072OutMx">
+        SELECT
+            trr.PAYEE_ID provId,
+            trr.PAYEE_NM provNm,
+            trr.PAYMENT_TRACE_ID paymentTraceId,
+            trr.TXN_DT txnDate,
+            trr.TXN_AMT txnAmt,
+            toi.PAYMENT_MODE payMethod,
+            trr.RECON_RSLT reconRslt,
+            trr.CAUSE cause,
+            trr.RESP_ST payeeSt,
+            trr.PART_AMT partAmt,
+            trr.MAIN_ORDER_NO as mainOrderId
+        FROM
+		    t_reconciliation_result_info trr
+        INNER JOIN
+		    t_order_info toi on toi.MAIN_ORDER_ID = trr.MAIN_ORDER_NO
+        WHERE 1=1
+            <if test="provId != null and provId != '' ">
+                AND trr.PAYEE_ID like concat('%',#{provId},'%')
+            </if>
+            <if test="provNm != null and provNm != '' ">
+                AND trr.PAYEE_NM like concat('%',#{provNm},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                AND trr.TXN_DT &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND trr.TXN_DT &lt;= #{endDate}
+            </if>
+            <if test="payeeSt != null and payeeSt != ''">
+                AND trr.RESP_ST = #{payeeSt,jdbcType=VARCHAR}
+            </if>
+            <if test="reconRslt != null and reconRslt != '' ">
+                AND trr.RECON_RSLT = #{reconRslt}
+            </if>
+            <if test="txnDt != null and txnDt != ''">
+                AND trr.TXN_DT = #{txnDt}
+            </if>
+            ORDER BY trr.UPDATE_DT DESC
+            LIMIT #{startIndex,jdbcType=BIGINT}, #{pageSize,jdbcType=BIGINT}
+    </select>
+
+    <select id="quryCheckResult_count" parameterType="com.dispart.dto.dataquery.Disp20210072InDto" resultType="com.dispart.entity.DatabaseCount">
+        SELECT
+            count(*) as countRec, sum(PART_AMT) tolAmt
+        FROM
+		    t_reconciliation_result_info trr
+        INNER JOIN
+		    t_order_info toi on toi.MAIN_ORDER_ID = trr.MAIN_ORDER_NO
+        WHERE 1=1
+           <if test="provId != null and provId != '' ">
+                AND trr.PAYEE_ID like concat('%',#{provId},'%')
+            </if>
+            <if test="provNm != null and provNm != '' ">
+                AND trr.PAYEE_NM like concat('%',#{provNm},'%')
+            </if>
+            <if test="beginDate != null and beginDate != '' ">
+                AND trr.TXN_DT &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND trr.TXN_DT &lt;= #{endDate}
+            </if>
+            <if test="payeeSt != null and payeeSt != ''">
+                AND trr.RESP_ST = #{payeeSt,jdbcType=VARCHAR}
+            </if>
+            <if test="reconRslt != null and reconRslt != '' ">
+                AND trr.RECON_RSLT = #{reconRslt}
+            </if>
+            <if test="txnDt != null and txnDt != ''">
+                AND trr.TXN_DT = #{txnDt}
+            </if>
+    </select>
+
+</mapper>

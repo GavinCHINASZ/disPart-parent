@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.TAccnoInfoMapper">
+    <update id="updateAccnoInfo">
+        update t_accno_info
+        set pri_acct_bal = acct_bal, dcredit_amt = 0.00, ddebit_amt = 0.00, day_dt = curdate()
+    </update>
+
+    <update id="lock">
+        lock tables t_accno_info write, t_accno_daily write, t_accno_daily_detail write
+    </update>
+
+    <update id="unlock">
+        unlock tables
+    </update>
+
+    <update id="updateAccnoMac" parameterType="com.dispart.dto.AccnoInfoVo">
+        update t_accno_info
+        set mac = #{mac} where ACCOUNT = #{account}
+    </update>
+
+    <select id="findByMac" resultType="com.dispart.dto.AccnoInfoVo" >
+        select prov_id, account,acct_bal, avail_bal, freeze_amt from t_accno_info where mac = 'mac' limit 5000
+    </select>
+
+  <select id="count" resultType="java.lang.Integer">
+        select count(1) from t_accno_info where day_dt = date_sub(curdate(), interval 1 day)
+  </select>
+
+  <select id="countMac" resultType="java.lang.Integer">
+        select count(1) from t_accno_info where mac = 'mac'
+  </select>
+</mapper>

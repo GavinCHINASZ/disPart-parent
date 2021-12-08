@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TVechicleProcurerDetailsMapper">
+
+  <resultMap id="BaseResultMap" type="com.dispart.vo.entrance.TVechicleProcurerDetails">
+    <!--@mbg.generated-->
+    <!--@Table t_vechicle_procurer_details-->
+    <id column="IN_ID" jdbcType="VARCHAR" property="inId" />
+    <id column="VARIETY_ID" jdbcType="VARCHAR" property="varietyId" />
+    <result column="VEHICLE_NUM" jdbcType="VARCHAR" property="vehicleNum" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="EXP_TP" jdbcType="CHAR" property="expTp" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="NUM" jdbcType="DECIMAL" property="num" />
+    <result column="UNIT_PRICE" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="AMT" jdbcType="DECIMAL" property="amt" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="PROD_PLACE" jdbcType="VARCHAR" property="prodPlace" />
+    <result column="PLACE_URL" jdbcType="VARCHAR" property="placeUrl" />
+    <result column="MANUFACT_ENTER" jdbcType="VARCHAR" property="manufactEnter" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+    <result column="CATEGORY_NM" jdbcType="VARCHAR" property="categoryNm" />
+    <result column="ONE_CATEGORY_NM" jdbcType="VARCHAR" property="oneCategoryNm" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+
+  <resultMap id="SelectByInIdResultMap" type="com.dispart.dto.entrance.EntranceVeCheckOutDatilsDto">
+    <!--@mbg.generated-->
+    <!--@Table t_vechicle_procurer_details-->
+    <id column="IN_ID" jdbcType="VARCHAR" property="inId" />
+    <id column="VARIETY_ID" jdbcType="VARCHAR" property="varietyId" />
+    <result column="VEHICLE_NUM" jdbcType="VARCHAR" property="vehicleNum" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="EXP_TP" jdbcType="CHAR" property="expTp" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="UNIT_PRICE" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="AMT" jdbcType="DECIMAL" property="amt" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="PROD_PLACE" jdbcType="VARCHAR" property="prodPlace" />
+    <result column="MANUFACT_ENTER" jdbcType="VARCHAR" property="manufactEnter" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+    <result column="RATE" jdbcType="DECIMAL" property="rate" />
+    <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+    <result column="CATEGORY_NM" jdbcType="VARCHAR" property="categoryNm" />
+    <result column="MANUFACT_ENTER" jdbcType="VARCHAR" property="manufactEnter" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    IN_ID, VARIETY_ID, VEHICLE_NUM, PROV_ID, EXP_TP, PRDCT_NM, NUM, UNIT_PRICE, AMT,
+    UNIT, PROD_PLACE, MANUFACT_ENTER, `STATUS`, REMARK, OPER_ID, CREAT_TIME, UP_TIME,RATE
+  </sql>
+
+  <sql id="Qury_Column_List">
+    <!--@mbg.generated-->
+    IN_ID, VARIETY_ID, VEHICLE_NUM, PROV_ID, EXP_TP, PRDCT_NM, NUM, UNIT_PRICE, AMT,
+    UNIT, PROD_PLACE, MANUFACT_ENTER, `STATUS`, REMARK, OPER_ID, CREAT_TIME, UP_TIME,RATE,CATEGORY_ID,CATEGORY_NM,PLACE_URL
+  </sql>
+
+
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_vechicle_procurer_details
+    where IN_ID = #{inId,jdbcType=VARCHAR}
+      and VARIETY_ID = #{varietyId,jdbcType=VARCHAR}
+    and UNIT = #{unit,jdbcType=VARCHAR}
+  </select>
+
+  <!--查询货物信息关联查询品类-->
+  <select id="selectByInId"  resultMap="SelectByInIdResultMap">
+    <!--@mbg.generated-->
+    select     <include refid="Qury_Column_List" />
+    from (select a.*, b.PARENT_PRDT_ID CATEGORY_ID,
+      (select PRDCT_NM
+      from t_product_type_info
+      where VARIETY_NO = b.PARENT_PRDT_ID
+      ) as CATEGORY_NM
+      from t_vechicle_procurer_details a
+      LEFT JOIN t_product_type_info b on a.VARIETY_ID = b.VARIETY_NO
+      where a.IN_ID = #{inId,jdbcType=VARCHAR}
+    ) c
+  </select>
+
+  <insert id="insert" parameterType="com.dispart.vo.entrance.TVechicleProcurerDetails">
+    insert  into t_vechicle_procurer_details (IN_ID,PROV_ID,PRDCT_NM,PROD_PLACE,PLACE_URL,MANUFACT_ENTER,
+    RATE,NUM,UNIT,VEHICLE_NUM,EXP_TP,VARIETY_ID,STATUS)
+    values
+    <foreach collection="list" item="TVechicleProcurerDetails" separator=",">
+      (#{TVechicleProcurerDetails.inId},#{TVechicleProcurerDetails.provId},#{TVechicleProcurerDetails.prdctNm},
+      #{TVechicleProcurerDetails.prodPlace},#{TVechicleProcurerDetails.placeUrl},#{TVechicleProcurerDetails.manufactEnter},
+      #{TVechicleProcurerDetails.rate},#{TVechicleProcurerDetails.num},
+      #{TVechicleProcurerDetails.unit},#{TVechicleProcurerDetails.vehicleNum},#{TVechicleProcurerDetails.expTp},#{TVechicleProcurerDetails.varietyId},#{TVechicleProcurerDetails.status,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.dispart.vo.entrance.TVechicleProcurerDetails">
+    <!--@mbg.generated-->
+    update t_vechicle_procurer_details
+    set VEHICLE_NUM = #{vehicleNum,jdbcType=VARCHAR},
+      PROV_ID = #{provId,jdbcType=VARCHAR},
+      EXP_TP = #{expTp,jdbcType=CHAR},
+      PRDCT_NM = #{prdctNm,jdbcType=VARCHAR},
+      NUM = #{num,jdbcType=DECIMAL},
+      UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      AMT = #{amt,jdbcType=DECIMAL},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      PROD_PLACE = #{prodPlace,jdbcType=VARCHAR},
+      MANUFACT_ENTER = #{manufactEnter,jdbcType=VARCHAR},
+      `STATUS` = #{status,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+      UP_TIME = #{upTime,jdbcType=TIMESTAMP}
+    where IN_ID = #{inId,jdbcType=VARCHAR}
+      and VARIETY_ID = #{varietyId,jdbcType=VARCHAR}
+    and UNIT = #{unit,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.dispart.vo.entrance.TVechicleProcurerDetails">
+    <!--@mbg.generated-->
+    update t_vechicle_procurer_details
+    <set>
+      <if test="vehicleNum != null and vehicleNum != ''">
+        VEHICLE_NUM = #{vehicleNum,jdbcType=VARCHAR},
+      </if>
+      <if test="provId != null and provId != ''">
+        PROV_ID = #{provId,jdbcType=VARCHAR},
+      </if>
+      <if test="expTp != null and expTp != ''">
+        EXP_TP = #{expTp,jdbcType=CHAR},
+      </if>
+      <if test="prdctNm != null and prdctNm != ''">
+        PRDCT_NM = #{prdctNm,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        NUM = #{num,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null">
+        UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="amt != null">
+        AMT = #{amt,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null and unit != ''">
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="prodPlace != null and prodPlace != ''">
+        PROD_PLACE = #{prodPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="manufactEnter != null and manufactEnter != ''">
+        MANUFACT_ENTER = #{manufactEnter,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and status != ''">
+        `STATUS` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null and remark != ''">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null and operId != ''">
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        CREAT_TIME = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upTime != null">
+        UP_TIME = #{upTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where IN_ID = #{inId,jdbcType=VARCHAR}
+    and VARIETY_ID = #{varietyId,jdbcType=VARCHAR}
+    and UNIT = #{unit,jdbcType=VARCHAR}
+  </update>
+
+  <!---核验后没有的明细删除-->
+  <delete id="deleteDetails" >
+    delete  from t_vechicle_procurer_details
+    where IN_ID = #{inId}
+    <if test="list!=null and list.size()!=0">
+        and VARIETY_ID not in (
+            <foreach collection="list" item="item" separator=",">
+             #{item.varietyId}
+            </foreach> )
+    </if>
+  </delete>
+
+  <!-- 根据 进出场查询 采购商进场货品明细 -->
+  <select id="findByD0297FindDtoList" resultMap="BaseResultMap">
+    SELECT tvpd.IN_ID, tvpd.VARIETY_ID, tvpd.VEHICLE_NUM, tvpd.PROV_ID, tvpd.EXP_TP, tvpd.PRDCT_NM, tvpd.NUM, tvpd.UNIT_PRICE,
+        tvpd.AMT, tvpd.UNIT, tvpd.PROD_PLACE, tvpd.MANUFACT_ENTER, tvpd.`STATUS`, tvpd.REMARK, tvpd.OPER_ID, tvpd.CREAT_TIME,
+        tvpd.UP_TIME, tvpd.RATE, tvpd.PLACE_URL,
+        pti.PRDCT_NM CATEGORY_NM,
+        ptis.PRDCT_NM ONE_CATEGORY_NM
+    FROM t_vechicle_procurer_details tvpd
+    LEFT JOIN t_product_type_info tpti ON tvpd.VARIETY_ID = tpti.VARIETY_NO
+    LEFT JOIN t_product_type_info pti ON pti.VARIETY_NO = tpti.PARENT_PRDT_ID
+    LEFT JOIN t_product_type_info ptis ON ptis.VARIETY_NO = pti.PARENT_PRDT_ID
+    WHERE tvpd.IN_ID IN
+    <foreach collection="list" item="item" separator="," open="(" close=")" index="">
+      #{item.inId,jdbcType=VARCHAR}
+    </foreach>
+  </select>
+
+<!--  根据inId查询进出场明细  *-->
+  <select id="findDetailsListByInId" resultMap="BaseResultMap">
+    select *
+    from t_vechicle_procurer_details
+    where IN_ID = #{inId,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.BasePartModeTypeMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.basevo.PartModeTypeVo">
+    <!--@mbg.generated-->
+    <!--@Table t_part_mode_type-->
+    <id column="PART_MD_ID" jdbcType="VARCHAR" property="partMdId" />
+    <result column="PART_MD_TP" jdbcType="VARCHAR" property="partMdTp" />
+    <result column="PART_MD_NM" jdbcType="VARCHAR" property="partMdNm" />
+    <result column="PART_MD_VAL" jdbcType="DECIMAL" property="partMdVal" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PART_MD_ID, PART_MD_TP, PART_MD_NM, PART_MD_VAL, `STATUS`, REMARK, UPDATE_DT
+  </sql>
+  <insert id="insert" parameterType="com.dispart.vo.basevo.PartModeTypeVo">
+    <!--@mbg.generated-->
+    insert into t_part_mode_type (PART_MD_ID, PART_MD_TP, PART_MD_NM, 
+      PART_MD_VAL, `STATUS`, REMARK, 
+      UPDATE_DT)
+    values (#{partMdId,jdbcType=VARCHAR}, #{partMdTp,jdbcType=VARCHAR}, #{partMdNm,jdbcType=VARCHAR}, 
+      #{partMdVal,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{updateDt,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.dispart.vo.basevo.PartModeTypeVo">
+    <!--@mbg.generated-->
+    update t_part_mode_type
+    set PART_MD_TP = #{partMdTp,jdbcType=VARCHAR},
+      PART_MD_NM = #{partMdNm,jdbcType=VARCHAR},
+      PART_MD_VAL = #{partMdVal,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP}
+    where PART_MD_ID = #{partMdId,jdbcType=VARCHAR}
+  </update>
+  <select id="sePMT" resultType="com.dispart.vo.basevo.PartModeTypeVo">
+    select *
+    from  t_part_mode_type
+    where 1=1
+    <if test="partMdNm != null and partMdNm != ''">and PART_MD_NM like "%"#{partMdNm}"%"</if>
+    <if test="pageSize>0"> limit #{pageNum},#{pageSize}</if>
+  </select>
+
+  <select id="seMaxId" resultType="java.lang.String">
+    select max(PART_MD_ID)
+    from  t_part_mode_type
+  </select>
+  <update id="upSt1ByPrimaryKey" parameterType="com.dispart.vo.basevo.PartModeTypeVo">
+    update t_part_mode_type
+    set `STATUS`='1'
+    where PART_MD_ID<![CDATA[<>]]>#{partMdId} and `STATUS`='0'
+  </update>
+  <update id="upSt0ByPrimaryKey" parameterType="com.dispart.vo.basevo.PartModeTypeVo">
+    update t_part_mode_type
+    set `STATUS`='0'
+    where PART_MD_ID=#{partMdId}
+  </update>
+  <select id="pMTNum" resultType="java.lang.Integer">
+    select count(1)
+    from t_part_mode_type
+    where 1=1
+    <if test="partMdNm != null and partMdNm != ''">and PART_MD_NM like "%"#{partMdNm}"%"</if>
+  </select>
+</mapper>

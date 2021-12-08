@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TProductTypeInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.vo.entrance.TProductTypeInfo">
+    <!--@mbg.generated-->
+    <!--@Table t_product_type_info-->
+    <id column="VARIETY_NO" jdbcType="VARCHAR" property="varietyNo" />
+    <result column="PRDCT_NM" jdbcType="VARCHAR" property="prdctNm" />
+    <result column="PARENT_PRDT_ID" jdbcType="VARCHAR" property="parentPrdtId" />
+    <result column="PARENT_PRDT" jdbcType="VARCHAR" property="parentPrdt" />
+    <result column="PRDCT_ST" jdbcType="VARCHAR" property="prdctSt" />
+    <result column="LEVEL" jdbcType="CHAR" property="level" />
+    <result column="PRDCT_ABBR" jdbcType="VARCHAR" property="prdctAbbr" />
+    <result column="RATE" jdbcType="DECIMAL" property="rate" />
+    <result column="PRICE" jdbcType="DECIMAL" property="price" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    VARIETY_NO, PRDCT_NM, PARENT_PRDT_ID, PARENT_PRDT, PRDCT_ST, `LEVEL`, PRDCT_ABBR, 
+    RATE, PRICE, REMARK, OPER_ID, CREAT_TIME, UP_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_product_type_info
+    where VARIETY_NO = #{varietyNo,jdbcType=VARCHAR}
+  </select>
+<!--//, PARENT_PRDT categoryNm,RATE rate-->
+  <select id="findListByNm" resultType="com.dispart.dto.entrance.D_0228FindOutYDto">
+    select PRDCT_NM prdctNm ,VARIETY_NO varietyId
+    from t_product_type_info
+    <if test="prdctNm != '' or  prdctNm != null">
+    where
+        (PRDCT_ABBR like "%"#{prdctNm}"%"  or
+        PRDCT_NM like "%"#{prdctNm}"%") and LEVEL = '3'
+    </if>
+    limit 20
+  </select>
+  <select id="findByNm" resultType="com.dispart.dto.entrance.D_0228FindOutDto">
+    SELECT a.VARIETY_NO varietyId, a.PRDCT_NM prdctNm, a.PARENT_PRDT_ID categoryId, b.PRDCT_NM categoryNm, b.RATE rate
+    FROM t_product_type_info a LEFT JOIN t_product_type_info b on a.PARENT_PRDT_ID = b.VARIETY_NO
+    <if test="prdctNm != '' or  prdctNm != null">
+      WHERE a.PRDCT_NM =  #{prdctNm} and a.LEVEL = '3'
+    </if>
+    limit 1
+  </select>
+</mapper>

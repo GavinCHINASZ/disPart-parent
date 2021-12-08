@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TSubsidInfoMapper">
+
+  <resultMap id="BaseResultMap" type="com.dispart.vo.entrance.TSubsidInfo">
+    <!--@mbg.generated-->
+    <!--@Table t_subsid_info-->
+    <id column="IN_ID" jdbcType="VARCHAR" property="inId" />
+    <result column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="SUBSID_WGHT" jdbcType="DECIMAL" property="subsidWght" />
+    <result column="SUBSID_PRICE" jdbcType="DECIMAL" property="subsidPrice" />
+    <result column="SUBSID_TTL_AMT" jdbcType="DECIMAL" property="subsidTtlAmt" />
+    <result column="RCV_NAME" jdbcType="VARCHAR" property="rcvName" />
+
+    <result column="RCV_PHONE" jdbcType="VARCHAR" property="rcvPhone" />
+    <result column="PRDCT_TYPE" jdbcType="VARCHAR" property="prdctType" />
+    <result column="SUBSID_TP" jdbcType="CHAR" property="subsidTp" />
+    <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="REAMRK" jdbcType="VARCHAR" property="reamrk" />
+    <result column="CAUSE" jdbcType="VARCHAR" property="cause" />
+    <result column="PROPOSER" jdbcType="VARCHAR" property="proposer" />
+    <result column="AUDITOR" jdbcType="VARCHAR" property="auditor" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CAR_TYPE" jdbcType="VARCHAR" property="carType" />
+    <result column="VEHICLE_NUM" jdbcType="VARCHAR" property="vehicleNum"/>
+
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    tsi.IN_ID, tsi.PROV_ID, tsi.SUBSID_WGHT, tsi.SUBSID_PRICE, tsi.SUBSID_TTL_AMT, tsi.RCV_NAME, tsi.CAR_TYPE, tsi.VEHICLE_NUM,
+    tsi.RCV_PHONE, tsi.PRDCT_TYPE, tsi.SUBSID_TP, tsi.CARD_NO, tsi.STATUS, tsi.REMARK, tsi.CAUSE, tsi.PROPOSER, tsi.AUDITOR,
+    tsi.OPER_ID, tsi.CREAT_TIME, tsi.UP_TIME
+  </sql>
+
+  <sql id="whereSql">
+    where 1 = 1
+    <if test="inId != null and inId != ''">
+      and tsi.IN_ID = #{inId}
+    </if>
+    <if test="provId != null and provId != ''">
+      and tsi.PROV_ID = #{provId}
+    </if>
+
+    <if test="subsidWght != null">
+      and tsi.SUBSID_WGHT = #{subsidWght}
+    </if>
+    <if test="subsidPrice != null">
+      and tsi.SUBSID_PRICE = #{subsidPrice}
+    </if>
+    <if test="subsidTtlAmt != null">
+      and tsi.SUBSID_TTL_AMT = #{subsidTtlAmt}
+    </if>
+
+    <if test="rcvName != null and rcvName != ''">
+      and tsi.RCV_NAME like concat('%',#{rcvName},'%')
+    </if>
+    <if test="rcvPhone != null and rcvPhone != ''">
+      and tsi.RCV_PHONE like concat('%',#{rcvPhone},'%')
+    </if>
+    <if test="nameAndPhone != null and nameAndPhone != ''">
+      and (tsi.RCV_NAME like concat('%',#{nameAndPhone},'%') OR tsi.RCV_PHONE like concat('%',#{nameAndPhone},'%')
+            OR tsi.VEHICLE_NUM like concat('%',#{nameAndPhone},'%'))
+    </if>
+
+    <if test="prdctType != null and prdctType != ''">
+      and tsi.PRDCT_TYPE = #{prdctType}
+    </if>
+    <if test="subsidTp != null and subsidTp != ''">
+      and tsi.SUBSID_TP = #{subsidTp}
+    </if>
+    <if test="cardNo != null and cardNo != ''">
+      and tsi.CARD_NO = #{cardNo}
+    </if>
+    <if test="status != null and status != ''">
+      and tsi.STATUS = #{status}
+    </if>
+    <if test="statusArr != null and statusArr.length > 0">
+      and tsi.STATUS in
+      <foreach collection="statusArr" item="item" separator="," open="(" close=")">
+          #{item}
+      </foreach>
+    </if>
+    <if test="remark != null and remark != ''">
+      and tsi.REMARK like concat('%',#{remark},'%')
+    </if>
+    <if test="cause != null and cause != ''">
+      and tsi.CAUSE = #{cause}
+    </if>
+    <if test="proposer != null and proposer != ''">
+      and tsi.PROPOSER = #{proposer}
+    </if>
+    <if test="auditor != null and auditor != ''">
+      and tsi.AUDITOR = #{auditor}
+    </if>
+    <if test="operId != null and operId != ''">
+      and tsi.OPER_ID = #{operId}
+    </if>
+    <if test="carType != null and carType != ''">
+      and tsi.CAR_TYPE = #{carType}
+    </if>
+    <if test="vehicleNum != null and vehicleNum != ''">
+      and tsi.VEHICLE_NUM = #{vehicleNum}
+    </if>
+  </sql>
+
+  <!-- 补贴申请 新增 -->
+  <insert id="addSubsidInfo" parameterType="com.dispart.vo.entrance.TSubsidInfo">
+    <!--@mbg.generated-->
+    INSERT INTO t_subsid_info (`IN_ID`, `PROV_ID`, `SUBSID_WGHT`, `SUBSID_PRICE`, `SUBSID_TTL_AMT`, `RCV_NAME`, `RCV_PHONE`,
+            `PRDCT_TYPE`, `SUBSID_TP`, `CARD_NO`, `STATUS`, `REMARK`, `CAUSE`, `PROPOSER`, `AUDITOR`, `OPER_ID`,
+            `CAR_TYPE`, VEHICLE_NUM, `CREAT_TIME`)
+    VALUES (#{inId}, #{provId}, #{subsidWght}, #{subsidPrice}, #{subsidTtlAmt}, #{rcvName}, #{rcvPhone},
+            #{prdctType}, #{subsidTp}, #{cardNo}, #{status}, #{remark}, #{cause}, #{proposer}, #{auditor}, #{operId},
+            #{carType}, #{vehicleNum}, NOW());
+  </insert>
+
+  <!-- 补贴申请 修改 -->
+  <update id="updateSubsidInfo" parameterType="com.dispart.vo.entrance.TSubsidInfo">
+    <!--@mbg.generated-->
+    UPDATE t_subsid_info tsi
+    <set>
+      <if test="provId != null and provId != ''">
+        tsi.PROV_ID = #{provId},
+      </if>
+
+      <if test="subsidWght != null">
+        tsi.SUBSID_WGHT = #{subsidWght},
+      </if>
+      <if test="subsidPrice != null">
+        tsi.SUBSID_PRICE = #{subsidPrice},
+      </if>
+      <if test="subsidTtlAmt != null">
+        tsi.SUBSID_TTL_AMT = #{subsidTtlAmt},
+      </if>
+
+      <if test="rcvName != null and rcvName != ''">
+        tsi.RCV_NAME = #{rcvName},
+      </if>
+      <if test="rcvPhone != null and rcvPhone != ''">
+        tsi.RCV_PHONE = #{rcvPhone},
+      </if>
+      <if test="prdctType != null and prdctType != ''">
+        tsi.PRDCT_TYPE = #{prdctType},
+      </if>
+      <if test="subsidTp != null and subsidTp != ''">
+        tsi.SUBSID_TP = #{subsidTp},
+      </if>
+      <if test="cardNo != null and cardNo != ''">
+        tsi.CARD_NO = #{cardNo},
+      </if>
+      <if test="status != null and status != ''">
+        tsi.STATUS = #{status},
+      </if>
+      <if test="remark != null and remark != ''">
+        tsi.REMARK = #{remark},
+      </if>
+      <if test="cause != null and cause != ''">
+        tsi.CAUSE = #{cause},
+      </if>
+      <if test="proposer != null and proposer != ''">
+        tsi.PROPOSER = #{proposer},
+      </if>
+      <if test="auditor != null and auditor != ''">
+        tsi.AUDITOR = #{auditor},
+      </if>
+      <if test="operId != null and operId != ''">
+        tsi.OPER_ID = #{operId}
+      </if>
+    </set>
+    WHERE tsi.IN_ID = #{inId,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 补贴申请 查询 -->
+  <select id="selectSubsidInfoList" parameterType="com.dispart.vo.entrance.TSubsidInfo" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>,
+      tpj.JRNL_NUM jrnlNum, tei.EMP_NM operName
+    FROM t_subsid_info tsi
+    LEFT JOIN t_employee_info tei ON tei.EMP_ID = tsi.OPER_ID
+    LEFT JOIN t_pay_jrn tpj ON tpj.BUSINESS_NO = tsi.IN_ID
+        AND (case when tsi.status = '1' then tpj.TXN_TYPE = '8' else tpj.TXN_TYPE = '9' end)
+    <include refid="whereSql"/>
+    <if test="operName != null and operName != ''">
+        AND tei.EMP_NM LIKE CONCAT(#{operName},'%')
+    </if>
+    <if test="jrnlNum != null and jrnlNum != ''">
+        AND tpj.JRNL_NUM = #{jrnlNum}
+    </if>
+    GROUP BY tsi.IN_ID
+    ORDER BY tsi.UP_TIME DESC
+    <if test="pageSize > 0">
+        limit #{curPage},#{pageSize}
+    </if>
+  </select>
+
+  <!-- 补贴申请 查询数量 -->
+  <select id="findNumByParm" parameterType="com.dispart.vo.entrance.TSubsidInfo" resultType="java.lang.Integer">
+    SELECT COUNT(DISTINCT tsi.IN_ID)
+    FROM t_subsid_info tsi
+    <if test="jrnlNum != null and jrnlNum != ''">
+        LEFT JOIN t_pay_jrn tpj ON tpj.BUSINESS_NO = tsi.IN_ID
+            AND (case when tsi.status = '1' then tpj.TXN_TYPE = '8' else tpj.TXN_TYPE = '9' end)
+    </if>
+    <if test="operName != null and operName != ''">
+        LEFT JOIN t_employee_info tei ON tei.EMP_ID = tsi.OPER_ID
+    </if>
+
+    <include refid="whereSql"/>
+    <if test="operName != null and operName != ''">
+      AND tei.EMP_NM LIKE CONCAT(#{operName},'%')
+    </if>
+    <if test="jrnlNum != null and jrnlNum != ''">
+      AND tpj.JRNL_NUM = #{jrnlNum}
+    </if>
+  </select>
+
+</mapper>

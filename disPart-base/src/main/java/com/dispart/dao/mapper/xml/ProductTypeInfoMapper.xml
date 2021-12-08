@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.ProductTypeInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.ProductTypeInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_product_type_info-->
+    <result column="PRDCT_TYPE_ID" jdbcType="VARCHAR" property="prdctTypeId" />
+    <result column="PRDCT_TYPE" jdbcType="VARCHAR" property="prdctType" />
+    <result column="PARENT_TYPE_ID" jdbcType="VARCHAR" property="parentTypeId" />
+    <result column="PRDCT_ST" jdbcType="VARCHAR" property="prdctSt" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PRDCT_TYPE_ID, PRDCT_TYPE, PARENT_TYPE_ID, PRDCT_ST, REMARK, UPDATE_DT
+  </sql>
+  <select id="selectByTypeNm" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from logistics.t_product_type_info
+    where PRDCT_TYPE = #{prdctType,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from logistics.t_product_type_info
+    where PRDCT_TYPE_ID = #{prdctTypeId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" keyColumn="PRDCT_TYPE_ID"  parameterType="com.dispart.model.ProductTypeInfo">
+    <!--@mbg.generated-->
+    insert into logistics.t_product_type_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="prdctTypeId != null and prdctTypeId != ''">
+        PRDCT_TYPE_ID,
+      </if>
+      <if test="prdctType != null and prdctType !=''">
+        PRDCT_TYPE,
+      </if>
+      <if test="parentTypeId != null">
+        PARENT_TYPE_ID,
+      </if>
+      <if test="prdctSt != null and prdctSt != ''">
+        PRDCT_ST,
+      </if>
+      <if test="remark != null and remark !=''">
+        REMARK,
+      </if>
+      <if test="updateDt != null">
+        UPDATE_DT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="prdctTypeId != null and prdctTypeId != ''">
+        #{prdctTypeId},
+      </if>
+      <if test="prdctType != null and prdctType !=''">
+        #{prdctType},
+      </if>
+      <if test="parentTypeId != null">
+        #{parentTypeId},
+      </if>
+      <if test="prdctSt != null and prdctSt != ''">
+        #{prdctSt},
+      </if>
+      <if test="remark != null and remark !=''">
+        #{remark},
+      </if>
+      <if test="updateDt != null">
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.dispart.model.ProductTypeInfo">
+    <!--@mbg.generated-->
+    update logistics.t_product_type_info
+    <trim prefix="set" suffixOverrides=",">
+      <if test="prdctType != null and prdctType != ''">PRDCT_TYPE =#{prdctType,jdbcType=VARCHAR}, </if>
+      <if test="parentTypeId != null">PARENT_TYPE_ID =#{parentTypeId,jdbcType=VARCHAR}, </if>
+      <if test="prdctSt != null">PRDCT_ST =#{prdctSt,jdbcType=VARCHAR}, </if>
+      <if test="remark != null and remark != ''">REMARK =#{remark}, </if>
+      <if test="updateDt != null">UPDATE_DT =#{updateDt,jdbcType=TIMESTAMP}, </if>
+    </trim>
+    where PRDCT_TYPE_ID = #{prdctTypeId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findList" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from logistics.t_product_type_info
+  </select>
+
+  <select id="findTopPrdctType" resultType="com.dispart.model.ProductTypeInfo">
+    select p.VARIETY_NO prdctTypeId,p.PRDCT_NM prdctType, p.PARENT_PRDT_ID parentTypeId
+    from t_product_type_info p WHERE p.`LEVEL` = '1'
+  </select>
+</mapper>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.AccnoBalChangeMapper">
+
+    <select id="count" parameterType="com.dispart.parmeterdto.AccnoChangeDetailDto"
+            resultType="java.lang.Integer">
+        select
+            count(1)
+        from t_accno_change_details a
+        left join t_custom_info_manager m on a.PROV_ID = m.PROV_ID
+        left join t_employee_info e on e.EMP_ID = a.OPER_ID
+        <where>
+            <if test="provNm != null and provNm != ''">
+                and m.PROV_NM = #{provNm}
+            </if>
+            <if test="jrnlNum != null and jrnlNum != ''">
+                and a.JRNL_NUM = #{jrnlNum}
+            </if>
+            <if test="cardNo != null and cardNo != ''">
+                and a.CARD_NO = #{cardNo}
+            </if>
+            <if test="txnType != null and txnType != ''">
+                and a.TXN_TYPE = #{txnType}
+            </if>
+            <if test="operId != null and operId != ''">
+                and e.EMP_NM like concat('%',#{operId},'%')
+            </if>
+            <if test="startTime != null and endTime != null">
+                and a.TXN_TM between #{startTime} and  #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryList" parameterType="com.dispart.parmeterdto.AccnoChangeDetailDto"
+            resultType="com.dispart.parmeterdto.AccnoChangeDetailDto">
+       select
+        a.JRNL_NUM as jrnlNum,
+        a.CARD_NO as cardNo,
+        a.PROV_ID as provId,
+        m.PROV_NM as provNm,
+        a.TXN_TYPE as txnType,
+        a.TRANS_MD as transMd,
+        a.INCOME_TP as incomeTp,
+        a.ACCT_BAL as acctBal,
+        a.BEFORE_AMT as beforeAmt,
+        a.AFTER_AMT as afterAmt,
+        a.TXN_AMT as txnAmt,
+        a.TXN_TM as txnTm,
+        a.SUMMARY as summary,
+        a.REMARK as remark,
+        a.SUB_ORG as subOrg,
+        a.DEP_ID as depId,
+        a.CREAT_TIME as createTime,
+        a.UP_TIME as upTime,
+        e.EMP_NM as operNm
+        from t_accno_change_details a
+        left join t_custom_info_manager m on a.PROV_ID = m.PROV_ID
+        left join t_employee_info e on e.EMP_ID = a.OPER_ID
+        <where>
+            <if test="provNm != null and provNm != ''">
+                and m.PROV_NM = #{provNm}
+            </if>
+            <if test="jrnlNum != null and jrnlNum != ''">
+                and a.JRNL_NUM = #{jrnlNum}
+            </if>
+            <if test="cardNo != null and cardNo != ''">
+                and a.CARD_NO = #{cardNo}
+            </if>
+            <if test="txnType != null and txnType != ''">
+                and a.TXN_TYPE = #{txnType}
+            </if>
+            <if test="operId != null and operId != ''">
+                and e.EMP_NM like concat('%',#{operId},'%')
+            </if>
+            <if test="startTime != null and endTime != null">
+                and a.TXN_TM between #{startTime} and  #{endTime}
+            </if>
+        </where>
+        order by a.TXN_TM desc
+        <if test="pageSize != null and pageNum != null and pageSize != 0">
+            LIMIT #{pageNum},#{pageSize}
+        </if>
+
+    </select>
+
+   <insert id="add" parameterType="com.dispart.parmeterdto.AccnoChangeDetailDto">
+       insert into t_accno_change_details
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+           <if test="jrnlNum != null">
+               JRNL_NUM,
+           </if>
+           <if test="cardNo != null">
+               CARD_NO,
+           </if>
+           <if test="provId != null">
+               PROV_ID,
+           </if>
+           <if test="provNm != null">
+               PROV_NM,
+           </if>
+           <if test="txnType != null">
+               TXN_TYPE,
+           </if>
+           <if test="transMd != null">
+               TRANS_MD,
+           </if>
+           <if test="incomeTp != null">
+               INCOME_TP,
+           </if>
+           <if test="acctBal != null">
+               ACCT_BAL,
+           </if>
+           <if test="beforeAmt != null">
+               BEFORE_AMT,
+           </if>
+           <if test="afterAmt != null">
+               AFTER_AMT,
+           </if>
+           <if test="txnAmt != null">
+               TXN_AMT,
+           </if>
+           <if test="txnTm != null">
+               TXN_TM,
+           </if>
+           <if test="summary != null">
+               SUMMARY,
+           </if>
+           <if test="remark != null">
+               REMARK,
+           </if>
+           <if test="operId != null">
+               OPER_ID,
+           </if>
+       </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jrnlNum != null">
+                #{jrnlNum},
+            </if>
+            <if test="cardNo != null">
+                #{cardNo},
+            </if>
+            <if test="provId != null">
+                #{provId},
+            </if>
+            <if test="provNm != null">
+                #{provNm},
+            </if>
+            <if test="txnType != null">
+                #{txnType},
+            </if>
+            <if test="transMd != null">
+                #{transMd},
+            </if>
+            <if test="incomeTp != null">
+                #{incomeTp},
+            </if>
+            <if test="acctBal != null">
+                #{acctBal},
+            </if>
+            <if test="beforeAmt != null">
+                #{beforeAmt},
+            </if>
+            <if test="afterAmt != null">
+                #{afterAmt},
+            </if>
+            <if test="txnAmt != null">
+                #{txnAmt},
+            </if>
+            <if test="txnTm != null">
+                #{txnTm},
+            </if>
+            <if test="summary != null">
+                #{summary},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="operId != null">
+                #{operId},
+            </if>
+        </trim>
+   </insert>
+</mapper>

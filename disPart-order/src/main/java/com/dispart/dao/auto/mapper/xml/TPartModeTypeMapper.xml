@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.mapper.TPartModeTypeMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TPartModeType">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_part_mode_type-->
+    <id column="PART_MD_ID" jdbcType="VARCHAR" property="partMdId" />
+    <result column="PART_MD_TP" jdbcType="VARCHAR" property="partMdTp" />
+    <result column="PART_MD_NM" jdbcType="VARCHAR" property="partMdNm" />
+    <result column="PART_MD_VAL" jdbcType="DECIMAL" property="partMdVal" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PART_MD_ID, PART_MD_TP, PART_MD_NM, PART_MD_VAL, `STATUS`, REMARK, UPDATE_DT
+  </sql>
+</mapper>

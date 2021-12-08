@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TReconciliationResultMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.TReconciliationResult">
+    <!--@mbg.generated-->
+    <!--@Table t_reconciliation_result-->
+    <id column="TXN_DT" jdbcType="DATE" property="txnDt" />
+    <id column="MARKET_ID" jdbcType="VARCHAR" property="marketId" />
+    <result column="RECON_RSLT" jdbcType="VARCHAR" property="reconRslt" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    TXN_DT, MARKET_ID, RECON_RSLT, REMARK, CREAT_TIME, UP_TIME
+  </sql>
+
+  <select id="quryMainCheckResultCount" parameterType="com.dispart.dto.dataquery.Disp20210334InDto" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM t_reconciliation_result t WHERE 1=1
+    <if test="txnDt != null and txnDt != ''">AND t.TXN_DT = #{txnDt}</if>
+    <if test="beginDate != null and beginDate != ''">AND t.TXN_DT >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= t.TXN_DT</if>
+  </select>
+
+  <select id="quryMainCheckResult" parameterType="com.dispart.dto.dataquery.Disp20210334InDto" resultType="com.dispart.model.TReconciliationResult">
+    SELECT <include refid="Base_Column_List"></include>
+    FROM t_reconciliation_result t WHERE 1=1
+    <if test="txnDt != null and txnDt != ''">AND t.TXN_DT = #{txnDt}</if>
+    <if test="beginDate != null and beginDate != ''">AND t.TXN_DT >= #{beginDate}</if>
+    <if test="endDate != null and endDate != ''">AND #{endDate} >= t.TXN_DT</if>
+    ORDER BY TXN_DT DESC
+    <if test="pageNum != null and pageSize != null">limit #{pageNum},#{pageSize}</if>
+  </select>
+
+</mapper>

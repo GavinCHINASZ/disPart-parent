@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TAccnoReverseApplyMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.tmp.TAccnoReverseApply">
+    <!--@mbg.generated-->
+    <!--@Table t_accno_reverse_apply-->
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="JRNL_NUM" jdbcType="VARCHAR" property="jrnlNum" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="OPER_TM" jdbcType="TIMESTAMP" property="operTm" />
+    <result column="CHECK_ID" jdbcType="VARCHAR" property="checkId" />
+    <result column="CHECK_TM" jdbcType="TIMESTAMP" property="checkTm" />
+    <result column="CHECK_ST" jdbcType="CHAR" property="checkSt" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="SUB_ORG" jdbcType="VARCHAR" property="subOrg" />
+    <result column="DEP_ID" jdbcType="VARCHAR" property="depId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    ID, JRNL_NUM, OPER_ID, OPER_TM, CHECK_ID, CHECK_TM, CHECK_ST, REMARK, SUB_ORG, DEP_ID, 
+    CREAT_TIME, UP_TIME
+  </sql>
+</mapper>

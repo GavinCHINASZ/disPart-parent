@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.IBaseMerchantDao">
+
+    <resultMap type="com.dispart.vo.commons.BaseMerchant" id="BaseMerchantMap">
+        <id property="merchantcode" column="merchantcode" jdbcType="VARCHAR"/>
+        <result property="companytype" column="companytype" jdbcType="VARCHAR"/>
+        <result property="merchanttype" column="merchanttype" jdbcType="VARCHAR"/>
+        <result property="idtcode" column="idtcode" jdbcType="VARCHAR"/>
+        <result property="ename" column="ename" jdbcType="VARCHAR"/>
+        <result property="cname" column="cname" jdbcType="VARCHAR"/>
+        <result property="rname" column="rname" jdbcType="VARCHAR"/>
+        <result property="taxno" column="taxno" jdbcType="VARCHAR"/>
+        <result property="bankno" column="bankno" jdbcType="VARCHAR"/>
+        <result property="bankacct" column="bankacct" jdbcType="VARCHAR"/>
+        <result property="areacode" column="areacode" jdbcType="VARCHAR"/>
+        <result property="telno" column="telno" jdbcType="VARCHAR"/>
+        <result property="faxno" column="faxno" jdbcType="VARCHAR"/>
+        <result property="zipno" column="zipno" jdbcType="VARCHAR"/>
+        <result property="ceo" column="ceo" jdbcType="VARCHAR"/>
+        <result property="contacts" column="contacts" jdbcType="VARCHAR"/>
+        <result property="settleaccno" column="settleaccno" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="levnum" column="levnum" jdbcType="VARCHAR"/>
+        <result property="merchantcodeF" column="merchantcode_f" jdbcType="VARCHAR"/>
+        <result property="sumflg" column="sumflg" jdbcType="VARCHAR"/>
+        <result property="isstore" column="isstore" jdbcType="VARCHAR"/>
+        <result property="memo" column="memo" jdbcType="VARCHAR"/>
+        <result property="entdate" column="entdate" jdbcType="TIMESTAMP"/>
+        <result property="upddate" column="upddate" jdbcType="TIMESTAMP"/>
+        <result property="operator" column="operator" jdbcType="VARCHAR"/>
+        <result property="auditing" column="auditing" jdbcType="VARCHAR"/>
+        <result property="orgcode" column="orgcode" jdbcType="VARCHAR"/>
+        <result property="abbreviation" column="abbreviation" jdbcType="VARCHAR"/>
+        <result property="settlebankno" column="settlebankno" jdbcType="VARCHAR"/>
+        <result property="settlebankacct" column="settlebankacct" jdbcType="VARCHAR"/>
+        <result property="riskctrlid" column="riskctrlid" jdbcType="INTEGER"/>
+        <result property="ceotelno" column="ceotelno" jdbcType="VARCHAR"/>
+        <result property="contactstelno" column="contactstelno" jdbcType="VARCHAR"/>
+        <result property="opendate" column="opendate" jdbcType="TIMESTAMP"/>
+        <result property="ceoid" column="ceoid" jdbcType="VARCHAR"/>
+        <result property="banknetname" column="banknetname" jdbcType="VARCHAR"/>
+        <result property="cardcode" column="cardcode" jdbcType="VARCHAR"/>
+        <result property="idcard" column="idcard" jdbcType="VARCHAR"/>
+        <result property="merchantcodeM" column="merchantcode_m" jdbcType="VARCHAR"/>
+        <result property="isrealname" column="isrealname" jdbcType="VARCHAR"/>
+        <result property="ceoaddress" column="ceoaddress" jdbcType="VARCHAR"/>
+        <result property="contactaddress" column="contactaddress" jdbcType="VARCHAR"/>
+        <result property="positivePhone" column="positive_phone" jdbcType="VARCHAR"/>
+        <result property="oppositePhone" column="opposite_phone" jdbcType="VARCHAR"/>
+        <result property="rebackAmount" column="reback_amount" jdbcType="NUMERIC"/>
+        <result property="amount" column="amount" jdbcType="NUMERIC"/>
+        <result property="isAdvance" column="is_advance" jdbcType="VARCHAR"/>
+        <result property="text1" column="text1" jdbcType="VARCHAR"/>
+        <result property="text2" column="text2" jdbcType="VARCHAR"/>
+        <result property="saleaddress" column="saleaddress" jdbcType="VARCHAR"/>
+        <result property="legalname" column="legalname" jdbcType="VARCHAR"/>
+        <result property="legaltel" column="legaltel" jdbcType="VARCHAR"/>
+        <result property="entrustname" column="entrustname" jdbcType="VARCHAR"/>
+        <result property="entrusttel" column="entrusttel" jdbcType="VARCHAR"/>
+        <result property="entrustid" column="entrustid" jdbcType="VARCHAR"/>
+        <result property="entrustaddress" column="entrustaddress" jdbcType="VARCHAR"/>
+        <result property="entrusttype" column="entrusttype" jdbcType="VARCHAR"/>
+        <result property="entrustdate" column="entrustdate" jdbcType="TIMESTAMP"/>
+        <result property="businessSector" column="business_sector" jdbcType="VARCHAR"/>
+        <result property="mnemonicCode" column="mnemonic_code" jdbcType="VARCHAR"/>
+        <result property="qrcode" column="qrcode" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" parameterType="com.dispart.vo.commons.BaseMerchant" resultMap="BaseMerchantMap">
+        select
+          merchantcode, companytype, merchanttype, idtcode, ename, cname, rname, taxno, bankno, bankacct, areacode, telno, faxno, zipno, ceo, contacts, settleaccno, status, levnum, merchantcode_f, sumflg, isstore, memo, entdate, upddate, operator, auditing, orgcode, abbreviation, settlebankno, settlebankacct, riskctrlid, ceotelno, contactstelno, opendate, ceoid, banknetname, cardcode, idcard, merchantcode_m, isrealname, ceoaddress, contactaddress, positive_phone, opposite_phone, reback_amount, amount, is_advance, text1, text2, saleaddress, legalname, legaltel, entrustname, entrusttel, entrustid, entrustaddress, entrusttype, entrustdate, business_sector, mnemonic_code, qrcode
+        from logistics.base_merchant where 1=1
+            <if test="idcard != null and idcard != '' ">
+                 and idcard=#{idcard}
+            </if>
+    </select>
+</mapper>

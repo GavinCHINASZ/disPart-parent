@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.TApportionDetailsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.order.TApportionDetailsInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_apportion_details_info-->
+    <id column="MARKET_ID" jdbcType="CHAR" property="marketId" />
+    <id column="SER_NUM" jdbcType="VARCHAR" property="serNum" />
+    <id column="PAYMENT_TRACE_ID" jdbcType="VARCHAR" property="paymentTraceId" />
+    <result column="PAYEE_ACCT" jdbcType="VARCHAR" property="payeeAcct" />
+    <result column="PAYEE_ID" jdbcType="CHAR" property="payeeId" />
+    <result column="PAYEE_NM" jdbcType="VARCHAR" property="payeeNm" />
+    <result column="PART_AMT" jdbcType="DECIMAL" property="partAmt" />
+    <result column="RESP_ST" jdbcType="CHAR" property="respSt" />
+    <result column="PART_DT" jdbcType="DATE" property="partDt" />
+    <result column="SERV_CHRG" jdbcType="DECIMAL" property="servChrg" />
+    <result column="SUB_ORDER_ID" jdbcType="CHAR" property="subOrderId" />
+    <result column="ORI_PART_AMT" jdbcType="DECIMAL" property="oriPartAmt" />
+    <result column="ORI_PART_DT" jdbcType="DATE" property="oriPartDt" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    MARKET_ID, SER_NUM, PAYMENT_TRACE_ID, PAYEE_ACCT, PAYEE_ID, PAYEE_NM, PART_AMT, RESP_ST, 
+    PART_DT, SERV_CHRG, SUB_ORDER_ID, ORI_PART_AMT, ORI_PART_DT, UPDATE_DT
+  </sql>
+</mapper>

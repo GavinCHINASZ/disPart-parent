@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.TReconciliationResultInfoMapper">
+    <resultMap id="BaseResultMap" type="com.dispart.model.order.TReconciliationResultInfo">
+        <!--@mbg.generated-->
+        <!--@Table logistics.t_reconciliation_result_info-->
+        <id column="PAYMENT_TRACE_ID" jdbcType="VARBINARY" property="paymentTraceId"/>
+        <result column="MARKET_ID" jdbcType="VARCHAR" property="marketId"/>
+        <result column="PAYEE_ID" jdbcType="VARCHAR" property="payeeId"/>
+        <result column="PAYEE_NM" jdbcType="VARCHAR" property="payeeNm"/>
+        <result column="TXN_DT" jdbcType="DATE" property="txnDt"/>
+        <result column="TXN_TM" jdbcType="TIME" property="txnTm"/>
+        <result column="TXN_AMT" jdbcType="DECIMAL" property="txnAmt"/>
+        <result column="RECON_RSLT" jdbcType="VARCHAR" property="reconRslt"/>
+        <result column="CAUSE" jdbcType="VARCHAR" property="cause"/>
+        <result column="MAIN_ORDER_NO" jdbcType="VARCHAR" property="mainOrderNo"/>
+        <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId"/>
+        <result column="CCB_ORDER_ID" jdbcType="VARCHAR" property="ccbOrderId"/>
+        <result column="SUB_ORDER_ID" jdbcType="VARCHAR" property="subOrderId"/>
+        <result column="PART_AMT" jdbcType="DECIMAL" property="partAmt"/>
+        <result column="RESP_ST" jdbcType="VARCHAR" property="respSt"/>
+        <result column="PART_DT" jdbcType="DATE" property="partDt"/>
+        <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt"/>
+    </resultMap>
+
+   <resultMap id="baseResultR" type="com.dispart.model.order.ReconciliationResult">
+        <result column="main_order_id" jdbcType="VARCHAR" property="main_order_id"/>
+        <result column="txn_dt" jdbcType="DATE" property="txn_dt"/>
+        <result column="order_st" jdbcType="VARCHAR" property="order_st"/>
+        <result column="txn_amt" jdbcType="DECIMAL" property="txt_amt"/>
+        <result column="txn_amt2" jdbcType="DECIMAL" property="txt_amt2"/>
+        <result column="prov_id" jdbcType="VARCHAR" property="prov_id"/>
+        <result column="prov_nm" jdbcType="VARCHAR" property="prov_nm"/>
+        <result column="market_id" jdbcType="VARCHAR" property="marker_id"/>
+        <result column="payment_trace_id" jdbcType="VARCHAR" property="payment_trace_id"/>
+        <result column="txn_tm" jdbcType="TIME" property="txn_tm"/>
+        <result column="payee_st" jdbcType="VARCHAR" property="payee_st"/>
+   </resultMap>
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        PAYMENT_TRACE_ID, MARKET_ID, PAYEE_ID, PAYEE_NM, TXN_DT, TXN_TM, TXN_AMT, RECON_RSLT,
+        CAUSE, MAIN_ORDER_NO, ORDER_ID, CCB_ORDER_ID, SUB_ORDER_ID, PART_AMT, RESP_ST, PART_DT,
+        UPDATE_DT
+    </sql>
+
+    <select id="queryResult" resultMap="baseResultR">
+        select main_order_id,
+			 txn_dt,order_st,
+			 txn_amt,
+			 txn_amt2,
+			 prov_id,
+			 prov_nm,
+			 market_id,
+			 payment_trace_id,
+			 txn_tm,
+			 payee_st
+from (
+		select tt.main_order_id as main_order_id,
+					 tt.txn_dt as txn_dt,
+					 tt.order_st as order_st,
+					 tt.txn_amt as txn_amt,
+					 tt.prov_id as prov_id,
+					 tt.prov_nm as prov_nm,
+					 rd.payment_trace_id as payment_trace_id,
+                     rd.TXN_TM as txn_tm,
+                     rd.payee_st as payee_st,
+rd.txn_amt as txn_amt2,
+rd.MARKET_ID as market_id
+from (
+select main_order_id,
+txn_dt,
+order_st,
+sum(txn_amt) as txn_amt,
+prov_id,
+prov_nm
+from (
+select distinct r.main_order_id, r.order_id, d.txn_amt, d.txn_dt, d.order_st, d.prov_id, d.prov_nm from t_order_relevancy_info  r
+left join t_order_detail_info d on r.order_id = d.order_id where d.txn_dt = #{date}
+) t group by main_order_id, txn_dt, order_st ,prov_id, prov_nm
+) tt left join t_reconciliation_details_info rd on rd.main_order_id = tt.main_order_id and rd.txn_dt = tt.txn_dt
+) ttt where ((order_st = '2' and txn_amt2 is null) or (txn_amt2 is not null and order_st != '2') or (txn_amt != txn_amt2))
+
+
+    </select>
+</mapper>

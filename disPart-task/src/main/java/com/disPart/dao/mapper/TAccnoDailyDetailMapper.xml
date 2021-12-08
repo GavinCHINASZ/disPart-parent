@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.disPart.dao.TAccnoDailyDetailMapper">
+    <insert id="addDetails">
+        insert into t_accno_daily_detail (day_dt, prov_id, account, pri_prd_amt, curr_amt, debit_amt, credit_amt, status)
+        select date_sub(curdate(), interval 1 day), prov_id, account, acct_bal+dcredit_amt-ddebit_amt, acct_bal, ddebit_amt, dcredit_amt,
+                case when acct_bal+dcredit_amt-ddebit_amt = pri_acct_bal then '0' else '1' end as status
+        from t_accno_info
+    </insert>
+</mapper>

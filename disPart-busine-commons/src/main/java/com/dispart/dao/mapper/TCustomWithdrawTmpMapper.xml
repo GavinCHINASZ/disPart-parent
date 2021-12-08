@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TCustomWithdrawTmpMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.businessCommon.TCustomWithdrawTmp">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_custom_withdraw_tmp-->
+    <id column="PROV_ID" jdbcType="VARCHAR" property="provId" />
+    <result column="ACCRU_AMT" jdbcType="DECIMAL" property="accruAmt" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    PROV_ID, ACCRU_AMT, REMARK, CREAT_TIME, UP_TIME
+  </sql>
+</mapper>

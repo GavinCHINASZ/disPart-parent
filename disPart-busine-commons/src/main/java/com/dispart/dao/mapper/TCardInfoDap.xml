@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dispart.dao.TCardInfoMapper">
+  <resultMap id="BaseResultMap" type="com.dispart.model.businessCommon.TCardInfo">
+    <!--@mbg.generated-->
+    <!--@Table logistics.t_card_info-->
+    <id column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+    <result column="DOCUMENT_NUM" jdbcType="VARCHAR" property="documentNum" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="OPER_ID" jdbcType="VARCHAR" property="operId" />
+    <result column="CREAT_TIME" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="UP_TIME" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    CARD_NO, DOCUMENT_NUM, `STATUS`, REMARK, OPER_ID, CREAT_TIME, UP_TIME
+  </sql>
+</mapper>
